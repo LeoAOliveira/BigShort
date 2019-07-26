@@ -9,7 +9,13 @@
 import UIKit
 
 class InvestmentsCell: UITableViewCell {
-
+    
+    @IBOutlet weak var investmentsView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var valueLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var numberLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

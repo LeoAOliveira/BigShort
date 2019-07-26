@@ -8,10 +8,28 @@
 
 import UIKit
 
-class SimulatorCell: UITableViewCell {
+class WalletCell: UITableViewCell {
     
     @IBOutlet weak var walletView: UIView!
-    @IBOutlet weak var investmentView: UIView!
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var totalValueLabel: UILabel!
+    @IBOutlet weak var availableBalanceLabel: UILabel!
+    
+    @IBOutlet weak var percentageView: UIView!
+    
+    @IBOutlet weak var stocksPercentageLabel: UILabel!
+    @IBOutlet weak var stocksLabel: UILabel!
+    
+    @IBOutlet weak var publicTitlesPercentageLabel: UILabel!
+    @IBOutlet weak var publicTitlesLabel: UILabel!
+    
+    @IBOutlet weak var dollarPercentageLabel: UILabel!
+    @IBOutlet weak var dollarLabel: UILabel!
+    
+    @IBOutlet weak var savingsPercentageLabel: UILabel!
+    @IBOutlet weak var savingsLabel: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
