@@ -7,20 +7,32 @@
 //
 
 import UIKit
+import CoreData
 
 class StockData {
     
-    var stocksArray: [String]
+//    var stocksArray: [String]
+//    var index: [Int]
     
-    init(stocksSelection: [String]) {
-        stocksArray = stocksSelection
-        alphaVantageFetch()
-    }
+    var resultsArray: [Array<String>] = []
     
-
+    public var data1 = [Wallet]()
+    public var data2 = [Stock]()
+    
+    let dispatchGroup = DispatchGroup()
+    
+    var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+//    init(stocksSelection: [String], dataIndex: [Int]) {
+//        stocksArray = stocksSelection
+//        index = dataIndex
+//        alphaVantageFetch()
+//    }
+    
     struct Stocks{
         
         let price: String
+        let close: String
         let change: String
         let changePercent: String
         
@@ -28,14 +40,16 @@ class StockData {
             
             if let globalQuote = json["Global Quote"] as? [String: Any]{
                 
-                price = globalQuote["05. price"] as? String ?? "ERRO1"
-                change = globalQuote["09. change"] as? String ?? "ERRO2"
-                changePercent = globalQuote["10. change percent"] as? String ?? "ERRO3"
+                close = globalQuote["08. previous close"] as? String ?? "ERRO1"
+                price = globalQuote["05. price"] as? String ?? "ERRO2"
+                change = globalQuote["09. change"] as? String ?? "ERRO3"
+                changePercent = globalQuote["10. change percent"] as? String ?? "ERRO4"
                 
             } else{
-                price = "ERRO 11"
-                change = "ERRO 22"
-                changePercent = "ERRO 33"
+                close = "ERRO 11"
+                price = "ERRO 22"
+                change = "ERRO 33"
+                changePercent = "ERRO 44"
             }
             
 //            if let timeSeries = json["Time Series (Daily)"] as? [String: Any]{
@@ -66,54 +80,106 @@ class StockData {
         
     }
     
+    func downloadData(completion: @escaping () -> Void){
+        
+        let deadline = DispatchTime.now()
+        
+        DispatchQueue.main.asyncAfter(deadline: deadline) {
+            completion()
+        }
+    }
+    
 
-    func alphaVantageFetch(){
+    func alphaVantageFetch(stocksArray: [String], index: [Int], completion: @escaping (Bool) -> () ){
         
         let apiKey = "COR1E5U5AX51SRR7"
         
-        let stockString = "ABEV3"
-        
-        let urlString = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=\(stockString).SA&apikey=\(apiKey)"
-        
-        // let urlString = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=\(stockString)&apikey=\(apiKey)"
-     
-     // https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=ABEV3.SA&apikey=COR1E5U5AX51SRR7
-        
-        guard let url = URL(string: urlString) else{
-            print("Erro 1")
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            DispatchQueue.main.async {
-                
-                if let error = error{
-                    print("Erro 2")
-                    return
-                }
-                
-                guard let data = data else{
-                    print("Erro 3")
-                    return
-                }
-                
-                do{
+        for i in 0...stocksArray.count-1{
+            
+            let urlString = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=\(stocksArray[i]).SA&apikey=\(apiKey)"
+            
+            // let urlString = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=\(stockString)&apikey=\(apiKey)"
+            
+            // https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=ABEV3.SA&apikey=COR1E5U5AX51SRR7
+            
+            guard let url = URL(string: urlString) else{
+                print("Erro 1")
+                return
+            }
+//            dispatchGroup.notify(queue: .main) {
+//                self.tableView.reloadData()
+//            }
+            
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                DispatchQueue.main.async {
                     
-                    guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:Any] else{
+                    if let error = error{
+                        print("Erro 2")
+                        completion(false)
+                    }
+                    
+                    guard let data = data else{
+                        print("Erro 3")
                         return
                     }
                     
-                    let stock = Stocks(json: json)
-                    print(stock.price)
-                    print(stock.change)
-                    print(stock.changePercent)
-                    
-                } catch let err{
-                    print(err.localizedDescription)
+                    do{
+                        
+                        guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:Any] else{
+                            return
+                        }
+                        
+                        let stock = Stocks(json: json)
+                        
+//                        self.resultsArray[i].append(stock.open)
+//                        self.resultsArray[i].append(stock.price)
+//                        self.resultsArray[i].append(stock.changePercent)
+                        
+                        do {
+                            
+                            self.data1 = try self.context.fetch(Wallet.fetchRequest())
+                            self.data2 = try self.context.fetch(Stock.fetchRequest())
+                            
+                            let data1 = self.data1[0]
+                            data1.lastUpdate = Date()
+                            
+                            let data2 = self.data2[index[i]]
+                            data2.close = Float(stock.close)!
+                            data2.price = Float(stock.price)!
+                            
+                            data2.change = ((data2.price - data2.close) / data2.close) * 100.0
+                            
+                            // data2.change = stock.changePercent
+                            
+                            do{
+                                try self.context.save()
+                                
+                            } catch{
+                                print("Error when saving context (MSD)")
+                            }
+                            
+                            completion(true)
+                            
+                        } catch {
+                            print("Erro ao inserir os dados de ações")
+                            print(error.localizedDescription)
+                        }
+                        
+                        // Array: [0] = open ; [1] = price ; [2] = changePercent
+                        
+                    } catch let err{
+                        print(err.localizedDescription)
+                    }
                 }
-            }
-            
-        }.resume()
+                    
+            }.resume()
+        }
+        
+//        dispatchGroup.notify(queue: .main) {
+//            return self.resultsArray
+//        }
+//
+//        // return resultsArray
     }
     
     
@@ -207,6 +273,8 @@ class StockData {
         task.resume()
     }
 */
+    
+    
 
 }
 

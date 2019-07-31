@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,8 +19,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        let color = UIColor(red: 137/255, green: 180/255, blue: 255/255, alpha: 1.0)
+        UITabBar.appearance().tintColor = color
+        
+        let options: UNAuthorizationOptions = [.alert,.sound]
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.requestAuthorization(options: options) {
+            (didAllow, error) in
+            if !didAllow {
+                print("Notifications not allowed by user")
+            }
+        }
+        
         var wallet = [Wallet]()
         var stock = [Stock]()
+        var word = [Glossary]()
         
         let context = self.persistentContainer.viewContext
         
@@ -32,12 +46,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 let registry = Wallet(context: context)
                     
-                registry.totalValue = 10000
-                registry.availableBalance = 8000
-                registry.stocksValue = 1000
-                registry.publicTitlesValue = 500
-                registry.dollarValue = 300
-                registry.savingsValue = 200
+//                registry.totalValue = 10000
+                registry.availableBalance = 10000
+                registry.stocksValue = 0.0
+//                registry.publicTitlesValue = 500
+//                registry.dollarValue = 300
+//                registry.savingsValue = 200
+                // registry.stock1 = "AZUL4"
+                // registry.stock2 = "B3SA3"
+                // registry.stock3 = "ELET6"
                 wallet.append(registry)
                 
                 self.saveContext()
@@ -68,6 +85,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     registry.name = stocks[i][1]
                     stock.append(registry)
 
+                    self.saveContext()
+                }
+                
+            } catch {
+                print("Erro ao inserir os dados de ações")
+                print(error.localizedDescription)
+            }
+            
+            do {
+                
+                let words = [["Ação","Ação é a menor parcela do capital social das companhias ou sociedades anônimas. É, portanto, um título patrimonial e, como tal, concede aos seus titulares, os acionistas, todos os direitos e deveres de um sócio, no limite das ações possuídas.", "Portal do Investidor", "https://www.investidor.gov.br/menu/Menu_Investidor/valores_mobiliarios/Acoes/o_que_e_uma_acao.html"], ["B3","Em 2008, a Bovespa integrou-se operacionalmente com a BM&F - principal bolsa de mercadorias e contratos futuros do Brasil - criando a BMF&Bovesp.Fruto da combinação entre a BM&FBOVESPA e a Cetip, nasce a B3. É o principal mercado de negociação de valores mobiliários no Brasil, com mais de meio milhão de investidores individuais cadastrados. Fundada em 1890, sua sede localiza-se no centro da cidade de São Paulo..", "Corretora Rico", "https://blog.rico.com.vc/investir-na-bolsa-de-valores"],["Investimento","Investimento é, de forma resumida, pegar uma quantia hoje e tentar transformá-la em mais dinheiro no futuro. Investir é gerar riqueza a partir de recursos financeiros excedentes. Investir pressupõe o entendimento de que existem opções melhores, ou mais eficientes, para alocar o excedente de recursos. Isso passa pela ideia de comprar barato e vender caro. Bons investidores extraem o maior lucro possível dentro da estratégia estabelecida e dos objetivos a serem atingidos.", "BTG Pactual", "https://www.btgpactualdigital.com/blog/coluna-gustavo-cerbasi/o-que-significa-investir"], ["Lote","Um lote é equivalente a 100 ações. Isso significa que se a ação que você pretende comprar está cotada em R$ 1, o preço mínimo do aporte é R$100.", "Corretora Rico", "https://blog.rico.com.vc/investir-na-bolsa-de-valores"], ["Mercado de Ações","O mercado de ações é um ambiente onde são negociados ativos financeiros tais como ações, opções de ações, contratos futuros (BM&F) e Fundos de Investimento Imobiliário. As negociações de compra e venda ocorrem na Bolsa de Valores. Todas as operações e seus participantes são regulados e fiscalizados pela Comissão de Valores Mobiliários (CVM). ", "Corretora Rico", "https://blog.rico.com.vc/investir-na-bolsa-de-valores"], ["Taxa de Custódia","Essa taxa é mensal e cobrada pela BM&FBovespa para a guarda dos títulos", "Corretora Rico", "https://blog.rico.com.vc/investir-na-bolsa-de-valores"]]
+            
+                for i in 0...words.count-1{
+                    
+                    let registry = Glossary(context: context)
+                    
+                    registry.word = words[i][0]
+                    registry.meaning = words[i][1]
+                    registry.source = words[i][2]
+                    registry.sourceURL = words[i][3]
+                    word.append(registry)
+                    
                     self.saveContext()
                 }
                 
