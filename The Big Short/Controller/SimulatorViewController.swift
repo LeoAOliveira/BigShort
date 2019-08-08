@@ -15,8 +15,12 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
     public var data2: [Stock] = []
     var context: NSManagedObjectContext?
     
+//    let dispatchGroup = DispatchGroup()
+    
     var index: [Int] = []
     var stockList = [String]()
+    
+    var selectedInvestment = " "
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -29,9 +33,9 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
         
         tableView.delegate = self
         tableView.dataSource = self
-        
-        context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         fetchData()
     }
     
@@ -39,8 +43,21 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func fetchData(){
         
+        context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        index = []
+        stockList = []
+        
+        data1.removeAll()
+        data2.removeAll()
+        
         do{
             data1 = try context!.fetch(Wallet.fetchRequest())
+            data2 = try context!.fetch(Stock.fetchRequest())
+            
+            print(data2[1].symbol!)
+            print(data2[1].price)
+            print(data2[1].name!)
             
         } catch{
             print(error.localizedDescription)
@@ -76,8 +93,6 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 for i in 0...stockList.count-1{
                     
-                    data2 = try context!.fetch(Stock.fetchRequest())
-                    
                     for n in 0...65{
                         
                         if data2[n].symbol == stockList[i]{
@@ -85,78 +100,119 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
                         }
                     }
                 }
+                verifyUpdate()
                 
-                verifyUpdate(lastUpdate: data1[0].lastUpdate!)
-                tableView.reloadData()
                 
             } catch{
                 print(error.localizedDescription)
             }
         }
+//        dispatchGroup.notify(queue: .main) {
+        self.tableView.reloadData()
+//        }
+        
     }
     
-    func verifyUpdate(lastUpdate: String){
+    func verifyUpdate(){
+        
         
         // Current date and last update
-        
+
         let dateCurrent = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        let lastUpdate = data1[0].lastUpdate!
         
-        let dateString = dateFormatter.string(from: dateCurrent)
+        // Hour
+        let hourFormatter = DateFormatter()
+        hourFormatter.dateFormat = "HH.mm"
         
-        let lastUpdateDate = dateFormatter.date(from: lastUpdate)!
-        let nowDate = dateFormatter.date(from: dateString)!
+        hourFormatter.timeZone = TimeZone(identifier: "America/Sao_Paulo")
+
+        let hourString = hourFormatter.string(from: dateCurrent)
+        let lastUpdateHour = hourFormatter.string(from: lastUpdate)
         
+        // Day
         let dayFormatter = DateFormatter()
-        dayFormatter.dateFormat = "yyyy-MM-dd"
+        dayFormatter.dateFormat = "yyyMMdd"
         
-        // Reference dates
+        dayFormatter.timeZone = TimeZone(identifier: "America/Sao_Paulo")
         
-        let openTimeString = "\(dayFormatter.string(from: dateCurrent)) 10:00"
-        let openTime = dateFormatter.date(from: openTimeString)!
+        let dayString = dayFormatter.string(from: dateCurrent)
+        let lastUpdateDay = dayFormatter.string(from: lastUpdate)
         
-        let closeTimeString = "\(dayFormatter.string(from: dateCurrent)) 17:00"
-        let closeTime = dateFormatter.date(from: closeTimeString)!
-        
-        let midnightOpenString = "\(dayFormatter.string(from: dateCurrent)) 00:00"
-        let midnightOpen = dateFormatter.date(from: midnightOpenString)!
-        
-        let midnightCloseString = "\(dayFormatter.string(from: dateCurrent)) 23:59"
-        let midnightClose = dateFormatter.date(from: midnightCloseString)!
-        
-        // Verification
-        
-        if nowDate < openTime{
+        if dayString > lastUpdateDay{
             
-            if lastUpdateDate < midnightOpen{
+            updateStockData()
+            
+        } else if hourString < "10.00"{
+
+            if lastUpdateHour < "0.00"{
                 updateStockData()
             }
-            
-        } else if nowDate > closeTime {
-            
-            if lastUpdateDate < midnightClose && lastUpdateDate > closeTime{
+
+        } else if hourString > "17.00" {
+
+            if lastUpdateHour < "23.59"{
                 updateStockData()
             }
-            
+
         } else{
             
-            let difference = nowDate.timeIntervalSince(closeTime)
+            let now = Float(hourString)!
+            let lastUpdate = Float(lastUpdateHour)!
+
+            let difference = now - lastUpdate
             let differenceInHours = floor(difference / 60 / 60)
-            
-            if differenceInHours > 1{
+
+            if differenceInHours >= 1{
                 updateStockData()
             }
-            
+
         }
     }
     
     func updateStockData(){
         
         if stockList.count > 2{
-            MultiStockData(stocksSelection: stockList)
+            
         } else{
-            StockData(stocksSelection: stockList)
+            
+            StockData().alphaVantageFetch(stocksArray: self.stockList, index: self.index){ isValid in
+                
+                if isValid == true{
+                    print("YESS")
+                    self.tableView.reloadData()
+                }
+                
+            }
+        }
+    }
+    
+    func saveContext(resultArray: [Array<String>]){
+        // Array: [0] = open ; [1] = price ; [2] = changePercent
+        
+        for i in 0...stockList.count-1{
+            
+            do {
+                
+                let data1 = self.data1[0]
+                data1.lastUpdate = Date()
+                
+                let data2 = self.data2[self.index[i]]
+                data2.close = Float(resultArray[i][0])!
+                data2.price = Float(resultArray[i][1])!
+                // data2.change = resultArray[i][2]
+                
+                do{
+                    try context!.save()
+                    
+                } catch{
+                    print("Error when saving context (MSD)")
+                }
+                
+            } catch {
+                print("Erro ao inserir os dados de ações")
+                print(error.localizedDescription)
+            }
         }
     }
     
@@ -170,7 +226,7 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 6
+        return 5
     }
     
     
@@ -180,6 +236,8 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
         if indexPath.row == 0{
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "walletCell", for: indexPath) as! WalletCell
+            
+            cell.walletView.layer.cornerRadius = 10.0
             
             cell.titleLabel.text = "Carteira"
             cell.totalValueLabel.text = "\(numberFormatter(value: data1[0].totalValue))"
@@ -205,10 +263,37 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "investmentsCell", for: indexPath) as! InvestmentsCell
             
+            cell.investmentsView.layer.cornerRadius = 10.0
+            
             cell.titleLabel.text = "Ações"
-            cell.valueLabel.text = "\(numberFormatter(value: data1[0].stocksValue))"
+            selectedInvestment = "Ações"
             cell.descriptionLabel.text = "Variação do dia: "
-            cell.numberLabel.text = "\(calculateChange(value1: stocksPriceOpen(), value2: data1[0].stocksValue))%"
+            
+            if index.count != 0 {
+                
+                cell.valueLabel.text = "\(numberFormatter(value: positionPrice()))"
+                
+                let change = calculateChange(value1: stocksPriceClose(), value2: positionPrice())
+                
+                
+                if change > 0.0{
+                    cell.numberLabel.textColor = #colorLiteral(red: 0, green: 0.7020406723, blue: 0.1667427123, alpha: 1)
+                    cell.numberLabel.text = "+\(String(format: "%.2f", change))%"
+                
+                } else if change < 0.0{
+                    cell.numberLabel.textColor = #colorLiteral(red: 0.7722620368, green: 0.0615144521, blue: 0.1260437667, alpha: 1)
+                    cell.numberLabel.text = "\(String(format: "%.2f", change))%"
+                
+                } else{
+                    cell.numberLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
+                    cell.numberLabel.text = "\(String(format: "%.2f", change))%"
+                }
+            
+            } else{
+                cell.valueLabel.text = "\(numberFormatter(value: 0.0))"
+                cell.numberLabel.text = "0,00%"
+                cell.numberLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
+            }
             
             return cell
             
@@ -220,7 +305,10 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
             
             let test = 123
             
+            cell.investmentsView.layer.cornerRadius = 10.0
+            
             cell.titleLabel.text = "Títulos públicos"
+            selectedInvestment = "Títulos públicos"
             cell.valueLabel.text = "\(numberFormatter(value: data1[0].publicTitlesValue))"
             cell.descriptionLabel.text = "Variação do dia: "
             cell.numberLabel.text = "\(test)%"
@@ -234,7 +322,10 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
             
             let test = 123
             
+            cell.investmentsView.layer.cornerRadius = 10.0
+            
             cell.titleLabel.text = "Dólar americano (USD)"
+            selectedInvestment = "Dólar americano (USD)"
             cell.valueLabel.text = "\(numberFormatter(value: data1[0].dollarValue))"
             cell.descriptionLabel.text = "Variação do dia: "
             cell.numberLabel.text = "\(test)%"
@@ -248,7 +339,10 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
             
             let test = 123
             
+            cell.investmentsView.layer.cornerRadius = 10.0
+            
             cell.titleLabel.text = "Poupança"
+            selectedInvestment = "Poupança"
             cell.valueLabel.text = "\(numberFormatter(value: data1[0].savingsValue))"
             cell.descriptionLabel.text = "Variação do dia: "
             cell.numberLabel.text = "\(test)%"
@@ -258,6 +352,8 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
         // ELSE
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "investmentsCell", for: indexPath) as! InvestmentsCell
+            
+            cell.investmentsView.layer.cornerRadius = 10.0
             
             cell.titleLabel.text = ""
             cell.valueLabel.text = ""
@@ -274,9 +370,32 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
             
             return 228
             
-        }else{
+        } else{
             
             return 130
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        if indexPath.row == 0{
+            
+            
+        } else if indexPath.row == 1{
+            
+            performSegue(withIdentifier: "stocksSegue", sender: self)
+            
+        } else if indexPath.row == 2{
+            selectedInvestment = "Títulos públicos"
+            performSegue(withIdentifier: "investmentsSegue", sender: self)
+            
+        } else if indexPath.row == 3{
+            selectedInvestment = "Dólar"
+            performSegue(withIdentifier: "investmentsSegue", sender: self)
+        } else if indexPath.row == 4{
+            selectedInvestment = "Poupança"
+            performSegue(withIdentifier: "investmentsSegue", sender: self)
+            
         }
     }
     
@@ -309,67 +428,49 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
         return valueString!
     }
     
-    func calculateChange(value1: Float, value2: Float) -> String{
+    func calculateChange(value1: Float, value2: Float) -> Float{
         
         let change: Float = ((value2 - value1) / value1) * 100.0
         
-        return String(format: "%.2f", change)
+        return change
     }
     
-    func stocksPriceOpen() -> Float{
-        
+    func stocksPriceClose() -> Float{
+            
         var allStocks: Float = 0.0
         
-        for i in 0...index.count-1{
-            allStocks += data2[index[i]].priceOpen
+        for i in 0...(stockList.count-1){
+            allStocks += data2[index[i]].close * data2[index[i]].amount
         }
         
         return allStocks
     }
     
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
     
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
+    func positionPrice() -> Float{
+        
+        var allStocks: Float = 0.0
+        
+        for i in 0...stockList.count-1{
+            allStocks += data2[index[i]].price * data2[index[i]].amount
+        }
+        
+        return allStocks
+    }
     
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
     
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
      // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
+     
+        if segue.identifier == "investmentsSegue"{
+            
+            let destination = segue.destination as! InvestmentsViewController
+            
+            // destination.selectedInvestment = selectedInvestment
+            
+        }
      }
-     */
+    
 
 }
