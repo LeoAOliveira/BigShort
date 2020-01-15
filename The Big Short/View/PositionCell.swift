@@ -10,6 +10,8 @@ import UIKit
 
 class PositionCell: UITableViewCell {
     
+    @IBOutlet weak var marketView: UIView!
+    @IBOutlet weak var marketLabel: UILabel!
     @IBOutlet weak var positionView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var balanceLabel: UILabel!

@@ -65,7 +65,9 @@ class BuySellStockViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.loadingIndicator.stopAnimating()
         self.loadingIndicator.isHidden = true
+        parentVC.tabBarController?.tabBar.isHidden = false
     }
+
     
     
     func fetchData(){
@@ -90,7 +92,7 @@ class BuySellStockViewController: UIViewController {
                 }
             }
             
-        } catch{
+        } catch {
             print(error.localizedDescription)
         }
         
@@ -105,6 +107,19 @@ class BuySellStockViewController: UIViewController {
                 if isValid == true{
                     self.loadingIndicator.stopAnimating()
                     self.createModal()
+                
+                } else{
+                    self.loadingIndicator.stopAnimating()
+                    
+                    let alert = UIAlertController(title: "Erro", message: "Falha ao bucar dados. Por favor, tente novamente em 1 minuto.", preferredStyle: UIAlertController.Style.alert)
+                    
+                    let fillLabelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (UIAlertAction) in
+                        self.dismiss(animated: true, completion: nil)
+                    })
+                    
+                    alert.addAction(fillLabelAction)
+                    self.present(alert, animated: true, completion: nil)
+                    
                 }
             }
         }
@@ -189,8 +204,35 @@ class BuySellStockViewController: UIViewController {
             value = data1[0].availableBalance - totalValue(mathOperation: "Buy")
         
         } else{
-            value = data1[0].availableBalance + totalValue(mathOperation: "Sell")
             
+            let data2 = self.data2[index]
+            
+            if textField.text! != ""{
+                let input: Float = Float(textField.text!)!
+                
+                let change = investedValue() - ((data2.mediumPrice * input) + (data2.timesBought * 10))
+                
+                if change < 0{
+                    balanceLabel.text = "Perda"
+                    balanceNumberLabel.textColor = #colorLiteral(red: 0.7722620368, green: 0.0615144521, blue: 0.1260437667, alpha: 1)
+                    balanceNumberLabel.text = "\(String(format: "%.2f", change))%"
+                    
+                } else if change > 0{
+                    balanceLabel.text = "Ganho"
+                    balanceNumberLabel.textColor = #colorLiteral(red: 0, green: 0.7020406723, blue: 0.1667427123, alpha: 1)
+                    balanceNumberLabel.text = "+\(String(format: "%.2f", change))%"
+                    
+                } else{
+                    balanceLabel.text = "Histórico"
+                    balanceNumberLabel.textColor = #colorLiteral(red: 0.9408631921, green: 0.9652459025, blue: 0.9907889962, alpha: 1)
+                    balanceNumberLabel.text = "\(String(format: "%.2f", change))%"
+                }
+                
+                value = change
+            
+            } else{
+                value = 0
+            }
         }
         
         return value
@@ -216,18 +258,34 @@ class BuySellStockViewController: UIViewController {
     @IBAction func segmentedControlChanged(_ sender: Any) {
         if segmentedControl.selectedSegmentIndex == 0{
             operation = "Buy"
+            
+            investedValueLabel.text = "Valor investido"
             investedNumberLabel.text = numberFormatter(value: investedValue())
+            
+            costsLabel.text = "Custos"
             costsNumberLabel.text = numberFormatter(value: 10.0)
+            
+            totalLabel.text = "Total da operação"
             totalNumberLabel.text = numberFormatter(value: totalValue(mathOperation: "Buy"))
+            
+            balanceLabel.text = "Saldo restante"
             balanceNumberLabel.text = numberFormatter(value: balanceValue(mathOperation: "Buy"))
             buySellBtn.titleLabel?.text = "Comprar"
             
         } else {
             operation = "Sell"
+            
+            investedValueLabel.text = "Valor resgatado"
             investedNumberLabel.text = numberFormatter(value: investedValue())
+            
+            costsLabel.text = "Custos"
             costsNumberLabel.text = numberFormatter(value: 10.0)
-            totalNumberLabel.text = numberFormatter(value: totalValue(mathOperation: "Buy"))
-            balanceNumberLabel.text = numberFormatter(value: balanceValue(mathOperation: "Buy"))
+            
+            totalLabel.text = "Total da operação"
+            totalNumberLabel.text = numberFormatter(value: totalValue(mathOperation: "Sell"))
+            
+            balanceLabel.text = " "
+            
             buySellBtn.titleLabel?.text = " Vender"
         }
     }
@@ -260,31 +318,31 @@ class BuySellStockViewController: UIViewController {
                     
                 } else if data1.stock5 == selectedStock{
                     data1.stock5 = selectedStock
-                }
-                
-                if data1.stock1 == nil{
-                    data1.stock1 = selectedStock
-                    
-                } else if data1.stock2 == nil{
-                    data1.stock2 = selectedStock
-                    
-                } else if data1.stock3 == nil{
-                    data1.stock3 = selectedStock
-                    
-                } else if data1.stock4 == nil{
-                    data1.stock4 = selectedStock
-                    
-                } else if data1.stock5 == nil{
-                    data1.stock5 = selectedStock
                     
                 } else{
-                    let alert = UIAlertController(title: "Limite de ativos", message: "Você atingiu o limite de 5 ativos diferentes.", preferredStyle: UIAlertController.Style.alert)
                     
-                    let fillLabelAction = UIAlertAction(title: "Entendi", style: UIAlertAction.Style.default, handler: nil)
-                    alert.addAction(fillLabelAction)
-                    self.present(alert, animated: true, completion: nil)
+                    if data1.stock1 == nil{
+                        data1.stock1 = selectedStock
+                        
+                    } else if data1.stock2 == nil{
+                        data1.stock2 = selectedStock
+                        
+                    } else if data1.stock3 == nil{
+                        data1.stock3 = selectedStock
+                        
+                    } else if data1.stock4 == nil{
+                        data1.stock4 = selectedStock
+                        
+                    } else if data1.stock5 == nil{
+                        data1.stock5 = selectedStock
+                        
+                    } else{
+                        
+                        createAlert(title: "Limite de ativos", message: "Você atingiu o limite de 5 ativos diferentes.", actionTitle: "OK")
+                        
+                        return
+                    }
                     
-                    return
                 }
                 
                 let data2 = self.data2[index]
@@ -297,9 +355,11 @@ class BuySellStockViewController: UIViewController {
                 }
                 
                 data2.amount = data2.amount + amount
-                data2.invested = invested
+                data2.invested = data2.invested + invested
+                data2.timesBought += 1
                 
                 data1.availableBalance = balance
+                
                 // data1.stocksValue
                 
                 do{
@@ -311,20 +371,17 @@ class BuySellStockViewController: UIViewController {
                 
                 let alert = UIAlertController(title: "Sucesso", message: "Simulação de operação realizada.", preferredStyle: UIAlertController.Style.alert)
                 
-                let fillLabelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
+                let fillLabelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (UIAlertAction) in
+                    self.dismiss(animated: true, completion: nil)
+                })
+                
                 alert.addAction(fillLabelAction)
                 self.present(alert, animated: true, completion: nil)
-                
-                dismiss(animated: true, completion: nil)
 
                 
             } else{
                 
-                let alert = UIAlertController(title: "Saldo insuficiente", message: "Não há saldo disponível para essa compra.", preferredStyle: UIAlertController.Style.alert)
-                
-                let fillLabelAction = UIAlertAction(title: "Entendi", style: UIAlertAction.Style.default, handler: nil)
-                alert.addAction(fillLabelAction)
-                self.present(alert, animated: true, completion: nil)
+                createAlert(title: "Saldo insuficiente", message: "Não há saldo disponível para essa compra.", actionTitle: "OK")
             }
             
             
@@ -342,13 +399,15 @@ class BuySellStockViewController: UIViewController {
                 
                 if data2[index].amount - amount == 0{
                     data2[index].amount = 0
+                    data2[index].mediumPrice = 0
                     data1.stock1 = nil
                     
                 } else if data2[index].amount - amount > 0{
                     data2[index].amount = data2[index].amount - amount
                 
                 } else{
-                    sendAlert()
+                    createAlert(title: "Saldo insuficiente", message: "Não há saldo sufifiente para essa compra.", actionTitle: "OK")
+                    return
                 }
                 
             } else if data1.stock2 == selectedStock{
@@ -360,19 +419,22 @@ class BuySellStockViewController: UIViewController {
                 } else if data2[index].amount - amount > 0{
                     data2[index].amount = data2[index].amount - amount
                 }else{
-                    sendAlert()
+                    createAlert(title: "Saldo insuficiente", message: "Não há saldo sufifiente para essa compra.", actionTitle: "OK")
+                    return
                 }
                 
             } else if data1.stock3 == selectedStock{
                 
                 if data2[index].amount - amount == 0{
                     data2[index].amount = 0
+                    data2[index].timesBought = 0
                     data1.stock3 = nil
                     
                 } else if data2[index].amount - amount > 0{
                     data2[index].amount = data2[index].amount - amount
                 }else{
-                    sendAlert()
+                    createAlert(title: "Saldo insuficiente", message: "Não há saldo sufifiente para essa compra.", actionTitle: "OK")
+                    return
                 }
                 
             } else if data1.stock4 == selectedStock{
@@ -384,7 +446,8 @@ class BuySellStockViewController: UIViewController {
                 } else if data2[index].amount - amount > 0{
                     data2[index].amount = data2[index].amount - amount
                 }else{
-                    sendAlert()
+                    createAlert(title: "Saldo insuficiente", message: "Não há saldo sufifiente para essa compra.", actionTitle: "OK")
+                    return
                 }
                 
             } else if data1.stock5 == selectedStock{
@@ -396,32 +459,23 @@ class BuySellStockViewController: UIViewController {
                 } else if data2[index].amount - amount > 0{
                     data2[index].amount = data2[index].amount - amount
                 }else{
-                    sendAlert()
+                    createAlert(title: "Saldo insuficiente", message: "Não há saldo sufifiente para essa compra.", actionTitle: "OK")
+                    return
                 }
             
             } else{
-                let alert = UIAlertController(title: "Ativo não encontrado", message: "Você não possui esse ativo, portantro não há como vender.", preferredStyle: UIAlertController.Style.alert)
-                
-                let fillLabelAction = UIAlertAction(title: "Entendi", style: UIAlertAction.Style.default, handler: nil)
-                alert.addAction(fillLabelAction)
-                self.present(alert, animated: true, completion: nil)
+                createAlert(title: "Ativo não encontrado", message: "Você não possui esse ativo, portanto não há como vender.", actionTitle: "OK")
                 return
             }
             
             let data2 = self.data2[index]
             
-            if data2.mediumPrice == 0.0{
-                data2.mediumPrice = data2.price
-                
-            } else{
-                data2.mediumPrice = (data2.mediumPrice + data2.price)/2.0
-            }
             
-            data2.amount = data2.amount + amount
-            data2.invested = invested
+            
+            data2.amount = data2.amount - amount
+            data2.invested = data2.invested - invested
             
             data1.availableBalance = balance
-            // data1.stocksValue
             
             do{
                 try self.context!.save()
@@ -430,31 +484,36 @@ class BuySellStockViewController: UIViewController {
                 print("Error when saving context")
             }
             
-            let alert = UIAlertController(title: "Sucesso", message: "Simulação de peração realizada.", preferredStyle: UIAlertController.Style.alert)
-            
-            let fillLabelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
-            alert.addAction(fillLabelAction)
-            self.present(alert, animated: true, completion: nil)
+            createAlert(title: "Sucesso", message: "Simulação de peração realizada.", actionTitle: "OK")
             
             dismiss(animated: true, completion: nil)
             
         } else{
-            let alert = UIAlertController(title: "Falta de dados", message: "Preencha a quantidade de ações para prosseguir.", preferredStyle: UIAlertController.Style.alert)
             
-            let fillLabelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
-            alert.addAction(fillLabelAction)
-            self.present(alert, animated: true, completion: nil)
+            createAlert(title: "Falta de dados", message: "Preencha a quantidade de ações para prosseguir.", actionTitle: "OK")
         }
         
     }
     
+    func positionPrice() -> Float{
+        
+        let position: Float = data2[index].price * data2[index].amount
+        
+        return position
+    }
+    
+    
     @IBAction func cancelBtnPressed(_ sender: Any) {
-        parentVC.tabBarController?.tabBar.isHidden = false
         dismiss(animated: true, completion: nil)
     }
     
-    func sendAlert(){
+    func createAlert(title: String, message: String, actionTitle: String){
         
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        
+        let fillLabelAction = UIAlertAction(title: actionTitle, style: UIAlertAction.Style.default, handler: nil)
+        alert.addAction(fillLabelAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
 }

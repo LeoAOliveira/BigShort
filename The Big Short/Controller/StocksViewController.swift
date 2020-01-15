@@ -26,6 +26,11 @@ class StocksViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var dataSource: String = "A"
     var dataUpdate: String = "A"
     
+    var marketLabel: String = "A"
+    var marketColor: UIColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    
+    var hasYDUQ3: Bool = false
+    
     var removeNotifications = UNUserNotificationCenter.current()
     
     @IBOutlet weak var tableView: UITableView!
@@ -39,9 +44,13 @@ class StocksViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        verifyMarket(purpose: "keepTracking")
         fetchData()
         
         if data1[0].notifications == true{
@@ -110,7 +119,6 @@ class StocksViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 }
                 verifyUpdate()
                 
-                
             } catch{
                 print(error.localizedDescription)
             }
@@ -149,47 +157,106 @@ class StocksViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let dayString = dayFormatter.string(from: dateCurrent)
         let lastUpdateDay = dayFormatter.string(from: lastUpdate)
         
-        if dayString > lastUpdateDay{
+        // Weekday
+        let weekdayFormatter = DateFormatter()
+        weekdayFormatter.dateFormat = "EEE"
+        
+        weekdayFormatter.timeZone = TimeZone(identifier: "America/Sao_Paulo")
+        
+        let weekdayString = dayFormatter.string(from: dateCurrent)
+        let lastUpdateWeekday = dayFormatter.string(from: lastUpdate)
+        
+        let needUpdate = true
+        
+        if weekdayString != "Saturday" && weekdayString != "Sunday"{
             
-            updateStockData()
+            if dayString > lastUpdateDay{
+                
+                updateStockData()
+                
+            } else if hourString > "17.00" {
+                
+                if lastUpdateHour <= "17.00" && lastUpdateHour < "23.59"{
+                    updateStockData()
+                }
+                
+            } else {
+                
+                let now = Float(hourString)!
+                let lastUpdate = Float(lastUpdateHour)!
+                
+                let difference = now - lastUpdate
+                
+                if difference >= 1{
+                    updateStockData()
+                }
+                
+            }
             
-        } else if hourString < "10.00"{
+        } else if weekdayString == "Saturday"{
             
-            if lastUpdateHour < "0.00"{
+            if lastUpdateWeekday == "Saturday" && (Int(dayString)! - Int(lastUpdateDay)!) != 0{
+                updateStockData()
+            
+            } else if lastUpdateWeekday == "Friday" && lastUpdateHour > "17:00"{
+            
+            } else if lastUpdateDay < dayString{
                 updateStockData()
             }
             
-        } else if hourString > "17.00" {
+        } else if weekdayString == "Sunday"{
             
-            if lastUpdateHour >= "17.00" && lastUpdateHour < "23.59"{
+            if lastUpdateWeekday == "Saturday" && (Int(dayString)! - Int(lastUpdateDay)!) <= 1{
+                
+            } else if lastUpdateWeekday == "Friday" && lastUpdateHour > "17:00"{
+                
+            } else if lastUpdateDay < dayString{
                 updateStockData()
             }
-            
-        } else{
-            
-            let now = Float(hourString)!
-            let lastUpdate = Float(lastUpdateHour)!
-            
-            let difference = now - lastUpdate
-            let differenceInHours = floor(difference / 60 / 60)
-            
-            if differenceInHours >= 1{
-                updateStockData()
-            }
-            
         }
     }
     
     func updateStockData(){
         
-        if stockList.count > 2{
+        var stocksArray = stockList
+        
+        for i in 0...stocksArray.count-1{
             
-            MultiStockData().worldTradingDataFetch(stocksArray: self.stockList, index: self.index){ isValid in
+            if stocksArray[i] == "YDUQ3"{
+                hasYDUQ3 = true
+                stocksArray.remove(at: i)
+            }
+        }
+        
+        if stocksArray.count > 2{
+            
+            MultiStockData().worldTradingDataFetch(stocksArray: stocksArray, index: self.index){ isValid in
                 
                 if isValid == true{
                     print("YESS")
                     self.dataSource = "World Trading Data"
                     self.tableView.reloadData()
+                    
+                } else{
+                    
+                    self.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
+                }
+            }
+            
+            if hasYDUQ3 == true{
+                
+                StockData().alphaVantageFetch(stocksArray: ["YDUQ3"], index: [65]){ isValid in
+                    
+                    if isValid == true{
+                        print("YESS")
+                        self.dataSource = "Alpha Vantage & World Trading Data"
+                        self.tableView.reloadData()
+                        
+                    } else{
+                        
+                        self.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
+                    }
+                    
                 }
                 
             }
@@ -202,10 +269,15 @@ class StocksViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     print("YESS")
                     self.dataSource = "Alpha Vantage"
                     self.tableView.reloadData()
+                    
+                } else{
+                    
+                    self.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
                 }
                 
             }
         }
+        
     }
     
     func saveContext(resultArray: [Array<String>]){
@@ -318,6 +390,11 @@ class StocksViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "positionCell", for: indexPath) as! PositionCell
             
+            cell.marketLabel.text = marketLabel
+            cell.marketView.backgroundColor = marketColor
+            cell.marketView.layer.cornerRadius = cell.marketView.frame.size.width/2
+            cell.marketView.clipsToBounds = true
+            
             cell.positionView.layer.cornerRadius = 10.0
             
             cell.titleLabel.text = "Posição"
@@ -339,13 +416,13 @@ class StocksViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
                 cell.incomeLabel.text = "Rendimento: "
                 cell.incomeValueLabel.text = "+ \(numberFormatter(value: Float(incomeValue)))"
-                cell.incomeValueLabel.textColor = #colorLiteral(red: 0, green: 0.7020406723, blue: 0.1667427123, alpha: 1)
+                cell.incomeValueLabel.textColor = #colorLiteral(red: 0.1176470588, green: 0.6901960784, blue: 0.2549019608, alpha: 1)
             
             } else if incomeValue < 0{
                 
                 cell.incomeLabel.text = "Prejuízo: "
-                cell.incomeValueLabel.text = "- \(numberFormatter(value: Float(incomeValue)))"
-                cell.incomeValueLabel.textColor = #colorLiteral(red: 0.7722620368, green: 0.0615144521, blue: 0.1260437667, alpha: 1)
+                cell.incomeValueLabel.text = "- \(numberFormatter(value: Float(incomeValue) * -1.0))"
+                cell.incomeValueLabel.textColor = #colorLiteral(red: 0.7098039216, green: 0.1647058824, blue: 0.1647058824, alpha: 1)
             
             } else{
                 cell.incomeLabel.text = "Rendimento: "
@@ -369,23 +446,19 @@ class StocksViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.collectionView.delegate = self
             cell.collectionView.dataSource = self
             
-            if stockList.count > 0 && stockList.count < 3{
-                cell.lastUpdateLabel.text = "Última atualização: \(formatDate())"
+            cell.lastUpdateLabel.text = "Última atualização: \(formatDate())"
+            
+            if stockList.count > 2{
+                cell.sourceLabel.text = "Dados fornecidos por World Trading Data"
+                
+                if hasYDUQ3 == true{
+                    cell.sourceLabel.text = "Dados de Alpha Vantage & World Trading Data"
+                }
+            
+            } else{
                 cell.sourceLabel.text = "Dados fornecidos por Alpha Vantage"
                 
-                
-            } else if stockList.count > 2 && stockList.count < 6{
-                cell.lastUpdateLabel.text = "Última atualização: \(formatDate())"
-                cell.sourceLabel.text = "Dados fornecidos por World Trading Data"
             }
-            
-//            if dataUpdate != " "{
-//                cell.lastUpdateLabel.text = "Última atualização: \(formatDate())"
-//
-//                if stockList.count >= 3{
-//                    cell.sourceLabel.text = "Dados fornecidos por \(dataSource)"
-//                }
-//            }
             
             cell.collectionView.reloadData()
             
@@ -408,15 +481,16 @@ class StocksViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if indexPath.row == 0{
             
-            return 250
+            return 290
+            
             
         }else{
             
-            if stockList.count <= 3{
-                return 300
+            if (stockList.count + 1) <= 3{
+                return 310
             
             } else{
-                return 445
+                return 470
             }
             
             
@@ -443,11 +517,11 @@ class StocksViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let change = data2[index[indexPath.row]].change
             
             if data2[index[indexPath.row]].change < 0{
-                cellCollection.changePercentageLabel.textColor = #colorLiteral(red: 0.7722620368, green: 0.0615144521, blue: 0.1260437667, alpha: 1)
+                cellCollection.changePercentageLabel.textColor = #colorLiteral(red: 0.7725490196, green: 0.06274509804, blue: 0.1254901961, alpha: 1)
                 cellCollection.changePercentageLabel.text = "\(String(format: "%.2f", change))%"
                 
             } else if data2[index[indexPath.row]].change > 0{
-                cellCollection.changePercentageLabel.textColor = #colorLiteral(red: 0, green: 0.7020406723, blue: 0.1667427123, alpha: 1)
+                cellCollection.changePercentageLabel.textColor = #colorLiteral(red: 0.1176470588, green: 0.6901960784, blue: 0.2549019608, alpha: 1)
                 cellCollection.changePercentageLabel.text = "+\(String(format: "%.2f", change))%"
                 
             } else{
@@ -480,17 +554,24 @@ class StocksViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             if stockList.count >= 5{
                 
-                let alert = UIAlertController(title: "Limite de ações atingido", message: "Você pode possuir no máximo 5 ações diferentes.", preferredStyle: UIAlertController.Style.alert)
-                
-                let fillLabelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
-                alert.addAction(fillLabelAction)
-                self.present(alert, animated: true, completion: nil)
+                createAlert(title: "Limite de ações atingido", message: "Você pode possuir no máximo 5 ações diferentes.", actionTitle: "OK")
                 
             } else{
                 
-                performSegue(withIdentifier: "addStockSegue", sender: self)
+                verifyMarket(purpose: "buyAndSell")
             }
         }
+    }
+    
+    // MARK: - Create alert
+    
+    func createAlert(title: String, message: String, actionTitle: String){
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        
+        let fillLabelAction = UIAlertAction(title: actionTitle, style: UIAlertAction.Style.default, handler: nil)
+        alert.addAction(fillLabelAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
     
@@ -568,13 +649,75 @@ class StocksViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
     }
     
+    // MARK: - Market verification
+    func verifyMarket(purpose: String){
+        
+        // Current date and last update
+        let dateCurrent = Date()
+        
+        // Hour
+        let hourFormatter = DateFormatter()
+        hourFormatter.dateFormat = "HH.mm"
+        hourFormatter.timeZone = TimeZone(identifier: "America/Sao_Paulo")
+        
+        let hourString = hourFormatter.string(from: dateCurrent)
+        
+        // Weekend
+        let dayFormatter = DateFormatter()
+        dayFormatter.dateFormat = "EEEE"
+        dayFormatter.timeZone = TimeZone(identifier: "America/Sao_Paulo")
+        
+        let dayString = dayFormatter.string(from: dateCurrent)
+        
+        if dayString == "Saturday" || dayString == "Sunday"{
+            
+            if purpose == "keepTracking"{
+                
+                marketColor = #colorLiteral(red: 0.1047265753, green: 0.2495177984, blue: 0.4248503447, alpha: 1)
+                marketLabel = "Mercado fechado"
+                
+            } else{
+                
+                createAlert(title: "Mercado fechado", message: "Operações só podem ser realizadas em dias úteis.", actionTitle: "OK")
+            }
+            
+        } else{
+            
+            if hourString < "10.00" || hourString > "17.00"{
+                
+                if purpose == "keepTracking"{
+                    
+                    marketColor = #colorLiteral(red: 0.1047265753, green: 0.2495177984, blue: 0.4248503447, alpha: 1)
+                    marketLabel = "Mercado fechado"
+                    
+                } else{
+                
+                    createAlert(title: "Mercado fechado", message: "Operações só podem ser realizadas entre 10:00 e 17:00.", actionTitle: "OK")
+                }
+                
+            } else{
+                
+                if purpose == "keepTracking"{
+                    
+                    marketColor = #colorLiteral(red: 0.4889312983, green: 0.7110515833, blue: 1, alpha: 1)
+                    marketLabel = "Mercado aberto"
+                    
+                } else{
+                
+                    performSegue(withIdentifier: "addStockSegue", sender: self)
+                }
+            }
+        }
+    }
 
-
+    
     // MARK: - Navigation
     
-    @IBAction func dismissBtnPressed(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+    @IBAction func addStockBtnPressed(_ sender: Any) {
+        // verifyMarket(purpose: "buyAndSell")
+        performSegue(withIdentifier: "addStockSegue", sender: self)
     }
+    
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

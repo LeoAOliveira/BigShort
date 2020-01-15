@@ -29,6 +29,8 @@ class GlossaryViewController: UIViewController, UITableViewDelegate, UITableView
         
         searchBar.delegate = self
         
+        self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
+        
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)

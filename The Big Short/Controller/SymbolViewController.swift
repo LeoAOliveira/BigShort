@@ -25,12 +25,13 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navBarTitle.title = selectedStock
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 241/255, green: 246/255, blue: 252/255, alpha: 1.0)]
         fetchData()
     }
     
@@ -93,19 +94,22 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.totalValueLabel.text = numberFormatter(value: positionPrice())
             cell.investedValueLabel.text = "Valor investido: \(numberFormatter(value: data2[index].invested))"
             
-            let income = calculateIncome(value1: data2[index].invested, value2: positionPrice())
+            let income = calculateIncome(value1: positionPrice(), value2: data2[index].invested)
             
             if income > 0.0{
+                cell.incomeLabel.text = "Lucro líquido: "
                 cell.incomeValueLabel.textColor = #colorLiteral(red: 0, green: 0.7020406723, blue: 0.1667427123, alpha: 1)
-                cell.incomeValueLabel.text = "+\(numberFormatter(value: calculateIncome(value1: positionPrice(), value2: data2[index].invested)))"
+                cell.incomeValueLabel.text = "+ \(numberFormatter(value: income))"
                 
             } else if income < 0.0{
+                cell.incomeLabel.text = "Perda líquida: "
                 cell.incomeValueLabel.textColor = #colorLiteral(red: 0.7722620368, green: 0.0615144521, blue: 0.1260437667, alpha: 1)
-                cell.incomeValueLabel.text = "\(numberFormatter(value: calculateIncome(value1: positionPrice(), value2: data2[index].invested)))"
+                cell.incomeValueLabel.text = "- \(numberFormatter(value: income * -1))"
                 
             } else{
+                cell.incomeLabel.text = "Lucro líquido: "
                 cell.incomeValueLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
-                cell.incomeValueLabel.text = "\(numberFormatter(value: calculateIncome(value1: positionPrice(), value2: data2[index].invested)))"
+                cell.incomeValueLabel.text = "\(numberFormatter(value: income))"
             }
             
             return cell
@@ -249,16 +253,72 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return close
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        
-//        if segue.identifier == "directSegue"{
-//            
-//            selectedStock = 
-//            
-//            let destination = segue.destination as! BuySellStockViewController
-//            destination.selectedStock = selectedStock
-//            
-//        }
-//    }
+    // MARK: - Market verification
+    
+    func verifyMarket(){
+        
+        // Current date and last update
+        let dateCurrent = Date()
+        
+        // Hour
+        let hourFormatter = DateFormatter()
+        hourFormatter.dateFormat = "HH.mm"
+        
+        hourFormatter.timeZone = TimeZone(identifier: "America/Sao_Paulo")
+        
+        let hourString = hourFormatter.string(from: dateCurrent)
+        
+        // Weekend
+        let dayFormatter = DateFormatter()
+        dayFormatter.dateFormat = "EEEE"
+        
+        let dayString = dayFormatter.string(from: dateCurrent)
+        
+        if dayString == "Saturday" || dayString == "Sunday"{
+            
+            createAlert(title: "Mercado fechado", message: "Operações só podem ser realizadas em dias úteis.", actionTitle: "OK")
+            
+        } else{
+            
+            if hourString < "10.00" || hourString > "17.00"{
+                
+                createAlert(title: "Mercado fechado", message: "Operações só podem ser realizadas entre 10:00 e 17:00.", actionTitle: "OK")
+                
+            } else{
+                
+                performSegue(withIdentifier: "addThisStockSegue", sender: self)
+            }
+        }
+    }
+    
+    // MARK: - Create alert
+    
+    func createAlert(title: String, message: String, actionTitle: String){
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        
+        let fillLabelAction = UIAlertAction(title: actionTitle, style: UIAlertAction.Style.default, handler: nil)
+        alert.addAction(fillLabelAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: - Navigation
+    
+    @IBAction func addBtnPressed(_ sender: Any) {
+        verifyMarket()
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "addThisStockSegue"{
+            
+            let destination = segue.destination as! BuySellStockViewController
+            destination.selectedStock = navBarTitle.title
+            destination.parentVC = self
+            tabBarController?.tabBar.isHidden = true
+            
+        }
+    }
 
 }

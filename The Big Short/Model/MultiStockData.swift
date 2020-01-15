@@ -35,11 +35,11 @@ class MultiStockData {
         let change: String
         let changePercent: String
         
-        init(json: [String: Any]) {
+        init(json: [String: Any], index: Int) {
             
             if let data = json["data"] as? [Dictionary<String,Any>]{
                 
-                if let stock0 = data[0] as? [String: Any]{
+                if let stock0 = data[index] as? [String: Any]{
                 
                     price = stock0["price"] as? String ?? "ERRO1"
                     close = stock0["close_yesterday"] as? String ?? "ERRO2"
@@ -75,12 +75,9 @@ class MultiStockData {
         
         let urlString = "https://api.worldtradingdata.com/api/v1/stock?symbol=\(stocks)&api_token=\(apiKey)"
         
-        // let urlString = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=\(stockString)&apikey=\(apiKey)"
-        
-        // https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=ABEV3.SA&apikey=COR1E5U5AX51SRR7
-        
         guard let url = URL(string: urlString) else{
             print("Erro 1")
+            completion(false)
             return
         }
         
@@ -94,53 +91,61 @@ class MultiStockData {
                 
                 guard let data = data else{
                     print("Erro 3")
+                    completion(false)
                     return
                 }
                 
-                do{
+                for i in 0..<stocksArray.count{
                     
-                    guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:Any] else{
-                        return
-                    }
-                    
-                    let stock = Stocks(json: json)
-                    
-                    do {
+                    do{
                         
-                        self.data1 = try self.context.fetch(Wallet.fetchRequest())
-                        self.data2 = try self.context.fetch(Stock.fetchRequest())
+                        guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:Any] else{
+                            return
+                        }
                         
-                        let data1 = self.data1[0]
-                        data1.lastUpdate = Date()
+                        let stock = Stocks(json: json, index: i)
                         
-                        for i in 0...stocksArray.count-1{
+                        do{
                             
+                            self.data1 = try self.context.fetch(Wallet.fetchRequest())
+                            self.data2 = try self.context.fetch(Stock.fetchRequest())
+                            
+                            let data1 = self.data1[0]
+                            data1.lastUpdate = Date()
+                            
+                            // for i in 0...stocksArray.count-1{
+                                
                             let data2 = self.data2[index[i]]
                             data2.close = Float(stock.close)!
                             data2.price = Float(stock.price)!
                             
                             data2.change = ((data2.price - data2.close) / data2.close) * 100.0
-
+                            
                             do{
                                 try self.context.save()
                                 
                             } catch{
                                 print("Error when saving context (MSD)")
+                                completion(false)
                             }
+                           //  }
+                            
+                        } catch {
+                            print("Erro ao inserir os dados de ações")
+                            print(error.localizedDescription)
+                            completion(false)
                         }
                         
-                        completion(true)
+                        // Array: [0] = open ; [1] = price ; [2] = changePercent
                         
-                    } catch {
-                        print("Erro ao inserir os dados de ações")
-                        print(error.localizedDescription)
+                    } catch let err{
+                        print(err.localizedDescription)
+                        completion(false)
                     }
-                    
-                    // Array: [0] = open ; [1] = price ; [2] = changePercent
-                    
-                } catch let err{
-                    print(err.localizedDescription)
                 }
+                
+                completion(true)
+                
             }
             
         }.resume()

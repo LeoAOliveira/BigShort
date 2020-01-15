@@ -17,17 +17,21 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
     @IBOutlet weak var userTermsView: UIView!
     @IBOutlet weak var tutorialView: UIView!
     
+    var balanceTextField: UITextField?
 
     @IBOutlet weak var notificationsSwitch: UISwitch!
     var removeNotifications = UNUserNotificationCenter.current()
     
     public var data1: [Wallet] = []
+    public var data2: [Stock] = []
     var context: NSManagedObjectContext?
     
     var wantsNotifications: Bool!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
         
         notificationsView.layer.cornerRadius = 10.0
         userTermsView.layer.cornerRadius = 10.0
@@ -36,6 +40,7 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
     
     override func viewWillAppear(_ animated: Bool) {
         fetchData()
+        notificationsSwitch.isOn = data1[0].notifications
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -86,7 +91,6 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
                 dateConponents1.hour = 10
                 dateConponents1.minute = 00
                 
-                
                 let trigger1 = UNCalendarNotificationTrigger(dateMatching: dateConponents1, repeats: false)
                 
                 let request1 = UNNotificationRequest(identifier: "market1", content: content1, trigger: trigger1)
@@ -134,7 +138,137 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 3
+        return 5
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.row == 3{
+            
+            let alert = UIAlertController(title: "Adicionar saldo", message: "Entre o valor que deseja adicionar ao saldo disponível. Máximo: 10.000.", preferredStyle: UIAlertController.Style.alert)
+            
+            alert.addTextField(configurationHandler: balanceTextField)
+            
+            let action1 = UIAlertAction(title: "Confirmar", style: UIAlertAction.Style.default, handler: addHandle)
+            alert.addAction(action1)
+            
+            let action2 = UIAlertAction(title: "Cancelar", style: UIAlertAction.Style.destructive, handler: nil)
+            alert.addAction(action2)
+            
+            self.present(alert, animated: true, completion: nil)
+        
+        } else if indexPath.row == 4{
+            
+            let alert = UIAlertController(title: "Reiniciar simulador", message: "Essa ação irá deletar todo o progresso atual. Tem certeza que quer prosseguir?", preferredStyle: UIAlertController.Style.alert)
+            
+            let action1 = UIAlertAction(title: "Confirmar", style: UIAlertAction.Style.default, handler: restartHandler)
+            
+            alert.addAction(action1)
+            
+            let action2 = UIAlertAction(title: "Cancelar", style: UIAlertAction.Style.destructive, handler: nil)
+            alert.addAction(action2)
+            
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func balanceTextField(textField: UITextField){
+        balanceTextField = textField
+        balanceTextField?.placeholder = "Escreva aqui"
+        balanceTextField?.keyboardType = UIKeyboardType.numberPad
+        balanceTextField?.keyboardAppearance = UIKeyboardAppearance.dark
+    }
+    
+    func addHandle(alert: UIAlertAction!){
+        
+        if balanceTextField!.text != nil && balanceTextField!.text != ""{
+            
+            let balance: Float = Float(balanceTextField!.text!)!
+            
+            if balance <= 10000{
+                
+                context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+                
+                do{
+                    data1[0].availableBalance += Float(balanceTextField!.text!)!
+                    try self.context?.save()
+                    
+                } catch{
+                    print("Error when saving context")
+                }
+            
+            }
+        }
+    }
+    
+    func restartHandler(alert: UIAlertAction){
+        
+        context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        data1.removeAll()
+        
+        do {
+            
+            data1 = try context!.fetch(Wallet.fetchRequest())
+            data2 = try context!.fetch(Stock.fetchRequest())
+            
+            var stockList: [String] = []
+            
+            if data1[0].stock1 != nil{
+                stockList.append(data1[0].stock1!)
+            }
+            
+            if data1[0].stock2 != nil{
+                stockList.append(data1[0].stock2!)
+            }
+            
+            if data1[0].stock3 != nil{
+                stockList.append(data1[0].stock3!)
+            }
+            
+            if data1[0].stock4 != nil{
+                stockList.append(data1[0].stock4!)
+            }
+            
+            if data1[0].stock5 != nil{
+                stockList.append(data1[0].stock5!)
+            }
+            
+            data1[0].stock1 = nil
+            data1[0].stock2 = nil
+            data1[0].stock3 = nil
+            data1[0].stock4 = nil
+            data1[0].stock5 = nil
+            data1[0].availableBalance = 0.0
+            data1[0].stocksValue = 0.0
+            data1[0].totalValue = 0.0
+            
+            for i in 0...65{
+                
+                data2[i].income = 0.0
+                data2[i].invested = 0.0
+                data2[i].amount = 0.0
+                data2[i].change = 0.0
+                data2[i].close = 0.0
+                data2[i].price = 0.0
+                data2[i].mediumPrice = 0.0
+            }
+            
+            do{
+                try context!.save()
+                
+            } catch{
+                print("Error when saving context")
+            }
+            
+        } catch {
+            print("Erro ao inserir os dados de ações")
+            print(error.localizedDescription)
+        }
+        
+        tabBarController?.tabBar.isHidden = true
+        navigationController?.navigationBar.isHidden = true
+        performSegue(withIdentifier: "restartSegue", sender: self)
     }
     
     @IBAction func notificationsSwitchChanged(_ sender: Any) {

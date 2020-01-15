@@ -51,31 +51,6 @@ class StockData {
                 change = "ERRO 33"
                 changePercent = "ERRO 44"
             }
-            
-//            if let timeSeries = json["Time Series (Daily)"] as? [String: Any]{
-//
-//                let dateCurrent = Date()
-//                let dateFormatter = DateFormatter()
-//                dateFormatter.dateFormat = "yyyy-MM-dd"
-//                let dateString = dateFormatter.string(from: dateCurrent)
-//
-//                if let day = timeSeries["\(dateString)"] as? [String: Any]{
-//
-//                    open = day["1. open"] as? String ?? "ERRO2"
-//                    close = day["4. close"] as? String ?? "ERRO3"
-//                    dividendAmount = day["7. dividend amount"] as? String ?? "ERRO4"
-//
-//                } else{
-//                    open = "ERRO22"
-//                    close = "ERRO33"
-//                    dividendAmount = "ERRO44"
-//                }
-//
-//            } else{
-//                open = "ERRO22"
-//                close = "ERRO33"
-//                dividendAmount = "ERRO44"
-//            }
         }
         
     }
@@ -97,10 +72,6 @@ class StockData {
         for i in 0...stocksArray.count-1{
             
             let urlString = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=\(stocksArray[i]).SA&apikey=\(apiKey)"
-            
-            // let urlString = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=\(stockString)&apikey=\(apiKey)"
-            
-            // https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=ABEV3.SA&apikey=COR1E5U5AX51SRR7
             
             guard let url = URL(string: urlString) else{
                 print("Erro 1")
@@ -144,25 +115,34 @@ class StockData {
                             data1.lastUpdate = Date()
                             
                             let data2 = self.data2[index[i]]
-                            data2.close = Float(stock.close)!
-                            data2.price = Float(stock.price)!
                             
-                            data2.change = ((data2.price - data2.close) / data2.close) * 100.0
-                            
-                            // data2.change = stock.changePercent
-                            
-                            do{
-                                try self.context.save()
+                            if stock.close == "ERRO 11" || stock.price == "ERRO 22"{
                                 
-                            } catch{
-                                print("Error when saving context (MSD)")
+                                completion(false)
+                                
+                            } else{
+                                data2.close = Float(stock.close)!
+                                data2.price = Float(stock.price)!
+                                
+                                data2.change = ((data2.price - data2.close) / data2.close) * 100.0
+                                
+                                // data2.change = stock.changePercent
+                                
+                                do{
+                                    try self.context.save()
+                                    
+                                } catch{
+                                    print("Error when saving context (MSD)")
+                                    completion(false)
+                                }
+                                
+                                completion(true)
                             }
-                            
-                            completion(true)
                             
                         } catch {
                             print("Erro ao inserir os dados de ações")
                             print(error.localizedDescription)
+                            completion(false)
                         }
                         
                         // Array: [0] = open ; [1] = price ; [2] = changePercent

@@ -14,6 +14,7 @@ class SimpleCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var imageLogo: UIImageView!
+    @IBOutlet weak var footLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

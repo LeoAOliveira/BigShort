@@ -30,6 +30,8 @@ class SearchStockViewController: UIViewController, UITableViewDelegate, UITableV
         
         searchBar.delegate = self
         
+        self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
+        
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
@@ -68,6 +70,7 @@ class SearchStockViewController: UIViewController, UITableViewDelegate, UITableV
         
         cell.titleLabel.text = stockArray[indexPath.row].symbol
         cell.descriptionLabel.text = stockArray[indexPath.row].name
+        cell.footLabel.text = "Setor: \(stockArray[indexPath.row].sector!)"
         cell.imageLogo.image = UIImage(named: "\(stockArray[indexPath.row].imageName!).pdf")
         cell.simpleView.layer.cornerRadius = 10.0
         
@@ -75,7 +78,7 @@ class SearchStockViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 130
     }
     
     
