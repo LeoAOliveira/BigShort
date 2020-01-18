@@ -470,8 +470,6 @@ class BuySellStockViewController: UIViewController {
             
             let data2 = self.data2[index]
             
-            
-            
             data2.amount = data2.amount - amount
             data2.invested = data2.invested - invested
             
