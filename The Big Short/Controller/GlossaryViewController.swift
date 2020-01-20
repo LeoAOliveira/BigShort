@@ -118,7 +118,6 @@ class GlossaryViewController: UIViewController, UITableViewDelegate, UITableView
             let destination = segue.destination as! DetailViewController
             destination.word = selectedWord
             destination.parentVC = self
-            tabBarController?.tabBar.isHidden = true
             
         }
     }
