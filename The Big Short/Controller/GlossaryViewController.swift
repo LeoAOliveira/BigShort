@@ -36,7 +36,10 @@ class GlossaryViewController: UIViewController, UITableViewDelegate, UITableView
         self.view.addGestureRecognizer(tap)
         
         fetchData()
+        dismissKeyboard()
     }
+    
+    // MARK: - Fetch from CoreData
     
     func fetchData(){
         
@@ -52,6 +55,14 @@ class GlossaryViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    // MARK: - Dismiss Keyboard
+    
+    func dismissKeyboard() {
+        
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+    }
     
     // MARK: - Table view data source
     
@@ -75,7 +86,6 @@ class GlossaryViewController: UIViewController, UITableViewDelegate, UITableView
         return 80
     }
     
-    
     // MARK: - Search bar
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -87,19 +97,21 @@ class GlossaryViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         wordsArray = data3.filter({ word -> Bool in
-            word.word!.lowercased().contains(searchText.lowercased())
+            word.word!.lowercased().range(of: searchText.lowercased(), options: [.diacriticInsensitive, .caseInsensitive]) != nil
         })
         
         tableView.reloadData()
     }
     
-    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)  {
+        searchBar.resignFirstResponder()
+    }
     
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "glossarySegue"{
+        if segue.identifier == "glossarySegue" {
             
             selectedWord = (sender as! WordCell).wordLabel.text!
             
@@ -110,5 +122,4 @@ class GlossaryViewController: UIViewController, UITableViewDelegate, UITableView
             
         }
     }
-    
 }

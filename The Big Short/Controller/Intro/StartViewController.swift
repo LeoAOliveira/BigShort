@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class StartViewController: UIViewController {
+class StartViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var textField: UITextField!
     
@@ -109,6 +109,11 @@ class StartViewController: UIViewController {
         if textField.text == "Escreva aqui"{
             textField.text = ""
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
     
 }

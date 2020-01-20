@@ -10,7 +10,7 @@
 
 import UIKit
 
-class TermsViewController: UIViewController {
+class TermsViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var startBtn: UIButton!
@@ -70,6 +70,11 @@ class TermsViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
             
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
