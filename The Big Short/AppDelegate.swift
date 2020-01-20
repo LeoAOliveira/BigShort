@@ -14,8 +14,7 @@ import UserNotifications
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -37,10 +36,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let terms = defaults.string(forKey: "terms")
         
         var tela = storyboard.instantiateViewController(withIdentifier: "firstView")
+        
         if terms == nil || terms == ""{
             tela = storyboard.instantiateViewController(withIdentifier: "firstView")
-        }
-        else{
+        
+        } else {
             tela = storyboard.instantiateViewController(withIdentifier: "defaultView")
         }
         
@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let context = self.persistentContainer.viewContext
         
         let opened = defaults.bool(forKey: "opened")
-        let update1 = defaults.bool(forKey: "update1")
+        let update105 = defaults.bool(forKey: "update105")
         
         if !opened{
             
@@ -143,7 +143,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                               ["YDUQ3","Estácio Participações SA", "ON NM", "Estacio", "Serviços educacionais"]]
                 
                 
-                for i in 0...stocks.count-1{
+                for i in 0...stocks.count-1 {
                 
                     let registry = Stock(context: context)
 
@@ -160,6 +160,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } catch {
                 print("Erro ao inserir os dados de ações")
                 print(error.localizedDescription)
+            }
+        }
+        
+        if !opened || !update105 {
+            
+            if update105 == false && opened == true {
+                    
+                var data3: [Glossary] = []
+                
+                do {
+                    data3 = try context.fetch(Glossary.fetchRequest())
+                    
+                    
+                } catch {
+                    print(error.localizedDescription)
+                }
+                
+                for i in 0...data3.count-1 {
+                    data3[i].word = nil
+                    data3[i].meaning = nil
+                    data3[i].source = nil
+                    data3[i].sourceURL = nil
+                }
+                
+                do {
+                    try context.save()
+                    
+                } catch {
+                    print("Error when saving context")
+                }
             }
             
             do {
@@ -277,81 +307,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         
             defaults.set(true, forKey: "opened")
-            defaults.set(true, forKey: "update1")
-        }
-        
-        if !update1{
-            
-            do {
-                
-                var data1: [Wallet] = []
-                var data2: [Stock] = []
-                
-                data1 = try context.fetch(Wallet.fetchRequest())
-                data2 = try context.fetch(Stock.fetchRequest())
-                
-                var inicialInvestment: Float = data1[0].availableBalance
-                
-                var stockList: [String] = []
-                
-                if data1[0].stock1 != nil{
-                    stockList.append(data1[0].stock1!)
-                }
-                
-                if data1[0].stock2 != nil{
-                    stockList.append(data1[0].stock2!)
-                }
-                
-                if data1[0].stock3 != nil{
-                    stockList.append(data1[0].stock3!)
-                }
-                
-                if data1[0].stock4 != nil{
-                    stockList.append(data1[0].stock4!)
-                }
-                
-                if data1[0].stock5 != nil{
-                    stockList.append(data1[0].stock5!)
-                }
-                
-                data1[0].stock1 = nil
-                data1[0].stock2 = nil
-                data1[0].stock3 = nil
-                data1[0].stock4 = nil
-                data1[0].stock5 = nil
-                
-                for i in 0...65{
-                    
-                    inicialInvestment += data2[i].invested
-                    
-                    data2[i].income = 0.0
-                    data2[i].invested = 0.0
-                    data2[i].amount = 0.0
-                    data2[i].change = 0.0
-                    data2[i].close = 0.0
-                    data2[i].price = 0.0
-                    data2[i].mediumPrice = 0.0
-                    
-                }
-                
-                let cost: Float = Float(stockList.count) * 10.0
-                
-                data1[0].availableBalance = inicialInvestment + cost
-                
-                do{
-                    try context.save()
-                    
-                } catch{
-                    print("Error when saving context")
-                }
-                
-            } catch {
-                print("Erro ao inserir os dados de ações")
-                print(error.localizedDescription)
-            }
-            
-            
-            defaults.set(true, forKey: "update1")
+            defaults.set(true, forKey: "update105")
         }
         
         
