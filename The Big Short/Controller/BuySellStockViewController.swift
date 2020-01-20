@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class BuySellStockViewController: UIViewController {
+class BuySellStockViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var modalView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -67,8 +67,8 @@ class BuySellStockViewController: UIViewController {
         self.loadingIndicator.isHidden = true
         parentVC.tabBarController?.tabBar.isHidden = false
     }
-
     
+    // MARK: - Fetch from CoreData
     
     func fetchData(){
         
@@ -125,6 +125,7 @@ class BuySellStockViewController: UIViewController {
         }
     }
     
+    // MARK: - Modal creation
     
     func createModal(){
         
@@ -500,6 +501,10 @@ class BuySellStockViewController: UIViewController {
         return position
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
     
     @IBAction func cancelBtnPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)

@@ -14,8 +14,7 @@ import UserNotifications
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -37,10 +36,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let terms = defaults.string(forKey: "terms")
         
         var tela = storyboard.instantiateViewController(withIdentifier: "firstView")
+        
         if terms == nil || terms == ""{
             tela = storyboard.instantiateViewController(withIdentifier: "firstView")
-        }
-        else{
+        
+        } else {
             tela = storyboard.instantiateViewController(withIdentifier: "defaultView")
         }
         
@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let context = self.persistentContainer.viewContext
         
         let opened = defaults.bool(forKey: "opened")
-        let update1 = defaults.bool(forKey: "update1")
+        let update105 = defaults.bool(forKey: "update105")
         
         if !opened{
             
@@ -143,7 +143,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                               ["YDUQ3","Estácio Participações SA", "ON NM", "Estacio", "Serviços educacionais"]]
                 
                 
-                for i in 0...stocks.count-1{
+                for i in 0...stocks.count-1 {
                 
                     let registry = Stock(context: context)
 
@@ -161,6 +161,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("Erro ao inserir os dados de ações")
                 print(error.localizedDescription)
             }
+        }
+        
+        if !opened || !update105 {
+            
+            if update105 == false && opened == true {
+                    
+                var data3: [Glossary] = []
+                
+                do {
+                    data3 = try context.fetch(Glossary.fetchRequest())
+                    
+                    
+                } catch {
+                    print(error.localizedDescription)
+                }
+                
+                for i in 0...data3.count-1 {
+                    data3[i].word = nil
+                    data3[i].meaning = nil
+                    data3[i].source = nil
+                    data3[i].sourceURL = nil
+                }
+                
+                do {
+                    try context.save()
+                    
+                } catch {
+                    print("Error when saving context")
+                }
+            }
             
             do {
                 
@@ -170,15 +200,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     ["Ação Preferencial (PN)", "\"A Lei das S.A. permite que uma sociedade emita ações preferenciais, que podem ter seu direito de voto suprimido ou restrito, por disposição do estatuto social da companhia. Em contrapartida, tais ações deverão receber uma vantagem econômica em relação às ações ordinárias.\"\n\"As vantagens econômicas a serem conferidas às ações preferenciais em troca dos direitos políticos suprimidos, conforme dispõe a Lei, poderão consistir em prioridade de distribuição de dividendo, fixo ou mínimo, prioridade no reembolso do capital, com prêmio ou sem ele, ou a cumulação destas vantagens.\"", "Portal do Investidor", "https://www.investidor.gov.br/menu/Menu_Investidor/acionistas/participacao_nos_resultados.html"],
                     
+                    ["Ativo financeiro", "\"Ativo caracterizado por direitos decorrentes de obrigações assumidas por agentes econômicos, normalmente negociado no mercado financeiro. Compreende principalmente títulos públicos, certificados de depósitos bancários (CDBs), debêntures e outros. O ativo financeiro constitui um direito em relação a outra unidade econômica, mantido como reserva de valor em função do retorno financeiro que dele se espera obter.\"", "Bússola do Investidor", "https://www.bussoladoinvestidor.com.br/abc_do_investidor/ativo-financeiro/"],
+                    
                     ["Bolsa de Valores","\"A bolsa de valores é um ambiente de negociação no qual investidores podem comprar ou vender seus títulos emitidos por empresas, sejam elas com capitais públicos, mistos ou privados. Esse processo é intermediado com auxílio de correspondentes de negociações através de corretoras.\"", "BTG Pactual", "https://www.btgpactualdigital.com/blog/investimentos/tudo-sobre-bolsa-de-valores"],
                     
                     ["B3 - Brasil, Bolsa, Balcão","\"Em 2008, a Bovespa integrou-se operacionalmente com a BM&F - principal bolsa de mercadorias e contratos futuros do Brasil - criando a BMF&Bovesp. Fruto da combinação entre a BM&FBOVESPA e a Cetip, nasce a B3. É o principal mercado de negociação de valores mobiliários no Brasil, com mais de meio milhão de investidores individuais cadastrados.\"", "Corretora Rico", "https://blog.rico.com.vc/investir-na-bolsa-de-valores"],
                     
+                    ["Câmbio","\"Câmbio significa a troca entre duas moedas de dois países diferentes. A diferença de valores entre uma moeda e outra gera a taxa de câmbio, que representa a diferença de valores entre uma unidade monetária da moeda de cada país.\"", "Bússola do Investidor", "https://www.bussoladoinvestidor.com.br/abc_do_investidor/cambio/"],
+                    
+                    ["Câmbio Atrelado","\"O regime de câmbio atrelado é uma junção do câmbio fixo e flutuante. A taxa varia diariamente dentro de faixas determinadas pelo governo, e o Banco Central atua com objetivo de manter o preço da moeda atrelado às faixas determinadas.\"", "Mont Capital Asset", "https://blog.montcapital.com.br/taxa-de-cambio-o-que-e-e-como-funciona/"],
+                    
+                    ["Câmbio Fixo","\"Aqui, uma autoridade monetária determina um valor fixo de uma moeda estrangeira em relação à moeda nacional. A conversão é garantida pelo Banco Central por aquele preço.\"", "Mont Capital Asset", "https://blog.montcapital.com.br/taxa-de-cambio-o-que-e-e-como-funciona/"],
+                    
+                    ["Câmbio Flutuante","\"No câmbio flutuante, as taxas de câmbio variam de acordo com a oferta e a demanda do mercado — não há intervenção do governo com objetivo de elevar ou diminuir as taxas de câmbio. Porém, se houver a chamada “flutuação suja”, o Banco Central intervém, impedindo variações bruscas nas taxas.\"", "Mont Capital Asset", "https://blog.montcapital.com.br/taxa-de-cambio-o-que-e-e-como-funciona/"],
+                    
+                    ["Câmbio Paralelo","\"Operação de conversão de Reais por uma moeda estrangeira no mercado paralelo. O termo dólar paralelo, por exemplo, é usado para definir a cotação de compra ou venda da moeda norte-americana fora dos canais de conversão autorizados pelo Banco Central.\"", "Bradesco", "https://www.sociedadedenegocios.com.br/RelacionamentoPJ/home/dicionario/c/cambio-paralelo"],
+                    
+                    ["Commodities","\"As commodities são matérias-primas básicas como milho, dólar, boi, café, petróleo, ouro e outras, sendo divididas entre soft e hard. Sua principal característica é ser pouco processada, sendo utilizada na produção de produtos de maior valor agregado.Basicamente, elas são classificadas em: agrícolas, químicas, minerais, financeiras, ambientais e energéticas. [...] As negociações destes insumos são realizadas através de contratos futuros e opções na bolsa de valores, que por sua vez, podem trazer proteção de capital e ganhos vantajosos. Atenção, investidor: este tipo de aplicação é recomendada apenas para investidores experientes\"", "XP Investimentos", "https://blog.xpi.com.br/commodities/"],
+                    
                     ["CDI","\"O CDI, ou Certificado de Depósito Interbancário, é uma taxa que determina o rendimento anual de diversos tipos de investimento. Em 2018, por exemplo, a taxa CDI do ano foi de 6,40%. Portanto, entender o que é a taxa CDI é importante na hora de escolher o melhor lugar para deixar o seu dinheiro rendendo – o que, no fim das contas, influencia o quanto pode entrar no seu bolso.\"", "Nubank", "https://blog.nubank.com.br/cdi-o-que-e/"],
+                    
+                    ["COPOM","\"COPOM é a sigla utilizada para abreviar o termo Comitê de Política Monetária. Ele foi criado com o objetivo principal de estabelecer alguns critérios importantes sobre a economia do Brasil, que impactam diretamente o dia a dia e os investimentos dos brasileiros. O COPOM foi criado em junho de 1996, vinculado ao Banco Central, desde então ganhou um posto importante na economia do nosso país, definindo questões relacionadas à política monetária e à taxa de juros básica da economia, a Selic.\"", "Toro Investimentos", "https://blog.toroinvestimentos.com.br/copom-o-que-e-comite-de-politica-monetaria"],
                     
                     ["Corretora de Valores","\"As Corretoras de Valores são instituições financeiras membros das Bolsas de Valores habilitadas, com exclusividade, para negociar valores mobiliários no pregão das Bolsas. Sua função é intermediar as operações financeiras (compra e venda de valores mobiliários), entre os investidores nas Bolsas de Valores, agindo como agente canalizador das operações de compra e venda de ações para o ambiente de negociação, que é o pregão da Bolsa de Valores.\"", "Bússola do Investidor", "https://www.bussoladoinvestidor.com.br/abc_do_investidor/corretora_de_valores/"],
                     
+                    ["Day Trade", "\"Day trade é uma operação de compra e venda de ações de uma mesma empresa realizada em um único dia na bolsa de valores. O objetivo do investidor é obter lucro com a oscilação de preço do ativo financeiro entre a abertura e o fechamento do mercado.\"", "BTG Pactual", "https://www.btgpactualdigital.com/blog/investimentos/o-que-e-day-trade-comod-funciona-vantagens-riscos-e-mitos"],
+                    
                     ["Dividendos", "\"O dividendo é a parte do lucro de uma empresa que é dividida com seus acionistas, como uma forma de bonificação ao investimento feito. Ao adquirir uma ação, o acionista passa a ter parte da empresa e os direitos acerca dos lucros que esta tiver. Os dividendos podem ser pagos em dinheiro, como também em forma de ações adicionais, ou seja, uma 'parte adicional' da empresa aos acionistas.\"", "Dicionário Financeiro", "https://www.dicionariofinanceiro.com/dividendos/"],
+                    
+                    ["ETFs","\"Conhecidos como fundos de índice, os ETFs buscam obter o retorno com base em determinado índice de ações, com suas cotas negociadas em bolsa. Na prática, eles representam uma fração ideal da carteira da qual farão parte – ou seja, representam todas as ações que compõem a carteira teórica do índice usado como referência, além de outros ativos, em menor proporção. Portanto, é uma alternativa que possibilita ao investidor o acesso a uma carteira diversificada sem que ele tenha que aplicar individualmente em todos os papéis que compõem esta carteira.\"", "InfoMoney", "https://www.infomoney.com.br/mercados/o-que-sao-etfs/"],
+                    
+                    ["Fundos de Investimentos","\"Os fundos de investimento nada mais são um tipo de aplicação financeira onde um ou mais investidores (cotistas) agrupam seus recursos para realizar aplicações em ativos mobiliários ou imobiliários. Os cotistas são os donos de fundos, mas existem uma série de figuras que trabalham para que o dinheiro deles seja aplicado da melhor forma possível dentro do que foi combinado na política do fundo.\"", "XP Investimentos", "https://blog.xpi.com.br/investir-em-fundos-de-investimento/"],
+                    
+                    ["Hedge Funds", "Os Fundos de Cobertura, conhecidos como Hedge Funds, são fundos em que a estratégia principal é a proteção dos ativos de perdas financeiras, enquanto procuram por elevados retornos. Estes fundos são formados de maneira privada, em um mercado de derivativos, e são aplicados por investidores selecionados. Para obter uma rentabilidade mais alta que a média do mercado, são adotadas estratégias mais arrojadas e que exigem um profundo conhecimento de seus sócios administradores. As estratégias adotadas por este tipo de fundo são diferenciadas em relação aos fundos tradicionais, o que caracteriza este investimento como sendo de alto risco.", "Dicionário Financeiro", "https://www.dicionariofinanceiro.com/hedge-funds/"],
                     
                     ["Horário de negociação", "Início: 9:45\nFim: 16:55", "B3 - Brasil, Bolsa, Balcão", "http://www.b3.com.br/pt_br/solucoes/plataformas/puma-trading-system/para-participantes-e-traders/horario-de-negociacao/acoes/"],
                     
@@ -198,9 +252,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     ["Mercado de Ações","\"O mercado de ações é um ambiente onde são negociados ativos financeiros tais como ações, opções de ações, contratos futuros (BM&F) e Fundos de Investimento Imobiliário. As negociações de compra e venda ocorrem na Bolsa de Valores. Todas as operações e seus participantes são regulados e fiscalizados pela Comissão de Valores Mobiliários (CVM).\"", "Corretora Rico", "https://blog.rico.com.vc/investir-na-bolsa-de-valores"],
                     
+                    ["Mercado de Balcão","\"O Mercado de Balcão é o ambiente que permite a realização de operações que não estão registradas na Bolsa de Valores. Isso não quer dizer, no entanto, que não haja controle ou fiscalização sobre essas transações. O segmento depende da organização e administração de instituições participantes desse mercado.\"", "Toro Investimentos", "https://blog.toroinvestimentos.com.br/mercado-de-balcao-o-que-e"],
+                    
+                    ["Mercado de Opções","\"No mercado de opções, negocia-se o direito de comprar ou de vender um bem por um preço fixo numa data futura. Quem adquirir o direito deve pagar um prêmio ao vendedor. Este prêmio não é o preço do bem, mas apenas um valor pago para ter a opção (possibilidade) de comprar ou vender o referido bem em uma data futura por um preço previamente acordado.\"", "Portal do Investidor", "https://www.investidor.gov.br/menu/Menu_Investidor/derivativos/mercado_opcoes.html"],
+                    
+                    ["Poupança","\"A caderneta de poupança é um investimento de baixíssimo risco, controlado pelo governo federal para arrecadar recursos. Já a conta poupança é oferecida pelos bancos para que os correntistas possam aplicar na caderneta. Ou seja: a conta poupança é um intermediário entre os correntistas dos bancos e a caderneta de poupança.\"", "Nubank", "https://blog.nubank.com.br/poupanca-o-que-e/"],
+                    
                     ["Pregão","\"O Pregão é uma das modalidades de licitação veiculadas no Brasil. Esta modalidade possibilita o incremento da competitividade e ampliação das oportunidades de participação nas operações de compra e venda de ativos financeiros, por Pessoas Jurídicas ou Físicas. Assim o Pregão se constitui como a janela, ou sessão, de transações feitas em lances de compra e venda das ações negociadas numa bolsa de valores, que pode ser feito diretamente na sala de negociações ou por via eletrônica através dos sistemas de negociação da BMF&Bovespa.\"", "Bússola do Investidor", "https://www.bussoladoinvestidor.com.br/abc_do_investidor/pregao/"],
                     
                     ["Prejuízo","\"Perda de lucro, certo e positivo, que se deixou de obter.\"", "Dicionário Michaelis", "https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/preju%C3%ADzo/"],
+                    
+                    ["Renda Fixa","\"​É um tipo de investimento em que você já consegue saber como calcular o rendimento antes mesmo de investir.  CDB, LCI, LCA, CRI, CRA e Debêntures são alguns exemplos de aplicações de renda fixa.\"", "Itaú", "https://www.bussoladoinvestidor.com.br/abc_do_investidor/titulo-privado/"],
+                    
+                    ["Renda Variável","\"​A definição de renda variável é simples. Trata-se de uma classificação dos ativos cujo retorno não pode ser dimensionado no momento da aplicação. Esse conceito é diametralmente oposto ao de renda fixa.\"", "Clube do Valor", "https://clubedovalor.com.br/o-que-e-renda-variavel/"],
                     
                     ["Rentabilidade","\"A rentabilidade é um dos termos mais importantes usados no mercado financeiro. Ela nada mais é do que o retorno que você tem sobre o investimento que foi realizado. Assim, ela pode ser definida através de taxas tanto pré quanto pós-fixadas, de vínculos com índices de inflação ou baseadas apenas na valorização, como acontece no mercado de ações. \"", "Corretora Rico", "https://blog.rico.com.vc/termo-mercado-financeiro/"],
                     
@@ -212,7 +276,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     ["Taxa de custódia","\"Essa taxa é mensal e cobrada pela BM&FBovespa para a guarda dos títulos\"", "Corretora Rico", "https://blog.rico.com.vc/investir-na-bolsa-de-valores"],
                     
-                    ["Taxa Selic","\"​A Selic é a taxa básica de juros da economia. É o principal instrumento de política monetária utilizado pelo Banco Central (BC) para controlar a inflação. Ela influencia todas as taxas de juros do país, como as taxas de juros dos empréstimos, dos financiamentos e das aplicações financeiras. A taxa Selic refere-se à taxa de juros apurada nas operações de empréstimos de um dia entre as instituições financeiras que utilizam títulos públicos federais como garantia. O BC opera no mercado de títulos públicos para que a taxa Selic efetiva esteja em linha com a meta da Selic definida na reunião do Comitê de Política Monetária do BC (Copom).\"", "Banco Central do Brasil", "https://www.bcb.gov.br/controleinflacao/taxaselic"]]
+                    ["Taxa Selic","\"​A Selic é a taxa básica de juros da economia. É o principal instrumento de política monetária utilizado pelo Banco Central (BC) para controlar a inflação. Ela influencia todas as taxas de juros do país, como as taxas de juros dos empréstimos, dos financiamentos e das aplicações financeiras. A taxa Selic refere-se à taxa de juros apurada nas operações de empréstimos de um dia entre as instituições financeiras que utilizam títulos públicos federais como garantia. O BC opera no mercado de títulos públicos para que a taxa Selic efetiva esteja em linha com a meta da Selic definida na reunião do Comitê de Política Monetária do BC (Copom).\"", "Banco Central do Brasil", "https://www.bcb.gov.br/controleinflacao/taxaselic"],
+                    
+                    ["Tesouro Direto","\"​Tesouro Direto é uma oportunidade para você realizar uma poupança de longo prazo com rentabilidade real e liquidez garantida pelo Tesouro Nacional. Considerado de baixo risco pelo mercado financeiro, este é um programa de investimento em títulos públicos, criado pelo Tesouro Nacional, que capta recursos para o financiamento da dívida pública e financia atividades do Governo Federal como educação, saúde e infraestrutura.\"", "Itaú", "https://www.itaucorretora.com.br/nossosservicos/tesouro-direto.aspx"],
+                    
+                    ["Tesouro IPCA","\"​A rentabilidade desse título está atrelada à inflação, medida pelo variação do Índice Nacional de Preços ao Consumidor Amplo - IPCA. Ou seja, esses títulos oferecem rendimento igual à variação da inflação mais uma taxa prefixada de juros. Vantagens: 1) Garante uma rentabilidade sempre acima de inflação; 2) Ideal para investimentos de longo prazo; 3) Te protege das variações da inflação.\"", "Tesouro Direto", "https://www.tesourodireto.com.br/titulos/tipos-de-tesouro.htm"],
+                    
+                    ["Tesouro Prefixado","\"​Os títulos prefixados são aqueles que têm taxa de juros fixa, ou seja, você já conhece no momento do investimento. É o investimento ideal para quem quer saber exatamente o valor que receberá ao final da aplicação, no vencimento do título. Vantagens: 1) Garante uma rentabilidade fixa; 2) Você sabe exatamente quanto vai resgatar no final; 3) Ideal para metas de médio e longo prazo.\"", "Tesouro Direto", "https://www.tesourodireto.com.br/titulos/tipos-de-tesouro.htm"],
+                    
+                    ["Tesouro Selic","\"​Os títulos Tesouro Selic são títulos pós-fixados que possuem rentabilidade atrelada à Taxa Selic. A Taxa Selic é a taxa básica de juros da economia. É o investimento ideal para quem quer começar a investir no Tesouro Direto\"", "Tesouro Direto", "https://www.tesourodireto.com.br/titulos/tipos-de-tesouro.htm"],
+                    
+                    ["Título privado","\"​Títulos privados são títulos de renda fixa, emitidos por bancos ou empresas, com a intenção de arrecadar recursos. Ou seja, um título é um papel de dívida da entidade emissora, que se compromete a devolver o dinheiro para o investidor com juros. São exemplos de títulos privados CDBs, COE, Debêntures, LC, LCI e LCA.\"", "Bússola do Investidor", "https://www.bussoladoinvestidor.com.br/abc_do_investidor/titulo-privado/"],
+                    
+                    ["Título público","\"​Os títulos públicos são ativos de renda fixa, ou seja, seu rendimento pode ser dimensionado no momento do investimento, ao contrário dos ativos de renda variável (como ações), cujo retorno não pode ser estimado no instante da aplicação. Dada a menor volatilidade dos ativos de renda fixa frente aos ativos de renda variável, este tipo de investimento é considerado mais conservador, ou seja, de menor risco. [...] Títulos públicos são considerados os ativos de menor risco da economia de um País, e são 100% garantidos pelo Tesouro Nacional.\"", "Tesouro Direto", "http://www.tesouro.fazenda.gov.br/o-que-sao-titulos-publicos-"]]
             
                 for i in 0...words.count-1{
                     
@@ -233,81 +309,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         
             defaults.set(true, forKey: "opened")
-            defaults.set(true, forKey: "update1")
-        }
-        
-        if !update1{
-            
-            do {
-                
-                var data1: [Wallet] = []
-                var data2: [Stock] = []
-                
-                data1 = try context.fetch(Wallet.fetchRequest())
-                data2 = try context.fetch(Stock.fetchRequest())
-                
-                var inicialInvestment: Float = data1[0].availableBalance
-                
-                var stockList: [String] = []
-                
-                if data1[0].stock1 != nil{
-                    stockList.append(data1[0].stock1!)
-                }
-                
-                if data1[0].stock2 != nil{
-                    stockList.append(data1[0].stock2!)
-                }
-                
-                if data1[0].stock3 != nil{
-                    stockList.append(data1[0].stock3!)
-                }
-                
-                if data1[0].stock4 != nil{
-                    stockList.append(data1[0].stock4!)
-                }
-                
-                if data1[0].stock5 != nil{
-                    stockList.append(data1[0].stock5!)
-                }
-                
-                data1[0].stock1 = nil
-                data1[0].stock2 = nil
-                data1[0].stock3 = nil
-                data1[0].stock4 = nil
-                data1[0].stock5 = nil
-                
-                for i in 0...65{
-                    
-                    inicialInvestment += data2[i].invested
-                    
-                    data2[i].income = 0.0
-                    data2[i].invested = 0.0
-                    data2[i].amount = 0.0
-                    data2[i].change = 0.0
-                    data2[i].close = 0.0
-                    data2[i].price = 0.0
-                    data2[i].mediumPrice = 0.0
-                    
-                }
-                
-                let cost: Float = Float(stockList.count) * 10.0
-                
-                data1[0].availableBalance = inicialInvestment + cost
-                
-                do{
-                    try context.save()
-                    
-                } catch{
-                    print("Error when saving context")
-                }
-                
-            } catch {
-                print("Erro ao inserir os dados de ações")
-                print(error.localizedDescription)
-            }
-            
-            
-            defaults.set(true, forKey: "update1")
+            defaults.set(true, forKey: "update105")
         }
         
         

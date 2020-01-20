@@ -99,7 +99,9 @@ class SearchStockViewController: UIViewController, UITableViewDelegate, UITableV
         tableView.reloadData()
     }
     
-
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)  {
+        searchBar.resignFirstResponder()
+    }
     
     // MARK: - Navigation
 

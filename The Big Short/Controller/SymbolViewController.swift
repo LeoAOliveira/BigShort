@@ -43,11 +43,11 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         data2.removeAll()
         
-        do{
+        do {
             data1 = try context!.fetch(Wallet.fetchRequest())
             data2 = try context!.fetch(Stock.fetchRequest())
             
-        } catch{
+        } catch {
             print(error.localizedDescription)
         }
         
