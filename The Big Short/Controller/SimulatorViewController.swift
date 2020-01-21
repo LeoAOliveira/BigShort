@@ -258,107 +258,107 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
             return cell
             
             
-        // Stocks Card
-        } else if indexPath.row == 1{
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "investmentsCell", for: indexPath) as! InvestmentsCell
-            
-            cell.investmentsView.layer.cornerRadius = 10.0
-            
-            cell.titleLabel.text = "Ações"
-            selectedInvestment = "Ações"
-            cell.descriptionLabel.text = "Variação do dia: "
-            
-            if index.count != 0 {
-                
-                cell.valueLabel.text = "\(numberFormatter(value: positionPrice()))"
-                
-                let change = calculateChange(value1: stocksPriceClose(), value2: positionPrice())
-                
-                
-                if change > 0.0{
-                    cell.numberLabel.textColor = #colorLiteral(red: 0, green: 0.7020406723, blue: 0.1667427123, alpha: 1)
-                    cell.numberLabel.text = "+\(String(format: "%.2f", change))%"
-                
-                } else if change < 0.0{
-                    cell.numberLabel.textColor = #colorLiteral(red: 0.7722620368, green: 0.0615144521, blue: 0.1260437667, alpha: 1)
-                    cell.numberLabel.text = "\(String(format: "%.2f", change))%"
-                
-                } else{
-                    cell.numberLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
-                    cell.numberLabel.text = "\(String(format: "%.2f", change))%"
-                }
-            
-            } else{
-                cell.valueLabel.text = "\(numberFormatter(value: 0.0))"
-                cell.numberLabel.text = "0,00%"
-                cell.numberLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
-            }
-            
-            return cell
-            
-            
-        // Public Titles Card
-        } else if indexPath.row == 2{
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "investmentsCell", for: indexPath) as! InvestmentsCell
-            
-            let test = 123
-            
-            cell.investmentsView.layer.cornerRadius = 10.0
-            
-            cell.titleLabel.text = "Títulos públicos"
-            selectedInvestment = "Títulos públicos"
-            cell.valueLabel.text = "\(numberFormatter(value: data1[0].publicTitlesValue))"
-            cell.descriptionLabel.text = "Variação do dia: "
-            cell.numberLabel.text = "\(test)%"
-            
-            return cell
-            
-        // Dollar Card
-        }else if indexPath.row == 3{
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "investmentsCell", for: indexPath) as! InvestmentsCell
-            
-            let test = 123
-            
-            cell.investmentsView.layer.cornerRadius = 10.0
-            
-            cell.titleLabel.text = "Dólar americano (USD)"
-            selectedInvestment = "Dólar americano (USD)"
-            cell.valueLabel.text = "\(numberFormatter(value: data1[0].dollarValue))"
-            cell.descriptionLabel.text = "Variação do dia: "
-            cell.numberLabel.text = "\(test)%"
-            
-            return cell
-        
-        // Savings Card
-        }else if indexPath.row == 4{
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "investmentsCell", for: indexPath) as! InvestmentsCell
-            
-            let test = 123
-            
-            cell.investmentsView.layer.cornerRadius = 10.0
-            
-            cell.titleLabel.text = "Poupança"
-            selectedInvestment = "Poupança"
-            cell.valueLabel.text = "\(numberFormatter(value: data1[0].savingsValue))"
-            cell.descriptionLabel.text = "Variação do dia: "
-            cell.numberLabel.text = "\(test)%"
-            
-            return cell
-            
+//        // Stocks Card
+//        } else if indexPath.row == 1{
+//
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "investmentsCell", for: indexPath) as! InvestmentsCell
+//
+//            cell.investmentsView.layer.cornerRadius = 10.0
+//
+//            cell.titleLabel.text = "Ações"
+//            selectedInvestment = "Ações"
+//            cell.descriptionLabel.text = "Variação do dia: "
+//
+//            if index.count != 0 {
+//
+//                cell.valueLabel.text = "\(numberFormatter(value: positionPrice()))"
+//
+//                let change = calculateChange(value1: stocksPriceClose(), value2: positionPrice())
+//
+//
+//                if change > 0.0{
+//                    cell.numberLabel.textColor = #colorLiteral(red: 0, green: 0.7020406723, blue: 0.1667427123, alpha: 1)
+//                    cell.numberLabel.text = "+\(String(format: "%.2f", change))%"
+//
+//                } else if change < 0.0{
+//                    cell.numberLabel.textColor = #colorLiteral(red: 0.7722620368, green: 0.0615144521, blue: 0.1260437667, alpha: 1)
+//                    cell.numberLabel.text = "\(String(format: "%.2f", change))%"
+//
+//                } else{
+//                    cell.numberLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
+//                    cell.numberLabel.text = "\(String(format: "%.2f", change))%"
+//                }
+//
+//            } else{
+//                cell.valueLabel.text = "\(numberFormatter(value: 0.0))"
+//                cell.numberLabel.text = "0,00%"
+//                cell.numberLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
+//            }
+//
+//            return cell
+//
+//
+//        // Public Titles Card
+//        } else if indexPath.row == 2{
+//
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "investmentsCell", for: indexPath) as! InvestmentsCell
+//
+//            let test = 123
+//
+//            cell.investmentsView.layer.cornerRadius = 10.0
+//
+//            cell.titleLabel.text = "Títulos públicos"
+//            selectedInvestment = "Títulos públicos"
+//            cell.valueLabel.text = "\(numberFormatter(value: data1[0].publicTitlesValue))"
+//            cell.descriptionLabel.text = "Variação do dia: "
+//            cell.numberLabel.text = "\(test)%"
+//
+//            return cell
+//
+//        // Dollar Card
+//        }else if indexPath.row == 3{
+//
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "investmentsCell", for: indexPath) as! InvestmentsCell
+//
+//            let test = 123
+//
+//            cell.investmentsView.layer.cornerRadius = 10.0
+//
+//            cell.titleLabel.text = "Dólar americano (USD)"
+//            selectedInvestment = "Dólar americano (USD)"
+//            cell.valueLabel.text = "\(numberFormatter(value: data1[0].dollarValue))"
+//            cell.descriptionLabel.text = "Variação do dia: "
+//            cell.numberLabel.text = "\(test)%"
+//
+//            return cell
+//
+//        // Savings Card
+//        }else if indexPath.row == 4{
+//
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "investmentsCell", for: indexPath) as! InvestmentsCell
+//
+//            let test = 123
+//
+//            cell.investmentsView.layer.cornerRadius = 10.0
+//
+//            cell.titleLabel.text = "Poupança"
+//            selectedInvestment = "Poupança"
+//            cell.valueLabel.text = "\(numberFormatter(value: data1[0].savingsValue))"
+//            cell.descriptionLabel.text = "Variação do dia: "
+//            cell.numberLabel.text = "\(test)%"
+//
+//            return cell
+//
         // ELSE
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "investmentsCell", for: indexPath) as! InvestmentsCell
             
-            cell.investmentsView.layer.cornerRadius = 10.0
-            
-            cell.titleLabel.text = ""
-            cell.valueLabel.text = ""
-            cell.descriptionLabel.text = ""
-            cell.numberLabel.text = ""
+//            cell.investmentsView.layer.cornerRadius = 10.0
+//            
+//            cell.titleLabel.text = ""
+//            cell.valueLabel.text = ""
+//            cell.descriptionLabel.text = ""
+//            cell.numberLabel.text = ""
             
             return cell
         }

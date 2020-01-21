@@ -57,20 +57,20 @@ class StocksViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         verifyMarket(purpose: "keepTracking")
-        fetchData()
-        
-        if data1[0].notifications == true{
-            NotificationsManager.setNotifications(notiifcations: removeNotifications, data: data1)
-        } else{
-            removeNotifications.removeAllPendingNotificationRequests()
-        }
+//        fetchData()
+//        
+//        if data1[0].notifications == true {
+//            NotificationsManager.setNotifications(notiifcations: removeNotifications, data: data1)
+//        } else{
+//            removeNotifications.removeAllPendingNotificationRequests()
+//        }
     }
     
     // MARK: - Fetch from CoreData and Stock Data update
     
     func fetchData() {
        
-        self.stockDataManager = StockDataManager(viewController: self)
+        // self.stockDataManager = StockDataManager(viewController: self)
         stockDataManager?.fetchData(completion: { isValid in
             
             if isValid == true{
@@ -94,20 +94,6 @@ class StocksViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    
-    // MARK: - Math Functions
-    
-    func stocksCurrentPrice() -> Float{
-        return MathOperations.stocksCurrentPrice(stockList: stockList, data: data2, index: index)
-    }
-    
-    func stocksPriceClose() -> Float{
-        return MathOperations.stocksPriceClose(stockList: stockList, data: data2, index: index)
-    }
-
-    func investedValue() -> Float{
-        return MathOperations.investedValue(stockList: stockList, data: data2, index: index)
-    }
     
     // MARK: - Market verification
     func verifyMarket(purpose: String){

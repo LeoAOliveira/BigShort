@@ -57,7 +57,7 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
                 cell.investedValueLabel.text = "Valor investido: \(MathOperations.currencyFormatter(value: 0.0))"
             
             } else {
-                cell.totalValueLabel.text = MathOperations.currencyFormatter(value: stocksVC.stocksCurrentPrice())
+                cell.totalValueLabel.text = MathOperations.currencyFormatter(value: stocksCurrentPrice())
                 
                 incomeValue = Double(MathOperations.calculateIncome(value1: stocksCurrentPrice(), value2: investedValue()))
                 cell.investedValueLabel.text = "Valor investido: \(MathOperations.currencyFormatter(value: investedValue()))"
@@ -80,7 +80,6 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
                 cell.incomeValueLabel.text = MathOperations.currencyFormatter(value: Float(incomeValue))
                 cell.incomeValueLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
             }
-            
             
             return cell
             
@@ -123,7 +122,6 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
             cell.titleLabel.text = ""
             cell.valueLabel.text = ""
             cell.descriptionLabel.text = ""
-            cell.numberLabel.text = ""
             
             return cell
         }

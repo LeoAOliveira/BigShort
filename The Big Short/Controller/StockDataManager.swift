@@ -11,7 +11,7 @@ import CoreData
 
 class StockDataManager: NSObject {
     
-    weak var stocksViewController: StocksViewController?
+    weak var mainViewController: MainViewController?
     
     var context: NSManagedObjectContext?
     
@@ -21,9 +21,9 @@ class StockDataManager: NSObject {
     var stockList = [String]()
     var hasYDUQ3: Bool = false
     
-    init(viewController: StocksViewController) {
+    init(viewController: MainViewController) {
         super.init()
-        self.stocksViewController = viewController
+        self.mainViewController = viewController
     }
     
     // MARK: - Fetch stocks in CoreData
@@ -89,21 +89,21 @@ class StockDataManager: NSObject {
             }
         } else{
            
-            self.stocksViewController?.infoUpdate = " "
-            self.stocksViewController?.infoSource = " "
+            self.mainViewController?.infoUpdate = " "
+            self.mainViewController?.infoSource = " "
         }
         
-        guard let stocksVC = stocksViewController else {
+        guard let mainVC = mainViewController else {
             completion(false)
             return
         }
         
-        stocksVC.data1 = data1
-        stocksVC.data2 = data2
-        stocksVC.stockList = stockList
-        stocksVC.index = index
+        mainVC.data1 = data1
+        mainVC.data2 = data2
+        mainVC.stockList = stockList
+        mainVC.index = index
         
-        stocksVC.tableView.reloadData()
+        mainVC.tableView.reloadData()
         
         completion(true)
     }
@@ -215,12 +215,12 @@ class StockDataManager: NSObject {
                 
                 if isValid == true{
                     print("YESS")
-                    self.stocksViewController?.infoSource = "World Trading Data"
-                    self.stocksViewController?.tableView.reloadData()
+                    self.mainViewController?.infoSource = "World Trading Data"
+                    self.mainViewController?.tableView.reloadData()
                     
                 } else{
                     
-                    self.stocksViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
+                    self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
                 }
             }
             
@@ -230,12 +230,12 @@ class StockDataManager: NSObject {
                     
                     if isValid == true{
                         print("YESS")
-                        self.stocksViewController?.infoSource = "Alpha Vantage & World Trading Data"
-                        self.stocksViewController?.tableView.reloadData()
+                        self.mainViewController?.infoSource = "Alpha Vantage & World Trading Data"
+                        self.mainViewController?.tableView.reloadData()
                         
                     } else{
                         
-                        self.stocksViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
+                        self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
                     }
                     
                 }
@@ -248,12 +248,12 @@ class StockDataManager: NSObject {
                 
                 if isValid == true{
                     print("YESS")
-                    self.stocksViewController?.infoSource = "Alpha Vantage"
-                    self.stocksViewController?.tableView.reloadData()
+                    self.mainViewController?.infoSource = "Alpha Vantage"
+                    self.mainViewController?.tableView.reloadData()
                     
                 } else{
                     
-                    self.stocksViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
+                    self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
                 }
                 
             }

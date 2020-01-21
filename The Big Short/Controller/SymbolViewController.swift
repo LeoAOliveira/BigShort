@@ -179,7 +179,6 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.titleLabel.text = ""
             cell.valueLabel.text = ""
             cell.descriptionLabel.text = ""
-            cell.numberLabel.text = ""
             
             return cell
         }

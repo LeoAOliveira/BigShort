@@ -54,8 +54,10 @@ public class MathOperations: NSObject {
         
         var allStocks: Float = 0.0
         
-        for i in 0...stockList.count-1{
-            allStocks += data[index[i]].price * data[index[i]].amount
+        if stockList.count != 0 {
+            for i in 0...stockList.count-1 {
+                allStocks += data[index[i]].price * data[index[i]].amount
+            }
         }
         
         return allStocks
@@ -76,8 +78,10 @@ public class MathOperations: NSObject {
         
         var allStocks: Float = 0.0
         
-        for i in 0...stockList.count-1{
-            allStocks += data[index[i]].invested
+        if stockList.count != 0 {
+            for i in 0...stockList.count-1{
+                allStocks += data[index[i]].invested
+            }
         }
         
         return allStocks
