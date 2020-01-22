@@ -38,47 +38,47 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
         // Position Card
         if indexPath.row == 0 {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "positionCell", for: indexPath) as! PositionCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "positionCell", for: indexPath) as! InvestmentsCell
             
             cell.marketLabel.text = stocksVC.marketLabel
             cell.marketView.backgroundColor = stocksVC.marketColor
             cell.marketView.layer.cornerRadius = cell.marketView.frame.size.width/2
             cell.marketView.clipsToBounds = true
             
-            cell.positionView.layer.cornerRadius = 10.0
+            // cell.positionView.layer.cornerRadius = 10.0
             
             cell.titleLabel.text = "Posição"
-            cell.balanceLabel.text = "Saldo disponível: \(MathOperations.currencyFormatter(value: stocksVC.data1[0].availableBalance))"
+            // cell.balanceLabel.text = "Saldo disponível: \(MathOperations.currencyFormatter(value: stocksVC.data1[0].availableBalance))"
             
             var incomeValue = 0.0
             
             if stocksVC.stockList.count == 0 {
-                cell.totalValueLabel.text = MathOperations.currencyFormatter(value: 0.0)
-                cell.investedValueLabel.text = "Valor investido: \(MathOperations.currencyFormatter(value: 0.0))"
+                cell.valueLabel.text = MathOperations.currencyFormatter(value: 0.0)
+                // cell.investedValueLabel.text = "Valor investido: \(MathOperations.currencyFormatter(value: 0.0))"
             
             } else {
-                cell.totalValueLabel.text = MathOperations.currencyFormatter(value: stocksCurrentPrice())
+                cell.valueLabel.text = MathOperations.currencyFormatter(value: stocksCurrentPrice())
                 
                 incomeValue = Double(MathOperations.calculateIncome(value1: stocksCurrentPrice(), value2: investedValue()))
-                cell.investedValueLabel.text = "Valor investido: \(MathOperations.currencyFormatter(value: investedValue()))"
+                // cell.investedValueLabel.text = "Valor investido: \(MathOperations.currencyFormatter(value: investedValue()))"
             }
             
             if incomeValue > 0 {
                 
-                cell.incomeLabel.text = "Rendimento: "
-                cell.incomeValueLabel.text = "+ \(MathOperations.currencyFormatter(value: Float(incomeValue)))"
-                cell.incomeValueLabel.textColor = #colorLiteral(red: 0.1176470588, green: 0.6901960784, blue: 0.2549019608, alpha: 1)
+                // cell.incomeLabel.text = "Rendimento: "
+                cell.descriptionLabel.text = "+ \(MathOperations.currencyFormatter(value: Float(incomeValue)))"
+                cell.descriptionLabel.textColor = #colorLiteral(red: 0.1176470588, green: 0.6901960784, blue: 0.2549019608, alpha: 1)
             
             } else if incomeValue < 0 {
                 
-                cell.incomeLabel.text = "Prejuízo: "
-                cell.incomeValueLabel.text = "- \(MathOperations.currencyFormatter(value: Float(incomeValue) * -1.0))"
-                cell.incomeValueLabel.textColor = #colorLiteral(red: 0.7098039216, green: 0.1647058824, blue: 0.1647058824, alpha: 1)
+                // cell.incomeLabel.text = "Prejuízo: "
+                cell.descriptionLabel.text = "- \(MathOperations.currencyFormatter(value: Float(incomeValue) * -1.0))"
+                cell.descriptionLabel.textColor = #colorLiteral(red: 0.7098039216, green: 0.1647058824, blue: 0.1647058824, alpha: 1)
             
             } else{
-                cell.incomeLabel.text = "Rendimento: "
-                cell.incomeValueLabel.text = MathOperations.currencyFormatter(value: Float(incomeValue))
-                cell.incomeValueLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
+                // cell.incomeLabel.text = "Rendimento: "
+                cell.descriptionLabel.text = MathOperations.currencyFormatter(value: Float(incomeValue))
+                cell.descriptionLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
             }
             
             return cell
@@ -225,6 +225,8 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
         }
     }
     
+    // MARK: - Market verification
+    
     func verifyMarket(purpose: String){
         
         guard let stocksVC = stocksViewController else {
@@ -233,7 +235,18 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
         
         let marketStatus = MarketManager.verifyMarket(purpose: purpose)
         
-        if marketStatus == "Market closed alert" {
+        if marketStatus == "Market closed" {
+            stocksVC.marketColor = #colorLiteral(red: 0.1047265753, green: 0.2495177984, blue: 0.4248503447, alpha: 1)
+            stocksVC.marketLabel = "Mercado fechado"
+            
+        } else if marketStatus == "Market open" {
+            stocksVC.marketColor = #colorLiteral(red: 0.4889312983, green: 0.7110515833, blue: 1, alpha: 1)
+            stocksVC.marketLabel = "Mercado aberto"
+                
+        } else if marketStatus == "Market closed alert" {
+            stocksVC.createAlert(title: "Mercado fechado", message: "Operações só podem ser realizadas entre 10:00 e 17:00.", actionTitle: "OK")
+            
+        } else if marketStatus == "Market closed alert 2" {
             stocksVC.createAlert(title: "Mercado fechado", message: "Operações só podem ser realizadas em dias úteis.", actionTitle: "OK")
             
         } else if marketStatus == "Operations avilable" {

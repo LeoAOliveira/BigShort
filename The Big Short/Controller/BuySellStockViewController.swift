@@ -12,7 +12,7 @@ import CoreData
 class BuySellStockViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var modalView: UIView!
-    @IBOutlet weak var titleLabel: UILabel!
+    // @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var imageLogo: UIImageView!
     
@@ -130,7 +130,7 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
     func createModal(){
         
         modalView.layer.cornerRadius = 10.0
-        titleLabel.text = data2[index].name
+        // titleLabel.text = data2[index].name
         imageLogo.image = UIImage(named: "\(data2[index].imageName!).pdf")
         
         stockView.layer.cornerRadius = 10.0

@@ -50,6 +50,7 @@
 		A76587ED23D680D500D517F8 /* MainTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587EC23D680D500D517F8 /* MainTableViewDataSource.swift */; };
 		A76587EF23D6847200D517F8 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587EE23D6847200D517F8 /* MenuCell.swift */; };
 		A76587F123D68D9600D517F8 /* MainTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587F023D68D9600D517F8 /* MainTableViewDelegate.swift */; };
+		A76587F323D7BD7400D517F8 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587F223D7BD7400D517F8 /* ButtonCell.swift */; };
 		A78D253A23D0D59D002FC307 /* MathOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78D253923D0D59D002FC307 /* MathOperations.swift */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +100,7 @@
 		A76587EC23D680D500D517F8 /* MainTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewDataSource.swift; sourceTree = "<group>"; };
 		A76587EE23D6847200D517F8 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		A76587F023D68D9600D517F8 /* MainTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewDelegate.swift; sourceTree = "<group>"; };
+		A76587F223D7BD7400D517F8 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		A78D253923D0D59D002FC307 /* MathOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathOperations.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -183,6 +185,7 @@
 				76D079B322F4C909004BCF73 /* WordCell.swift */,
 				76D079AD22F1CE03004BCF73 /* TodayCell.swift */,
 				76D079AF22F1CE58004BCF73 /* HistoricCell.swift */,
+				A76587F223D7BD7400D517F8 /* ButtonCell.swift */,
 				76C105DD22F7EC5600A1F6C2 /* CustomView.swift */,
 				76C105E122F8AF2300A1F6C2 /* CustomButton.swift */,
 			);
@@ -398,6 +401,7 @@
 				76C1105822FFEE230075EB46 /* NextViewController.swift in Sources */,
 				766B01FA22EFB94D00511224 /* SearchStockViewController.swift in Sources */,
 				766B01FE22EFBC1100511224 /* SimpleCell.swift in Sources */,
+				A76587F323D7BD7400D517F8 /* ButtonCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

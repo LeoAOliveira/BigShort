@@ -72,6 +72,32 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if indexPath.row == 0{
             
+            let cell = tableView.dequeueReusableCell(withIdentifier: "positionCell", for: indexPath) as! InvestmentsCell
+            
+            cell.titleLabel.text = "Posição"
+            
+            cell.valueLabel.text = numberFormatter(value: positionPrice())
+            
+            let income = calculateIncome(value1: positionPrice(), value2: data2[index].invested)
+            
+            if income > 0.0{
+                cell.descriptionLabel.textColor = #colorLiteral(red: 0, green: 0.7020406723, blue: 0.1667427123, alpha: 1)
+                cell.descriptionLabel.text = "+ \(numberFormatter(value: income))"
+                
+            } else if income < 0.0{
+                cell.descriptionLabel.textColor = #colorLiteral(red: 0.7722620368, green: 0.0615144521, blue: 0.1260437667, alpha: 1)
+                cell.descriptionLabel.text = "- \(numberFormatter(value: income * -1))"
+                
+            } else{
+                cell.descriptionLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
+                cell.descriptionLabel.text = "\(numberFormatter(value: income))"
+            }
+            
+            return cell
+        
+        // Position Card
+        } else if indexPath.row == 1{
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "companyCell", for: indexPath) as! SimpleCell
             
             cell.simpleView.layer.cornerRadius = 10.0
@@ -79,38 +105,6 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.titleLabel.text = data2[index].name!
             cell.descriptionLabel.text = "Setor: \(data2[index].sector!)"
             cell.imageLogo.image = UIImage(named: "\(data2[index].imageName!).pdf")
-            
-            return cell
-        
-        // Position Card
-        } else if indexPath.row == 1{
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "positionCell", for: indexPath) as! PositionCell
-            
-            cell.positionView.layer.cornerRadius = 10.0
-            
-            cell.titleLabel.text = "Posição"
-            
-            cell.totalValueLabel.text = numberFormatter(value: positionPrice())
-            cell.investedValueLabel.text = "Valor investido: \(numberFormatter(value: data2[index].invested))"
-            
-            let income = calculateIncome(value1: positionPrice(), value2: data2[index].invested)
-            
-            if income > 0.0{
-                cell.incomeLabel.text = "Lucro líquido: "
-                cell.incomeValueLabel.textColor = #colorLiteral(red: 0, green: 0.7020406723, blue: 0.1667427123, alpha: 1)
-                cell.incomeValueLabel.text = "+ \(numberFormatter(value: income))"
-                
-            } else if income < 0.0{
-                cell.incomeLabel.text = "Perda líquida: "
-                cell.incomeValueLabel.textColor = #colorLiteral(red: 0.7722620368, green: 0.0615144521, blue: 0.1260437667, alpha: 1)
-                cell.incomeValueLabel.text = "- \(numberFormatter(value: income * -1))"
-                
-            } else{
-                cell.incomeLabel.text = "Lucro líquido: "
-                cell.incomeValueLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
-                cell.incomeValueLabel.text = "\(numberFormatter(value: income))"
-            }
             
             return cell
             
@@ -146,7 +140,7 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return cell
             
         // Hist
-        } else if indexPath.row == 3{
+        } else if indexPath.row == 3 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "histCell", for: indexPath) as! HistoricCell
             
@@ -187,14 +181,20 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         
-        if indexPath.row == 0{
-            return 125
+        if indexPath.row == 0 {
+            return 140
         
-        } else if indexPath.row == 1{
-           return 190
+        } else if indexPath.row == 1 {
+            return 110
+        
+        } else if indexPath.row == 2 {
+           return 160
+            
+        } else if indexPath.row == 3 {
+           return 160
             
         } else{
-            return 160
+            return 190
         }
     }
     
@@ -283,7 +283,7 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
                 createAlert(title: "Mercado fechado", message: "Operações só podem ser realizadas entre 10:00 e 17:00.", actionTitle: "OK")
                 
-            } else{
+            } else {
                 
                 performSegue(withIdentifier: "addThisStockSegue", sender: self)
             }

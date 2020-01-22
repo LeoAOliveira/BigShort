@@ -7,19 +7,15 @@
 //
 
 import UIKit
-import CoreData
 
 class StocksViewController: UIViewController {
     
-    public var data1: [Wallet] = []
-    public var data2: [Stock] = []
-    var context: NSManagedObjectContext?
+    var data1: [Wallet] = []
+    var data2: [Stock] = []
     
     var stockDataManager: StockDataManager?
     var tableViewDataSource: StocksTableViewDataSource?
     var tableviewDelegate: StocksTableViewDelegate?
-    
-    var category: String!
     
     var index: [Int] = []
     var stockList = [String]()
@@ -55,22 +51,22 @@ class StocksViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         verifyMarket(purpose: "keepTracking")
-//        fetchData()
-//        
-//        if data1[0].notifications == true {
-//            NotificationsManager.setNotifications(notiifcations: removeNotifications, data: data1)
-//        } else{
-//            removeNotifications.removeAllPendingNotificationRequests()
-//        }
+        fetchData()
+        
+        if data1[0].notifications == true{
+            NotificationsManager.setNotifications(notiifcations: removeNotifications, data: data1)
+        } else{
+            removeNotifications.removeAllPendingNotificationRequests()
+        }
     }
     
     // MARK: - Fetch from CoreData and Stock Data update
     
     func fetchData() {
        
-        // self.stockDataManager = StockDataManager(viewController: self)
+        stockDataManager = StockDataManager(mainViewController: nil, stocksViewController: self)
+        
         stockDataManager?.fetchData(completion: { isValid in
             
             if isValid == true{

@@ -37,7 +37,7 @@ public class MarketManager: NSObject {
                 
             } else{
                 
-                return "Market closed alert"
+                return "Market closed alert 2"
             }
             
         } else{

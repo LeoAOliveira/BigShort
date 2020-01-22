@@ -12,6 +12,7 @@ import CoreData
 class StockDataManager: NSObject {
     
     weak var mainViewController: MainViewController?
+    weak var stocksViewController: StocksViewController?
     
     var context: NSManagedObjectContext?
     
@@ -19,11 +20,15 @@ class StockDataManager: NSObject {
     var data2: [Stock] = []
     var index: [Int] = []
     var stockList = [String]()
+    
+    var infoSource: String = " "
+    
     var hasYDUQ3: Bool = false
     
-    init(viewController: MainViewController) {
+    init(mainViewController: MainViewController? = nil, stocksViewController: StocksViewController? = nil) {
         super.init()
-        self.mainViewController = viewController
+        self.mainViewController = mainViewController
+        self.stocksViewController = stocksViewController
     }
     
     // MARK: - Fetch stocks in CoreData
@@ -87,23 +92,51 @@ class StockDataManager: NSObject {
             } catch{
                 print(error.localizedDescription)
             }
+            
         } else{
-           
-            self.mainViewController?.infoUpdate = " "
-            self.mainViewController?.infoSource = " "
+//            completion(true)
+//            return
         }
         
-        guard let mainVC = mainViewController else {
-            completion(false)
-            return
+        if mainViewController != nil {
+            
+            guard let mainVC = mainViewController else {
+                completion(false)
+                return
+            }
+            
+            if infoSource == "Error" {
+                mainVC.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
+            }
+
+            mainVC.data1 = data1
+            mainVC.data2 = data2
+            mainVC.stockList = stockList
+            mainVC.index = index
+            mainVC.infoSource = infoSource
+
+            mainVC.tableView.reloadData()
+        
+        } else {
+            
+            guard let stocksVC = stocksViewController else {
+                completion(false)
+                return
+            }
+            
+            if infoSource == "Error" {
+                stocksVC.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
+            }
+
+            stocksVC.data1 = data1
+            stocksVC.data2 = data2
+            stocksVC.stockList = stockList
+            stocksVC.index = index
+            stocksVC.infoSource = infoSource
+
+            stocksVC.tableView.reloadData()
+            
         }
-        
-        mainVC.data1 = data1
-        mainVC.data2 = data2
-        mainVC.stockList = stockList
-        mainVC.index = index
-        
-        mainVC.tableView.reloadData()
         
         completion(true)
     }
@@ -197,7 +230,7 @@ class StockDataManager: NSObject {
     }
     
     
-    func updateStockData(){
+    func updateStockData() -> String {
         
         var stocksArray = stockList
         
@@ -209,18 +242,22 @@ class StockDataManager: NSObject {
             }
         }
         
+        var message: String = "Error"
+        
         if stocksArray.count > 2{
             
             MultiStockData().worldTradingDataFetch(stocksArray: stocksArray, index: self.index){ isValid in
                 
                 if isValid == true{
-                    print("YESS")
-                    self.mainViewController?.infoSource = "World Trading Data"
-                    self.mainViewController?.tableView.reloadData()
+                    
+                    message = "World Trading Data"
+                    // self.mainViewController?.tableView.reloadData()
                     
                 } else{
                     
-                    self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
+                    message = "Error"
+                    
+                    // self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
                 }
             }
             
@@ -229,13 +266,17 @@ class StockDataManager: NSObject {
                 StockData().alphaVantageFetch(stocksArray: ["YDUQ3"], index: [65]){ isValid in
                     
                     if isValid == true{
-                        print("YESS")
-                        self.mainViewController?.infoSource = "Alpha Vantage & World Trading Data"
-                        self.mainViewController?.tableView.reloadData()
+                        
+                        message = "Alpha Vantage & World Trading Data"
+                        
+//                        self.mainViewController?.infoSource = "Alpha Vantage & World Trading Data"
+//                        self.mainViewController?.tableView.reloadData()
                         
                     } else{
                         
-                        self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
+                        message = "Error"
+                        
+//                        self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
                     }
                     
                 }
@@ -247,17 +288,22 @@ class StockDataManager: NSObject {
             StockData().alphaVantageFetch(stocksArray: self.stockList, index: self.index){ isValid in
                 
                 if isValid == true{
-                    print("YESS")
-                    self.mainViewController?.infoSource = "Alpha Vantage"
-                    self.mainViewController?.tableView.reloadData()
+                    
+                    message = "Alpha Vantage"
+//                    self.mainViewController?.infoSource = "Alpha Vantage"
+//                    self.mainViewController?.tableView.reloadData()
                     
                 } else{
                     
-                    self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
+                    message = "Error"
+                    
+//                    self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
                 }
                 
             }
         }
+        
+        return message
         
     }
     

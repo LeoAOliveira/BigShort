@@ -15,6 +15,9 @@ class InvestmentsCell: UITableViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var vizualizeButton: UIButton!
     
+    @IBOutlet weak var marketView: UIView!
+    @IBOutlet weak var marketLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

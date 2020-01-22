@@ -103,7 +103,6 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
 //                cell.incomeValueLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
 //            }
             
-            
             return cell
             
             
