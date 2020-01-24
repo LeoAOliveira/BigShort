@@ -6,23 +6,60 @@
 //  Copyright © 2019 Leonardo Oliveira. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import CoreData
 
 class CurrencyData {
     
+    var data4 = [Currency]()
     
-    struct Currency{
+    let dispatchGroup = DispatchGroup()
+    
+    var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    struct Currencies {
         
-        let dollar: Int
+        var exchange: [Double] = []
         
         init(json: [String: Any]) {
             
             if let rates = json["rates"] as? [String: Any]{
                 
-                dollar = rates["USD"] as? Int ?? -1
+                exchange.append(rates["AUD"] as? Double ?? -1.0)
+                exchange.append(rates["BGN"] as? Double ?? -1.0)
+                exchange.append(rates["CAD"] as? Double ?? -1.0)
+                exchange.append(rates["CHF"] as? Double ?? -1.0)
+                exchange.append(rates["CNY"] as? Double ?? -1.0)
+                exchange.append(rates["CZK"] as? Double ?? -1.0)
+                exchange.append(rates["DKK"] as? Double ?? -1.0)
+                exchange.append(rates["EUR"] as? Double ?? -1.0)
+                exchange.append(rates["GBP"] as? Double ?? -1.0)
+                exchange.append(rates["HKD"] as? Double ?? -1.0)
+                exchange.append(rates["HRK"] as? Double ?? -1.0)
+                exchange.append(rates["HUF"] as? Double ?? -1.0)
+                exchange.append(rates["IDR"] as? Double ?? -1.0)
+                exchange.append(rates["ILS"] as? Double ?? -1.0)
+                exchange.append(rates["INR"] as? Double ?? -1.0)
+                exchange.append(rates["ISK"] as? Double ?? -1.0)
+                exchange.append(rates["JPY"] as? Double ?? -1.0)
+                exchange.append(rates["KRW"] as? Double ?? -1.0)
+                exchange.append(rates["MXN"] as? Double ?? -1.0)
+                exchange.append(rates["MYR"] as? Double ?? -1.0)
+                exchange.append(rates["NOK"] as? Double ?? -1.0)
+                exchange.append(rates["NZD"] as? Double ?? -1.0)
+                exchange.append(rates["PHP"] as? Double ?? -1.0)
+                exchange.append(rates["PLN"] as? Double ?? -1.0)
+                exchange.append(rates["RON"] as? Double ?? -1.0)
+                exchange.append(rates["RUB"] as? Double ?? -1.0)
+                exchange.append(rates["SEK"] as? Double ?? -1.0)
+                exchange.append(rates["SGD"] as? Double ?? -1.0)
+                exchange.append(rates["THB"] as? Double ?? -1.0)
+                exchange.append(rates["TRY"] as? Double ?? -1.0)
+                exchange.append(rates["USD"] as? Double ?? -1.0)
+                exchange.append(rates["ZAR"] as? Double ?? -1.0)
                 
             } else{
-                dollar = -11
+                exchange.append(-11.0)
             }
         }
     }
@@ -56,14 +93,34 @@ class CurrencyData {
                         return
                     }
                     
-                    let currency = Currency(json: json)
-                    print(currency.dollar)
+                    let currency = Currencies(json: json)
+                    
+                    do {
+                        self.data4 = try self.context.fetch(Currency.fetchRequest())
+                        
+                        for i in 0...31 {
+                            
+                            let data4 = self.data4[i]
+                            data4.proportion = Float(currency.exchange[i])
+                            
+                            do {
+                                try self.context.save()
+                                
+                            } catch{
+                                print("Error when saving context (Currency)")
+                            }
+                        }
+                        
+                    } catch {
+                        print("Erro ao inserir os dados de moedas")
+                        print(error.localizedDescription)
+                    }
                     
                 } catch let err{
                     print(err.localizedDescription)
                 }
             }
             
-            }.resume()
+        }.resume()
     }
 }

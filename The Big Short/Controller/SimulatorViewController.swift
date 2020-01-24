@@ -249,8 +249,8 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.publicTitlesPercentageLabel.text = "\(calculatePercentage(value: data1[0].publicTitlesValue))%"
             cell.publicTitlesLabel.text = "Títulos públicos"
             
-            cell.dollarPercentageLabel.text = "\(calculatePercentage(value: data1[0].dollarValue))%"
-            cell.dollarLabel.text = "Dólar (USD)"
+//            cell.dollarPercentageLabel.text = "\(calculatePercentage(value: data1[0].dollarValue))%"
+//            cell.dollarLabel.text = "Dólar (USD)"
             
             cell.savingsPercentageLabel.text = "\(calculatePercentage(value: data1[0].savingsValue))%"
             cell.savingsLabel.text = "Poupança"
@@ -404,7 +404,9 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func calculatePercentage(value: Float) -> String{
         
-        let totalInvestedValue = data1[0].stocksValue + data1[0].publicTitlesValue + data1[0].dollarValue + data1[0].savingsValue
+        // let totalInvestedValue = data1[0].stocksValue + data1[0].publicTitlesValue + data1[0].dollarValue + data1[0].savingsValue
+        
+        let totalInvestedValue = data1[0].stocksValue + data1[0].publicTitlesValue + data1[0].savingsValue
         
         let percentage = (value * 100.0) / totalInvestedValue
         

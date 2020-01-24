@@ -21,11 +21,19 @@ class MainTableViewDelegate: NSObject, UITableViewDelegate {
         if indexPath.row == 0 {
             return 200
             
-        } else if indexPath.row == 1 {
-            return 175
-        
         } else {
             return 155
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.row == 1 {
+            mainViewController?.performSegue(withIdentifier: "stockSegue", sender: mainViewController)
+            
+        } else if indexPath.row == 2 {
+            mainViewController?.performSegue(withIdentifier: "currencySegue", sender: mainViewController)
+            
         }
     }
 }

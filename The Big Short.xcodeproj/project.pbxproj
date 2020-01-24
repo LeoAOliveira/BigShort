@@ -41,7 +41,7 @@
 		76D079B422F4C909004BCF73 /* WordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D079B322F4C909004BCF73 /* WordCell.swift */; };
 		76D079BB22F75EEB004BCF73 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D079BA22F75EEB004BCF73 /* SettingsTableViewController.swift */; };
 		76D079E222F7A5A3004BCF73 /* TutorialPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D079E122F7A5A3004BCF73 /* TutorialPageViewController.swift */; };
-		A76587D823D15DC300D517F8 /* StockDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587D723D15DC300D517F8 /* StockDataManager.swift */; };
+		A76587D823D15DC300D517F8 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587D723D15DC300D517F8 /* DataManager.swift */; };
 		A76587DA23D25DC600D517F8 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587D923D25DC600D517F8 /* NotificationsManager.swift */; };
 		A76587DC23D2671C00D517F8 /* StocksTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587DB23D2671C00D517F8 /* StocksTableViewDataSource.swift */; };
 		A76587E023D2679000D517F8 /* StocksTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587DF23D2679000D517F8 /* StocksTableViewDelegate.swift */; };
@@ -51,6 +51,12 @@
 		A76587EF23D6847200D517F8 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587EE23D6847200D517F8 /* MenuCell.swift */; };
 		A76587F123D68D9600D517F8 /* MainTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587F023D68D9600D517F8 /* MainTableViewDelegate.swift */; };
 		A76587F323D7BD7400D517F8 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587F223D7BD7400D517F8 /* ButtonCell.swift */; };
+		A76587F623D9248100D517F8 /* SearchCurrencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587F523D9248100D517F8 /* SearchCurrencyViewController.swift */; };
+		A76587F923D924A800D517F8 /* CurrenciesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587F823D924A800D517F8 /* CurrenciesViewController.swift */; };
+		A76587FB23D92E9E00D517F8 /* CurrenciesTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587FA23D92E9E00D517F8 /* CurrenciesTableViewDataSource.swift */; };
+		A76587FD23D930FA00D517F8 /* CurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587FC23D930FA00D517F8 /* CurrencyCell.swift */; };
+		A76587FF23DA206B00D517F8 /* CurrenciesTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587FE23DA206B00D517F8 /* CurrenciesTableViewDelegate.swift */; };
+		A765880123DA7BB400D517F8 /* BuySellCurrencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A765880023DA7BB400D517F8 /* BuySellCurrencyViewController.swift */; };
 		A78D253A23D0D59D002FC307 /* MathOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78D253923D0D59D002FC307 /* MathOperations.swift */; };
 /* End PBXBuildFile section */
 
@@ -91,7 +97,7 @@
 		76D079B322F4C909004BCF73 /* WordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCell.swift; sourceTree = "<group>"; };
 		76D079BA22F75EEB004BCF73 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		76D079E122F7A5A3004BCF73 /* TutorialPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialPageViewController.swift; sourceTree = "<group>"; };
-		A76587D723D15DC300D517F8 /* StockDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDataManager.swift; sourceTree = "<group>"; };
+		A76587D723D15DC300D517F8 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		A76587D923D25DC600D517F8 /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		A76587DB23D2671C00D517F8 /* StocksTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksTableViewDataSource.swift; sourceTree = "<group>"; };
 		A76587DF23D2679000D517F8 /* StocksTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksTableViewDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +107,12 @@
 		A76587EE23D6847200D517F8 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		A76587F023D68D9600D517F8 /* MainTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewDelegate.swift; sourceTree = "<group>"; };
 		A76587F223D7BD7400D517F8 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
+		A76587F523D9248100D517F8 /* SearchCurrencyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCurrencyViewController.swift; sourceTree = "<group>"; };
+		A76587F823D924A800D517F8 /* CurrenciesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesViewController.swift; sourceTree = "<group>"; };
+		A76587FA23D92E9E00D517F8 /* CurrenciesTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesTableViewDataSource.swift; sourceTree = "<group>"; };
+		A76587FC23D930FA00D517F8 /* CurrencyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCell.swift; sourceTree = "<group>"; };
+		A76587FE23DA206B00D517F8 /* CurrenciesTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesTableViewDelegate.swift; sourceTree = "<group>"; };
+		A765880023DA7BB400D517F8 /* BuySellCurrencyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuySellCurrencyViewController.swift; sourceTree = "<group>"; };
 		A78D253923D0D59D002FC307 /* MathOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathOperations.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,6 +175,8 @@
 				A76587E923D67DD700D517F8 /* Managers */,
 				A76587EA23D67E0400D517F8 /* MainViewController.swift */,
 				76D079AA22F1CACD004BCF73 /* Stocks */,
+				A76587F423D9245A00D517F8 /* Currencies */,
+				A76587E123D267A100D517F8 /* Delegates */,
 				76D079B122F238A8004BCF73 /* Glossary */,
 				76D079B722F741F6004BCF73 /* Settings */,
 				76D079BC22F794A4004BCF73 /* Intro */,
@@ -181,6 +195,7 @@
 				762D04DB22EBD91E00D537E6 /* StockCell.swift */,
 				762D04DD22EBE19000D537E6 /* StockCollectionViewCell.swift */,
 				7607CAF622FBB398005A3E3C /* AddCollectionViewCell.swift */,
+				A76587FC23D930FA00D517F8 /* CurrencyCell.swift */,
 				766B01FD22EFBC1100511224 /* SimpleCell.swift */,
 				76D079B322F4C909004BCF73 /* WordCell.swift */,
 				76D079AD22F1CE03004BCF73 /* TodayCell.swift */,
@@ -199,7 +214,6 @@
 				76D079AB22F1CAF0004BCF73 /* SymbolViewController.swift */,
 				766B01F922EFB94D00511224 /* SearchStockViewController.swift */,
 				76D079A022F0805A004BCF73 /* BuySellStockViewController.swift */,
-				A76587E123D267A100D517F8 /* Delegates */,
 			);
 			name = Stocks;
 			sourceTree = "<group>";
@@ -248,6 +262,7 @@
 			children = (
 				A76587EC23D680D500D517F8 /* MainTableViewDataSource.swift */,
 				A76587DB23D2671C00D517F8 /* StocksTableViewDataSource.swift */,
+				A76587FA23D92E9E00D517F8 /* CurrenciesTableViewDataSource.swift */,
 			);
 			path = DataSources;
 			sourceTree = "<group>";
@@ -267,6 +282,7 @@
 			children = (
 				A76587F023D68D9600D517F8 /* MainTableViewDelegate.swift */,
 				A76587DF23D2679000D517F8 /* StocksTableViewDelegate.swift */,
+				A76587FE23DA206B00D517F8 /* CurrenciesTableViewDelegate.swift */,
 			);
 			name = Delegates;
 			sourceTree = "<group>";
@@ -282,11 +298,21 @@
 		A76587E923D67DD700D517F8 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				A76587D723D15DC300D517F8 /* StockDataManager.swift */,
+				A76587D723D15DC300D517F8 /* DataManager.swift */,
 				A76587D923D25DC600D517F8 /* NotificationsManager.swift */,
 				A76587E623D27BC100D517F8 /* MarketManager.swift */,
 			);
 			name = Managers;
+			sourceTree = "<group>";
+		};
+		A76587F423D9245A00D517F8 /* Currencies */ = {
+			isa = PBXGroup;
+			children = (
+				A76587F823D924A800D517F8 /* CurrenciesViewController.swift */,
+				A76587F523D9248100D517F8 /* SearchCurrencyViewController.swift */,
+				A765880023DA7BB400D517F8 /* BuySellCurrencyViewController.swift */,
+			);
+			name = Currencies;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -370,6 +396,7 @@
 				A76587EB23D67E0400D517F8 /* MainViewController.swift in Sources */,
 				A76587DC23D2671C00D517F8 /* StocksTableViewDataSource.swift in Sources */,
 				76C105E222F8AF2300A1F6C2 /* CustomButton.swift in Sources */,
+				A76587FB23D92E9E00D517F8 /* CurrenciesTableViewDataSource.swift in Sources */,
 				7607CAF722FBB398005A3E3C /* AddCollectionViewCell.swift in Sources */,
 				762D04DE22EBE19000D537E6 /* StockCollectionViewCell.swift in Sources */,
 				76D079B022F1CE58004BCF73 /* HistoricCell.swift in Sources */,
@@ -381,13 +408,16 @@
 				762D04DA22EBD6F200D537E6 /* PositionCell.swift in Sources */,
 				7654424222EA158C0096CA00 /* SimulatorViewController.swift in Sources */,
 				A76587F123D68D9600D517F8 /* MainTableViewDelegate.swift in Sources */,
+				A76587FD23D930FA00D517F8 /* CurrencyCell.swift in Sources */,
 				A76587E023D2679000D517F8 /* StocksTableViewDelegate.swift in Sources */,
+				A765880123DA7BB400D517F8 /* BuySellCurrencyViewController.swift in Sources */,
 				76D079B422F4C909004BCF73 /* WordCell.swift in Sources */,
+				A76587F923D924A800D517F8 /* CurrenciesViewController.swift in Sources */,
 				A78D253A23D0D59D002FC307 /* MathOperations.swift in Sources */,
 				762459EC22D7ACB3009B915B /* AppDelegate.swift in Sources */,
 				764DD5C222EB734800719F5F /* StocksViewController.swift in Sources */,
 				76C105DC22F7D24300A1F6C2 /* TermsViewController.swift in Sources */,
-				A76587D823D15DC300D517F8 /* StockDataManager.swift in Sources */,
+				A76587D823D15DC300D517F8 /* DataManager.swift in Sources */,
 				A76587E723D27BC100D517F8 /* MarketManager.swift in Sources */,
 				76D079A722F1B722004BCF73 /* GlossaryViewController.swift in Sources */,
 				7654424022E968BD0096CA00 /* MultiStockData.swift in Sources */,
@@ -401,7 +431,9 @@
 				76C1105822FFEE230075EB46 /* NextViewController.swift in Sources */,
 				766B01FA22EFB94D00511224 /* SearchStockViewController.swift in Sources */,
 				766B01FE22EFBC1100511224 /* SimpleCell.swift in Sources */,
+				A76587F623D9248100D517F8 /* SearchCurrencyViewController.swift in Sources */,
 				A76587F323D7BD7400D517F8 /* ButtonCell.swift in Sources */,
+				A76587FF23DA206B00D517F8 /* CurrenciesTableViewDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,14 +13,18 @@ class MainViewController: UIViewController {
     
     public var data1: [Wallet] = []
     public var data2: [Stock] = []
+    public var data4: [Currency] = []
     var context: NSManagedObjectContext?
     
-    var stockDataManager: StockDataManager?
+    var dataManager: DataManager?
     var tableviewDelegate: MainTableViewDelegate?
     var tableViewDataSource: MainTableViewDataSource?
     
-    var index: [Int] = []
+    var stockIndex: [Int] = []
     var stockList = [String]()
+    
+    var currencyIndex: [Int] = []
+    var currencyList = [String]()
     
     var infoSource: String = " "
     var infoUpdate: String = " "
@@ -60,9 +64,9 @@ class MainViewController: UIViewController {
     
     func fetchData() {
        
-        stockDataManager = StockDataManager(mainViewController: self, stocksViewController: nil)
+        dataManager = DataManager(mainViewController: self)
         
-        stockDataManager?.fetchData(completion: { isValid in
+        dataManager?.fetchData(completion: { isValid in
             
             if isValid == true{
                 print("Fetched")
@@ -90,15 +94,15 @@ class MainViewController: UIViewController {
     // MARK: - Math Functions
     
     func stocksCurrentPrice() -> Float{
-        return MathOperations.stocksCurrentPrice(stockList: stockList, data: data2, index: index)
+        return MathOperations.stocksCurrentPrice(stockList: stockList, data: data2, index: stockIndex)
     }
     
     func stocksPriceClose() -> Float{
-        return MathOperations.stocksPriceClose(stockList: stockList, data: data2, index: index)
+        return MathOperations.stocksPriceClose(stockList: stockList, data: data2, index: stockIndex)
     }
 
     func investedValue() -> Float{
-        return MathOperations.investedValue(stockList: stockList, data: data2, index: index)
+        return MathOperations.investedValue(stockList: stockList, data: data2, index: stockIndex)
     }
     
     // MARK: - Navigation
@@ -115,7 +119,7 @@ class MainViewController: UIViewController {
             
             destination.data1 = self.data1
             destination.data2 = self.data2
-            destination.index = self.index
+            destination.index = self.stockIndex
             destination.stockList = self.stockList
             destination.infoSource = self.infoSource
             destination.infoUpdate = self.infoUpdate

@@ -51,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var wallet = [Wallet]()
         var stock = [Stock]()
         var word = [Glossary]()
+        var currency = [Currency]()
         
         let context = self.persistentContainer.viewContext
         
@@ -72,6 +73,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("Erro ao inserir os dados de ações")
                 print(error.localizedDescription)
             }
+            
+            // MARK: - Stocks
             
             do {
                 
@@ -192,6 +195,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
             
+            // MARK: - Glossary
+            
             do {
                 
                 let words = [["Ação","\"Ações representam uma fração do capital social de uma empresa. Ao comprar uma ação o investidor se torna sócio da empresa, ou seja, de um negócio. Passa a correr os riscos deste negócio bem como participa dos lucros e prejuízos como qualquer empresário.\"", "XP Investimentos", "https://www.xpi.com.br/investimentos/acoes/o-que-sao-acoes/"],
@@ -307,6 +312,62 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("Erro ao inserir os dados de ações")
                 print(error.localizedDescription)
             }
+            
+            // MARK: - Currencies
+            
+            do {
+                
+                let currencies = [["Austrália", "AUD", "Dólar australiano", "Oceania"],
+                                  ["Bulgária", "BGN", "Lev búlgaro", "Europa"],
+                                  ["Canadá", "CAD", "Dólar canadense", "América"],
+                                  ["Suíça", "CHF", "Franco suíço", "Europa Central"],
+                                  ["China", "CNY", "Remimbi", "Ásia Oriental"],
+                                  ["República Tcheca","CZK", "Coroa tcheca", "Europa"],
+                                  ["Dinamarca", "DKK", "Coroa dinamarquesa", "Europa"],
+                                  ["União Europeia","EUR", "Euro", "Europa"],
+                                  ["Reino Unido", "GBP", "Libra esterlina", "Oceania"],
+                                  ["Hong Kong", "HKD", "Dólar de Hong Kong", "Ásia"],
+                                  ["Croácia", "HRK", "Kuna croata", "Europa"],
+                                  ["Hungria", "HUF", "Florim húngaro", "Europa"],
+                                  ["Indonésia", "IDR", "Rupia indonésia", "Oceania"],
+                                  ["Israel", "ILS", "Novo shekel israelense", "Ásia"],
+                                  ["Índia", "INR", "Rupia indiana", "Ásia"],
+                                  ["Islândia", "ISK", "Coroa islandesa", "Europa"],
+                                  ["Japão", "JPY", "Iene japonês", "Ásia"],
+                                  ["Coréia do Sul", "KRW", "Won sul-coreano", "Ásia"],
+                                  ["México", "MXN", "Peso mexicano", "América"],
+                                  ["Malásia", "MYR", "Ringgit malaio", "Ásia"],
+                                  ["Noruega", "NOK", "Coroa norueguesa", "Europa"],
+                                  ["Nova Zelândia", "NZD", "Dólar neozelandês", "Oceania"],
+                                  ["Filipinas", "PHP", "Peso filipino", "Ásia"],
+                                  ["Polônia", "PLN", "Zloty polonês", "Europa"],
+                                  ["Romênia", "RON", "Leu romeno", "Europa"],
+                                  ["Rússia", "RUB", "Rublo russo", "Europa/Ásia"],
+                                  ["Suécia", "SEK", "Coroa sueca", "Europa"],
+                                  ["Singapura", "SGD", "Dólar singapuriano", "Ásia"],
+                                  ["Tailândia", "THB", "Baht tailandês", "Ásia"],
+                                  ["Turquia", "TRY", "Lira turca", "Europa/Ásia"],
+                                  ["Estados Unidos", "USD", "Dólar americano", "América"],
+                                  ["África do Sul", "ZAR", "Rand sul-africano", "África"]]
+            
+                for i in 0...currencies.count-1 {
+                    
+                    let registry = Currency(context: context)
+                    
+                    registry.country = currencies[i][0]
+                    registry.symbol = currencies[i][1]
+                    registry.name = currencies[i][2]
+                    registry.region = currencies[i][3]
+                    currency.append(registry)
+                    
+                    self.saveContext()
+                }
+                
+            } catch {
+                print("Erro ao inserir os dados de ações")
+                print(error.localizedDescription)
+            }
+            
         
             defaults.set(true, forKey: "opened")
             defaults.set(true, forKey: "update105")

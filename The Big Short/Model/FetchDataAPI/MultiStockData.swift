@@ -113,7 +113,7 @@ class MultiStockData {
                             let data1 = self.data1[0]
                             data1.lastUpdate = Date()
                             
-                            // for i in 0...stocksArray.count-1{
+                            // for i in 0...stocksArray.count-1 {
                                 
                             let data2 = self.data2[index[i]]
                             data2.close = Float(stock.close)!

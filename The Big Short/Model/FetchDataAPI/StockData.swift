@@ -11,9 +11,6 @@ import CoreData
 
 class StockData {
     
-//    var stocksArray: [String]
-//    var index: [Int]
-    
     var resultsArray: [Array<String>] = []
     
     public var data1 = [Wallet]()
@@ -22,12 +19,6 @@ class StockData {
     let dispatchGroup = DispatchGroup()
     
     var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
-//    init(stocksSelection: [String], dataIndex: [Int]) {
-//        stocksArray = stocksSelection
-//        index = dataIndex
-//        alphaVantageFetch()
-//    }
     
     struct Stocks{
         

@@ -13,7 +13,7 @@ class StocksViewController: UIViewController {
     var data1: [Wallet] = []
     var data2: [Stock] = []
     
-    var stockDataManager: StockDataManager?
+    var dataManager: DataManager?
     var tableViewDataSource: StocksTableViewDataSource?
     var tableviewDelegate: StocksTableViewDelegate?
     
@@ -29,8 +29,6 @@ class StocksViewController: UIViewController {
     var marketColor: UIColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     
     var hasYDUQ3: Bool = false
-    
-    var removeNotifications = UNUserNotificationCenter.current()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -53,21 +51,15 @@ class StocksViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         verifyMarket(purpose: "keepTracking")
         fetchData()
-        
-        if data1[0].notifications == true{
-            NotificationsManager.setNotifications(notiifcations: removeNotifications, data: data1)
-        } else{
-            removeNotifications.removeAllPendingNotificationRequests()
-        }
     }
     
     // MARK: - Fetch from CoreData and Stock Data update
     
     func fetchData() {
        
-        stockDataManager = StockDataManager(mainViewController: nil, stocksViewController: self)
+        dataManager = DataManager(stocksViewController: self)
         
-        stockDataManager?.fetchData(completion: { isValid in
+        dataManager?.fetchData(completion: { isValid in
             
             if isValid == true{
                 print("YESS")

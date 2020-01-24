@@ -88,4 +88,43 @@ public class MathOperations: NSObject {
         
     }
     
+    static func currenciesCurrentPrice(currencyList: [String], data: [Currency], index: [Int]) -> Float {
+        
+        var allCurrencies: Float = 0.0
+        
+        if currencyList.count != 0 {
+            for i in 0...currencyList.count-1 {
+                
+                let convertedValue = Float(data[index[i]].invested / data[index[i]].proportion)
+                
+                allCurrencies += convertedValue
+            }
+        }
+        
+        return allCurrencies
+    }
+    
+    static func currenciesInvestedValue(currencyList: [String], data: [Currency], index: [Int]) -> Float {
+        
+        var allCurrencies: Float = 0.0
+        
+        if currencyList.count != 0 {
+            for i in 0...currencyList.count-1 {
+                
+                allCurrencies += Float(data[index[i]].investedBRL)
+            }
+        }
+        
+        return allCurrencies
+    }
+    
+    static func brlValue(currencyValue: Float, rate: Float) -> Float{
+        
+        let newValue = Float(currencyValue / rate)
+        
+        return newValue
+    }
+    
+    
+    
 }
