@@ -119,7 +119,7 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
         // Current date and last update
 
         let dateCurrent = Date()
-        let lastUpdate = data1[0].lastUpdate!
+        let lastUpdate = data1[0].lastUpdateStock!
         
         // Hour
         let hourFormatter = DateFormatter()
@@ -187,34 +187,34 @@ class SimulatorViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    func saveContext(resultArray: [Array<String>]){
-        // Array: [0] = open ; [1] = price ; [2] = changePercent
-        
-        for i in 0...stockList.count-1{
-            
-            do {
-                
-                let data1 = self.data1[0]
-                data1.lastUpdate = Date()
-                
-                let data2 = self.data2[self.index[i]]
-                data2.close = Float(resultArray[i][0])!
-                data2.price = Float(resultArray[i][1])!
-                // data2.change = resultArray[i][2]
-                
-                do{
-                    try context!.save()
-                    
-                } catch{
-                    print("Error when saving context (MSD)")
-                }
-                
-            } catch {
-                print("Erro ao inserir os dados de ações")
-                print(error.localizedDescription)
-            }
-        }
-    }
+//    func saveContext(resultArray: [Array<String>]){
+//        // Array: [0] = open ; [1] = price ; [2] = changePercent
+//        
+//        for i in 0...stockList.count-1{
+//            
+//            do {
+//                
+//                let data1 = self.data1[0]
+//                data1.lastUpdate = Date()
+//                
+//                let data2 = self.data2[self.index[i]]
+//                data2.close = Float(resultArray[i][0])!
+//                data2.price = Float(resultArray[i][1])!
+//                // data2.change = resultArray[i][2]
+//                
+//                do{
+//                    try context!.save()
+//                    
+//                } catch{
+//                    print("Error when saving context (MSD)")
+//                }
+//                
+//            } catch {
+//                print("Erro ao inserir os dados de ações")
+//                print(error.localizedDescription)
+//            }
+//        }
+//    }
     
     
     // MARK: - Table view data source

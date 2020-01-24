@@ -12,6 +12,8 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
 
     weak var currenciesViewController: CurrenciesViewController?
     
+    var currencyArray = [String]()
+    
     init(viewController: CurrenciesViewController) {
         currenciesViewController = viewController
     }
@@ -36,7 +38,9 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
         
         let currenciesArray = currencies.components(separatedBy: ":")
         
-        return (1 + currenciesArray.count)
+        self.currencyArray = currenciesArray
+
+        return (2 + currenciesArray.count)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -44,6 +48,8 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
         guard let currenciesVC = currenciesViewController else {
             return UITableViewCell()
         }
+        
+        let indexArray = findIndexesInCurrencyArray()
         
         // MARK: - Investment Header
         if indexPath.row == 0 {
@@ -81,7 +87,19 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
             
             
         // MARK: - Currencies Cards
-        } else {
+        } else if indexPath.row == currencyArray.count+1 {
+        
+            let cell = tableView.dequeueReusableCell(withIdentifier: "sourceCell", for: indexPath) as! SimpleCell
+            
+            cell.titleLabel.text = "Última atualização: \(MathOperations.formatDate(data: currenciesVC.data1))"
+            
+            return cell
+            
+        }else {
+            
+            if currencyArray.count > 0 {
+                
+            }
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath) as! CurrencyCell
             
@@ -90,18 +108,20 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
 //            cell.mediumPriceLabel.text = numberFormatter(value: data2[index].mediumPrice)
 //            cell.amountLabel.text = "\(Int(data2[index].amount))"
             
-            guard let symbol = currenciesVC.data4[indexPath.row].symbol else {
+            let index = indexArray[indexPath.row-1]
+            
+            guard let symbol = currenciesVC.data4[index].symbol else {
                 return cell
             }
             
-            guard let name = currenciesVC.data4[indexPath.row].name else {
+            guard let name = currenciesVC.data4[index].name else {
                 return cell
             }
             
-            let invested = Float(currenciesVC.data4[indexPath.row].invested)
-            let investedBRL = Float(currenciesVC.data4[indexPath.row].investedBRL)
-            let proportion = Float(currenciesVC.data4[indexPath.row].proportion)
-            let mediumValue = Float(currenciesVC.data4[indexPath.row].mediumPrice)
+            let invested = Float(currenciesVC.data4[index].invested)
+            let investedBRL = Float(currenciesVC.data4[index].investedBRL)
+            let proportion = Float(currenciesVC.data4[index].proportion)
+            let mediumValue = Float(currenciesVC.data4[index].mediumPrice)
             
             let value = MathOperations.currencyFormatter(value: Float(invested/proportion))
             let currencyValue = MathOperations.currencyFormatter(value: Float(investedBRL))
@@ -111,7 +131,7 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
             
             cell.titleLabel.text = "\(symbol) (\(name))"
             cell.valueLabel.text = value
-            cell.currencyValueLabel.text = currencyValue
+            cell.currencyValueLabel.text = "\(symbol) \(String(format: "%.2f", invested))"
             cell.iconImage.image = UIImage(named: "\(symbol).png")
             cell.priceValueLabel.text = price
             cell.mediumValueLabel.text = mediumPrice
@@ -151,6 +171,39 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
         }
         
         return MathOperations.currenciesInvestedValue(currencyList: currenciesVC.currencyList, data: currenciesVC.data4, index: currenciesVC.currencyIndex)
+    }
+    
+//    func setCurrencyArray() {
+//
+//        let currencies = data1[0].currencyList
+//
+//        currencyArray = currencies?.components(separatedBy: ":") ?? []
+//    }
+    
+    func findIndexesInCurrencyArray() -> [Int] {
+        
+        var indexArray: [Int] = []
+        
+        guard let currenciesVC = currenciesViewController else {
+            return indexArray
+        }
+        
+        if currencyArray.count > 0 {
+            
+            for i in 0...currencyArray.count-1 {
+                
+                for n in 0...31 {
+                    
+                    if currenciesVC.data4[n].symbol == currencyArray[i] {
+                        indexArray.append(n)
+                    }
+                }
+            }
+        }
+        
+        currenciesVC.currencyIndex = indexArray
+        
+        return indexArray
     }
     
 }

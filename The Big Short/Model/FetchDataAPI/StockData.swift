@@ -103,7 +103,7 @@ class StockData {
                             self.data2 = try self.context.fetch(Stock.fetchRequest())
                             
                             let data1 = self.data1[0]
-                            data1.lastUpdate = Date()
+                            data1.lastUpdateStock = Date()
                             
                             let data2 = self.data2[index[i]]
                             

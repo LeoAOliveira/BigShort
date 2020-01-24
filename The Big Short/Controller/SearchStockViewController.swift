@@ -110,7 +110,6 @@ class SearchStockViewController: UIViewController, UITableViewDelegate, UITableV
         if segue.identifier == "selectStocksSegue"{
             
             selectedStock = (sender as! SimpleCell).titleLabel.text!
-            // selectedText = (sender as! WarningsCollectionViewCell).textLabel.text!
             
             let destination = segue.destination as! BuySellStockViewController
             destination.selectedStock = selectedStock

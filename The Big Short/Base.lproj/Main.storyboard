@@ -41,7 +41,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FTe-5N-AUt">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="673"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="664.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="myInvestmentsCell" rowHeight="200" id="B6H-5U-hbM" customClass="InvestmentsCell" customModule="The_Big_Short" customModuleProvider="target">
@@ -249,6 +249,48 @@
                                             <outlet property="valueLabel" destination="r4w-qI-ZTl" id="3B6-kr-85h"/>
                                             <outlet property="variationLabel" destination="BJm-Yf-Hwf" id="mcK-H5-CjB"/>
                                             <outlet property="variationValueLabel" destination="DzJ-h2-3VQ" id="Vgv-gy-7Nd"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="sourceCell" rowHeight="80" id="azq-8V-DXh" customClass="SimpleCell" customModule="The_Big_Short" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="453" width="414" height="80"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="azq-8V-DXh" id="MPw-9H-JUE">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Egv-E4-kc9">
+                                                    <rect key="frame" x="20" y="11" width="374" height="37"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceF-Z2-Qav">
+                                                            <rect key="frame" x="0.0" y="0.0" width="374" height="16"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                            <color key="textColor" red="0.94509803920000002" green="0.96470588239999999" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Dados fornecidos por Exchange rates API" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phT-1M-L6a">
+                                                            <rect key="frame" x="0.0" y="21" width="374" height="16"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                            <color key="textColor" red="0.94509803920000002" green="0.96470588239999999" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="phT-1M-L6a" firstAttribute="top" secondItem="ceF-Z2-Qav" secondAttribute="bottom" constant="5" id="37y-WO-amO"/>
+                                                        <constraint firstAttribute="trailing" secondItem="phT-1M-L6a" secondAttribute="trailing" id="95H-dR-Pta"/>
+                                                        <constraint firstItem="phT-1M-L6a" firstAttribute="leading" secondItem="Egv-E4-kc9" secondAttribute="leading" id="akn-Jz-WFO"/>
+                                                        <constraint firstAttribute="bottom" secondItem="phT-1M-L6a" secondAttribute="bottom" id="pGb-hj-ElP"/>
+                                                    </constraints>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Egv-E4-kc9" firstAttribute="leading" secondItem="MPw-9H-JUE" secondAttribute="leadingMargin" id="20n-sx-uO6"/>
+                                                <constraint firstItem="Egv-E4-kc9" firstAttribute="top" secondItem="MPw-9H-JUE" secondAttribute="topMargin" id="UOG-Oc-AeO"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Egv-E4-kc9" secondAttribute="trailing" id="gbB-Kh-ts9"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="titleLabel" destination="ceF-Z2-Qav" id="PcT-Q9-SaS"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -2445,7 +2487,7 @@
                 <navigationController id="y01-Jx-Syr" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Glossário" image="book2" selectedImage="book1" id="eH6-wE-LiE"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="ekE-D9-2zw">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="104.5"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.53725490200000003" green="0.70502692460000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <color key="barTintColor" red="0.059875689449999998" green="0.1087657586" blue="0.1725582182" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -2663,13 +2705,13 @@
             <objects>
                 <viewController id="VsR-7e-mgO" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="p3D-zR-Q9s">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="747.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="756"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="white" editable="NO" textAlignment="justified" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gDt-do-DLA">
                                 <rect key="frame" x="20" y="0.0" width="374" height="673"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <string key="text"> BEM VINDO AO LOGOS SIMULADOR. POR FAVOR LEIA COM ATENÇÃO OS TERMOS DE USO. AO FINAL DOS TERMOS, ESCREVENDO A FRASE “EU CONCORDO”, INDICA QUE VOCÊ LEU, ENTENDEU E CONCORDOU EM CUMPRIR OS TERMOS DE USO. CASO VOCÊ NÃO CONCORDAR, VOCÊ NÃO PODERÁ UTILIZAR ESSE APLICATIVO. OBSERVE QUE OS TERMOS DE USO ESTÃO SUJEITOS A MUDANÇA PELO DESENVOLVEDOR A SEU EXCLUSIVO CRITÉRIO E A QUALQUER MOMENTO. QUANDO MUDANÇAS FOREM FEITAS, UM NOVO TERMO DE USO SERÁ APRESENTADO À VOCÊ E, NOVAMENTE, PEDIRÁ SUA CONCORDÂNCIA.
+                                <mutableString key="text"> BEM VINDO AO LOGOS SIMULADOR. POR FAVOR LEIA COM ATENÇÃO OS TERMOS DE USO. AO FINAL DOS TERMOS, ESCREVENDO A FRASE “EU CONCORDO”, INDICA QUE VOCÊ LEU, ENTENDEU E CONCORDOU EM CUMPRIR OS TERMOS DE USO. CASO VOCÊ NÃO CONCORDAR, VOCÊ NÃO PODERÁ UTILIZAR ESSE APLICATIVO. OBSERVE QUE OS TERMOS DE USO ESTÃO SUJEITOS A MUDANÇA PELO DESENVOLVEDOR A SEU EXCLUSIVO CRITÉRIO E A QUALQUER MOMENTO. QUANDO MUDANÇAS FOREM FEITAS, UM NOVO TERMO DE USO SERÁ APRESENTADO À VOCÊ E, NOVAMENTE, PEDIRÁ SUA CONCORDÂNCIA.
 
 1. Uso do serviço: O aplicativo Logos Simulador realiza operações SIMULADAS de compra e venda de ativos financeiros com base em dados reais, como em uma corretora de investimentos. Sendo assim, NÃO efetua operações e/ou trasações financeiras reais. O usuário deve estar ciente que esse aplicativo não resultará em ganhos ou perdas financeiras pois NÃO envolve operações com dinheiro ou qualquer tipo de patrimônio. Os valores nele negociados são fictícios e com o objetivo de imergir o usuário no mundo dos investimentos. O propósito deste aplicativo é exclusivamente de caráter educacional.
 
@@ -2677,11 +2719,11 @@
 
 3. Dados financeiros: Os dados financeiros apresentados nesse aplicativo, tais como cotações em tempo real, cotações de fechamento de mercado e variações, são propriedade das empresas Alpha Vantage e World Trading Data. Os dados que pertencem a cada empresa tem seu devido crédito na apresentação dos dados. Para mais informações sobre os fornecedores dos dados via API, visite os sites: 
 - Alpha Vantage     (https://www.alphavantage.co);
-- World Trading Data     (https://www.worldtradingdata.com).
+- World Trading Data     (https://www.worldtradingdata.com); - Exchange rates API     (https://exchangeratesapi.io).
 
 4. Glossário: Os conteúdos exibidos no aplicativo Logos Simulado são resultado de uma pesquisa retirada de sites de instituições financeiras e de dicionários renomados. As informações estão sujeitas as alterações sem aviso prévio. O devido crédito à fonte da informação é apresentado logo abaixo do conteúdo.
 
-5. Todo acordo: Os Termos são o final, completo e exclusivo acordo das partes com relação aos assuntos discutidos nos tópicos que antecedem este.  </string>
+5. Todo acordo: Os Termos são o final, completo e exclusivo acordo das partes com relação aos assuntos discutidos nos tópicos que antecedem este.  </mutableString>
                                 <color key="textColor" red="0.94531923529999995" green="0.96438819170000001" blue="0.98824745420000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -3734,7 +3776,7 @@ Máximo de R$ 100.000,00</string>
             <objects>
                 <viewController id="kCr-Uz-bSH" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VwJ-yY-Tzu">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="756"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="747.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="KZC-Af-GUh">
@@ -4122,7 +4164,7 @@ Máximo de R$ 100.000,00</string>
                                             <outlet property="imageLogo" destination="phL-k3-1J5" id="6vp-Jf-n2e"/>
                                             <outlet property="simpleView" destination="cI2-7t-kZk" id="sut-UI-5Uu"/>
                                             <outlet property="titleLabel" destination="D0S-38-QY2" id="ANX-9V-pZy"/>
-                                            <segue destination="LEN-CC-ef3" kind="presentation" identifier="selectCurrencySegue" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="NfI-WC-dhq"/>
+                                            <segue destination="LEN-CC-ef3" kind="presentation" identifier="selectCurrencySegue" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="ZbU-zi-9EX"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -4212,6 +4254,10 @@ Máximo de R$ 100.000,00</string>
                                         <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" keyboardAppearance="alert"/>
+                                        <connections>
+                                            <action selector="textFieldChanged:" destination="LEN-CC-ef3" eventType="editingDidEnd" id="h0O-aF-PVG"/>
+                                            <action selector="textFieldChanged:" destination="LEN-CC-ef3" eventType="editingChanged" id="iMu-r1-vQu"/>
+                                        </connections>
                                     </textField>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="P0V-hW-eBJ">
                                         <rect key="frame" x="75" y="243.5" width="224" height="32"/>
@@ -4220,6 +4266,9 @@ Máximo de R$ 100.000,00</string>
                                             <segment title="Venda"/>
                                         </segments>
                                         <color key="tintColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="segmentedControlChanged:" destination="LEN-CC-ef3" eventType="valueChanged" id="Bfc-mV-LiT"/>
+                                        </connections>
                                     </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jkv-6K-az6" customClass="CustomButton" customModule="The_Big_Short" customModuleProvider="target">
                                         <rect key="frame" x="20" y="517.5" width="334" height="33"/>
@@ -4229,7 +4278,7 @@ Máximo de R$ 100.000,00</string>
                                             <color key="titleColor" red="0.059875689449999998" green="0.1087657586" blue="0.1725582182" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
                                         <connections>
-                                            <action selector="buySellBtnPressed:" destination="LEN-CC-ef3" eventType="touchUpInside" id="xmv-Un-oZk"/>
+                                            <action selector="buySellBtnPressed:" destination="LEN-CC-ef3" eventType="touchUpInside" id="ddu-CG-zEK"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gQV-yg-hmI">
@@ -4243,7 +4292,7 @@ Máximo de R$ 100.000,00</string>
                                             <color key="titleColor" red="0.059875689449999998" green="0.1087657586" blue="0.1725582182" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
                                         <connections>
-                                            <action selector="cancelBtnPressed:" destination="LEN-CC-ef3" eventType="touchUpInside" id="qk2-q5-Obc"/>
+                                            <action selector="cancelBtnPressed:" destination="LEN-CC-ef3" eventType="touchUpInside" id="Tk1-oo-sU4"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Dados fornecidos por Exchange rates API" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fi6-gz-eIQ">
@@ -4388,23 +4437,23 @@ Máximo de R$ 100.000,00</string>
                     </view>
                     <navigationItem key="navigationItem" id="pBS-vM-BdX"/>
                     <connections>
-                        <outlet property="balanceLabel" destination="oed-c7-eZn" id="GH3-VV-cR0"/>
-                        <outlet property="balanceNumberLabel" destination="UHM-6m-BKm" id="Lg6-sF-g6m"/>
-                        <outlet property="buySellBtn" destination="Jkv-6K-az6" id="DRi-co-4nv"/>
-                        <outlet property="costsLabel" destination="mPb-3A-3ZT" id="pR3-IK-do7"/>
-                        <outlet property="costsNumberLabel" destination="jBD-z2-OqW" id="sTQ-3Z-PyD"/>
-                        <outlet property="currencyView" destination="euP-gF-TXy" id="x5L-Vk-oEl"/>
-                        <outlet property="imageLogo" destination="0Vk-qq-dgu" id="QZO-Z0-tuf"/>
-                        <outlet property="investedNumberLabel" destination="m0F-cx-j6e" id="ezz-ZN-MhD"/>
-                        <outlet property="investedValueLabel" destination="iDX-RI-I1z" id="e1l-sf-twP"/>
-                        <outlet property="modalView" destination="Re3-K4-Jrv" id="hWi-Ug-zdE"/>
-                        <outlet property="priceLabel" destination="cm1-pZ-zBW" id="Nfi-v6-qtZ"/>
-                        <outlet property="segmentedControl" destination="P0V-hW-eBJ" id="atM-G8-V4n"/>
-                        <outlet property="symbolLabel" destination="Wg7-vL-e80" id="Z0l-EZ-WgL"/>
-                        <outlet property="textField" destination="kdF-Qw-C3r" id="EeG-nt-15k"/>
-                        <outlet property="titleLabel" destination="MJH-KY-TEX" id="7Xe-Nx-eDE"/>
-                        <outlet property="totalLabel" destination="bvI-RH-jwo" id="SKz-Th-2V2"/>
-                        <outlet property="totalNumberLabel" destination="00x-WE-twd" id="YFW-2b-1Oi"/>
+                        <outlet property="balanceLabel" destination="oed-c7-eZn" id="SYa-f6-BOC"/>
+                        <outlet property="balanceNumberLabel" destination="UHM-6m-BKm" id="66O-hD-Tlv"/>
+                        <outlet property="buySellBtn" destination="Jkv-6K-az6" id="hfC-ge-OVR"/>
+                        <outlet property="costsLabel" destination="mPb-3A-3ZT" id="l5W-XA-AB8"/>
+                        <outlet property="costsNumberLabel" destination="jBD-z2-OqW" id="cFR-Yt-hOW"/>
+                        <outlet property="currencyView" destination="euP-gF-TXy" id="EoW-6v-4TY"/>
+                        <outlet property="imageLogo" destination="0Vk-qq-dgu" id="IJW-0j-ATK"/>
+                        <outlet property="investedNumberLabel" destination="m0F-cx-j6e" id="uf5-wT-7MK"/>
+                        <outlet property="investedValueLabel" destination="iDX-RI-I1z" id="9Fl-Hd-gog"/>
+                        <outlet property="modalView" destination="Re3-K4-Jrv" id="zpL-ye-sve"/>
+                        <outlet property="priceLabel" destination="cm1-pZ-zBW" id="amP-gv-Yqw"/>
+                        <outlet property="segmentedControl" destination="P0V-hW-eBJ" id="B29-K4-CNX"/>
+                        <outlet property="symbolLabel" destination="Wg7-vL-e80" id="ZzN-h3-lZ4"/>
+                        <outlet property="textField" destination="kdF-Qw-C3r" id="OGe-vD-t2F"/>
+                        <outlet property="titleLabel" destination="MJH-KY-TEX" id="Yi7-Qs-kdu"/>
+                        <outlet property="totalLabel" destination="bvI-RH-jwo" id="dCA-au-cXy"/>
+                        <outlet property="totalNumberLabel" destination="00x-WE-twd" id="mzd-nA-b7l"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pqs-P2-4gd" userLabel="First Responder" sceneMemberID="firstResponder"/>

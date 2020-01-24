@@ -18,7 +18,7 @@ class SearchCurrencyViewController: UIViewController, UITableViewDelegate, UITab
     var data4: [Currency] = []
     var context: NSManagedObjectContext?
     
-    var selectedIndex = 0
+    var selectedCurrency = " "
     
     var currencyArray = [Currency]()
     
@@ -80,11 +80,6 @@ class SearchCurrencyViewController: UIViewController, UITableViewDelegate, UITab
         return 110
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedIndex = indexPath.row
-    }
-    
-    
     // MARK: - Search bar
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -112,10 +107,12 @@ class SearchCurrencyViewController: UIViewController, UITableViewDelegate, UITab
         
         if segue.identifier == "selectCurrencySegue"{
             
+            selectedCurrency = (sender as! SimpleCell).titleLabel.text!
+            
             let destination = segue.destination as! BuySellCurrencyViewController
             destination.data1 = data1
             destination.data4 = data4
-            destination.index = selectedIndex
+            destination.selectedCurrency = selectedCurrency
             destination.parentVC = self
             tabBarController?.tabBar.isHidden = true
             

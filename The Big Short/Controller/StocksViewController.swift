@@ -110,7 +110,7 @@ class StocksViewController: UIViewController {
     // MARK: - Navigation
     
     @IBAction func addStockBtnPressed(_ sender: Any) {
-        // verifyMarket(purpose: "buyAndSell")
+        verifyMarket(purpose: "buyAndSell")
         performSegue(withIdentifier: "addStockSegue", sender: self)
     }
     

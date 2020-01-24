@@ -187,7 +187,8 @@ class DataManager: NSObject {
                 if currencyList.count >= 1 {
                     for i in 0...currencyList.count-1{
                         
-                        for n in 0...32{
+                        for n in 0...31
+                        {
                             
                             if data4[n].symbol == currencyList[i]{
                                 indexCurrency.append(n)
@@ -214,7 +215,7 @@ class DataManager: NSObject {
         
         let dateCurrent = Date()
         
-        guard let lastUpdate = data1[0].lastUpdate else {
+        guard let lastUpdate = data1[0].lastUpdateStock else {
             return true
         }
         
@@ -295,14 +296,14 @@ class DataManager: NSObject {
         return false
     }
     
-    // MARK: - Check the need for stocks update
+    // MARK: - Check the need for currency update
       func verifyCurrencyUpdate() -> Bool {
           
           // Current date and last update
           
           let dateCurrent = Date()
           
-          guard let lastUpdate = data1[0].lastUpdate else {
+          guard let lastUpdate = data1[0].lastUpdateCurrency else {
               return true
           }
           
@@ -364,97 +365,97 @@ class DataManager: NSObject {
         
         var message: String = "Error"
         
-//        if stocksArray.count > 2 {
-//
-//            MultiStockData().worldTradingDataFetch(stocksArray: stocksArray, index: self.indexStock){ isValid in
-//
-//                if isValid == true{
-//
-//                    message = "World Trading Data"
-//                    // self.mainViewController?.tableView.reloadData()
-//
-//                } else{
-//
-//                    message = "Error"
-//
-//                    // self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
-//                }
-//            }
-//
-//            if hasYDUQ3 == true{
-//
-//                StockData().alphaVantageFetch(stocksArray: ["YDUQ3"], index: [65]){ isValid in
-//
-//                    if isValid == true{
-//
-//                        message = "Alpha Vantage & World Trading Data"
-//
-////                        self.mainViewController?.infoSource = "Alpha Vantage & World Trading Data"
-////                        self.mainViewController?.tableView.reloadData()
-//
-//                    } else{
-//
-//                        message = "Error"
-//
-////                        self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
-//                    }
-//
-//                }
-//
-//            }
-//
-//        } else {
-//
-//            StockData().alphaVantageFetch(stocksArray: self.stockList, index: self.indexStock){ isValid in
-//
-//                if isValid == true{
-//
-//                    message = "Alpha Vantage"
-////                    self.mainViewController?.infoSource = "Alpha Vantage"
-////                    self.mainViewController?.tableView.reloadData()
-//
-//                } else{
-//
-//                    message = "Error"
-//
-////                    self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
-//                }
-//
-//            }
-//        }
+        if stocksArray.count > 2 {
+
+            MultiStockData().worldTradingDataFetch(stocksArray: stocksArray, index: self.indexStock){ isValid in
+
+                if isValid == true{
+
+                    message = "World Trading Data"
+                    // self.mainViewController?.tableView.reloadData()
+
+                } else{
+
+                    message = "Error"
+
+                    // self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
+                }
+            }
+
+            if hasYDUQ3 == true{
+
+                StockData().alphaVantageFetch(stocksArray: ["YDUQ3"], index: [65]){ isValid in
+
+                    if isValid == true{
+
+                        message = "Alpha Vantage & World Trading Data"
+
+//                        self.mainViewController?.infoSource = "Alpha Vantage & World Trading Data"
+//                        self.mainViewController?.tableView.reloadData()
+
+                    } else{
+
+                        message = "Error"
+
+//                        self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
+                    }
+
+                }
+
+            }
+
+        } else {
+
+            StockData().alphaVantageFetch(stocksArray: self.stockList, index: self.indexStock){ isValid in
+
+                if isValid == true{
+
+                    message = "Alpha Vantage"
+//                    self.mainViewController?.infoSource = "Alpha Vantage"
+//                    self.mainViewController?.tableView.reloadData()
+
+                } else{
+
+                    message = "Error"
+
+//                    self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
+                }
+
+            }
+        }
         
         return message
         
     }
     
-    func saveContext(resultArray: [Array<String>]){
-        // Array: [0] = open ; [1] = price ; [2] = changePercent
-        
-        for i in 0...stockList.count-1{
-            
-            do {
-                
-                let data1 = self.data1[0]
-                data1.lastUpdate = Date()
-                
-                let data2 = self.data2[self.indexStock[i]]
-                data2.close = Float(resultArray[i][0])!
-                data2.price = Float(resultArray[i][1])!
-                // data2.change = resultArray[i][2]
-                
-                do{
-                    try context!.save()
-                    
-                } catch{
-                    print("Error when saving context (MSD)")
-                    print(error.localizedDescription)
-                }
-                
-            } catch {
-                print("Erro ao inserir os dados de ações")
-                print(error.localizedDescription)
-            }
-        }
-    }
+//    func saveContext(resultArray: [Array<String>]){
+//        // Array: [0] = open ; [1] = price ; [2] = changePercent
+//
+//        for i in 0...stockList.count-1{
+//
+//            do {
+//
+//                let data1 = self.data1[0]
+//                data1.lastUpdate = Date()
+//
+//                let data2 = self.data2[self.indexStock[i]]
+//                data2.close = Float(resultArray[i][0])!
+//                data2.price = Float(resultArray[i][1])!
+//                // data2.change = resultArray[i][2]
+//
+//                do{
+//                    try context!.save()
+//
+//                } catch{
+//                    print("Error when saving context (MSD)")
+//                    print(error.localizedDescription)
+//                }
+//
+//            } catch {
+//                print("Erro ao inserir os dados de ações")
+//                print(error.localizedDescription)
+//            }
+//        }
+//    }
     
 }

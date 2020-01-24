@@ -111,7 +111,7 @@ class MultiStockData {
                             self.data2 = try self.context.fetch(Stock.fetchRequest())
                             
                             let data1 = self.data1[0]
-                            data1.lastUpdate = Date()
+                            data1.lastUpdateStock = Date()
                             
                             // for i in 0...stocksArray.count-1 {
                                 

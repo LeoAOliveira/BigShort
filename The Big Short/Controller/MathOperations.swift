@@ -40,7 +40,7 @@ public class MathOperations: NSObject {
     
     static func formatDate(data: [Wallet]) -> String{
         
-        let lastUpdate = data[0].lastUpdate!
+        let lastUpdate = data[0].lastUpdateStock!
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"

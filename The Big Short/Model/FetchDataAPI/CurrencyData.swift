@@ -11,6 +11,7 @@ import CoreData
 
 class CurrencyData {
     
+    var data1 = [Wallet]()
     var data4 = [Currency]()
     
     let dispatchGroup = DispatchGroup()
@@ -96,7 +97,11 @@ class CurrencyData {
                     let currency = Currencies(json: json)
                     
                     do {
+                        self.data1 = try self.context.fetch(Wallet.fetchRequest())
                         self.data4 = try self.context.fetch(Currency.fetchRequest())
+                        
+                        let data1 = self.data1[0]
+                        data1.lastUpdateCurrency = Date()
                         
                         for i in 0...31 {
                             
