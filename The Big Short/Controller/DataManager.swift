@@ -187,8 +187,7 @@ class DataManager: NSObject {
                 if currencyList.count >= 1 {
                     for i in 0...currencyList.count-1{
                         
-                        for n in 0...31
-                        {
+                        for n in 0...47 {
                             
                             if data4[n].symbol == currencyList[i]{
                                 indexCurrency.append(n)

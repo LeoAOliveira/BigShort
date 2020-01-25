@@ -20,47 +20,29 @@ class CurrencyData {
     
     struct Currencies {
         
-        var exchange: [Double] = []
+        var exchange = [String: Float]()
         
         init(json: [String: Any]) {
             
-            if let rates = json["rates"] as? [String: Any]{
+            if let data = json["response"] as? [Dictionary<String,Any>] {
                 
-                exchange.append(rates["AUD"] as? Double ?? -1.0)
-                exchange.append(rates["BGN"] as? Double ?? -1.0)
-                exchange.append(rates["CAD"] as? Double ?? -1.0)
-                exchange.append(rates["CHF"] as? Double ?? -1.0)
-                exchange.append(rates["CNY"] as? Double ?? -1.0)
-                exchange.append(rates["CZK"] as? Double ?? -1.0)
-                exchange.append(rates["DKK"] as? Double ?? -1.0)
-                exchange.append(rates["EUR"] as? Double ?? -1.0)
-                exchange.append(rates["GBP"] as? Double ?? -1.0)
-                exchange.append(rates["HKD"] as? Double ?? -1.0)
-                exchange.append(rates["HRK"] as? Double ?? -1.0)
-                exchange.append(rates["HUF"] as? Double ?? -1.0)
-                exchange.append(rates["IDR"] as? Double ?? -1.0)
-                exchange.append(rates["ILS"] as? Double ?? -1.0)
-                exchange.append(rates["INR"] as? Double ?? -1.0)
-                exchange.append(rates["ISK"] as? Double ?? -1.0)
-                exchange.append(rates["JPY"] as? Double ?? -1.0)
-                exchange.append(rates["KRW"] as? Double ?? -1.0)
-                exchange.append(rates["MXN"] as? Double ?? -1.0)
-                exchange.append(rates["MYR"] as? Double ?? -1.0)
-                exchange.append(rates["NOK"] as? Double ?? -1.0)
-                exchange.append(rates["NZD"] as? Double ?? -1.0)
-                exchange.append(rates["PHP"] as? Double ?? -1.0)
-                exchange.append(rates["PLN"] as? Double ?? -1.0)
-                exchange.append(rates["RON"] as? Double ?? -1.0)
-                exchange.append(rates["RUB"] as? Double ?? -1.0)
-                exchange.append(rates["SEK"] as? Double ?? -1.0)
-                exchange.append(rates["SGD"] as? Double ?? -1.0)
-                exchange.append(rates["THB"] as? Double ?? -1.0)
-                exchange.append(rates["TRY"] as? Double ?? -1.0)
-                exchange.append(rates["USD"] as? Double ?? -1.0)
-                exchange.append(rates["ZAR"] as? Double ?? -1.0)
+                for i in 0...47 {
+                    
+                    if let currency = data[i] as? [String: Any] {
+                        
+                        let symbol = currency["symbol"] as? String ?? "-1"
+                        let price = currency["price"] as? String ?? "-1"
+                        
+                        exchange[symbol] = Float(price)
+                    }
+                }
                 
             } else{
-                exchange.append(-11.0)
+                
+                let symbol = "-1"
+                let price = "-1"
+                
+                exchange[symbol] = Float(price)
             }
         }
     }
@@ -68,7 +50,7 @@ class CurrencyData {
     
     func exchangeRatesFetch(){
         
-        let urlString = "https://api.exchangeratesapi.io/latest?base=BRL"
+        let urlString = "https://fcsapi.com/api/forex/latest?id=297,298,299,301,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,323,324,327,328,329,331,333,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,356&access_key=JvVn0G72MS2Ab0WcprB68I2CUXOowawWEIcoTqHPFgf3scwFjw"
         
         guard let url = URL(string: urlString) else{
             print("Erro 1")
@@ -103,10 +85,17 @@ class CurrencyData {
                         let data1 = self.data1[0]
                         data1.lastUpdateCurrency = Date()
                         
-                        for i in 0...31 {
+                        let orderedExchange = currency.exchange.sorted(by: <)
+                        var currencyArray: [Float] = []
+                        
+                        for (key,value) in orderedExchange {
+                            currencyArray.append(value)
+                        }
+                        
+                        for i in 0...47 {
                             
                             let data4 = self.data4[i]
-                            data4.proportion = Float(currency.exchange[i])
+                            data4.price = Float(currencyArray[i])
                             
                             do {
                                 try self.context.save()

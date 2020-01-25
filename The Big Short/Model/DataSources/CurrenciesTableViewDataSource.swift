@@ -91,11 +91,15 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
         
             let cell = tableView.dequeueReusableCell(withIdentifier: "sourceCell", for: indexPath) as! SimpleCell
             
-            cell.titleLabel.text = "Última atualização: \(MathOperations.formatDate(data: currenciesVC.data1))"
+            guard let date = currenciesVC.data1[0].lastUpdateCurrency else {
+                return UITableViewCell()
+            }
+            
+            cell.titleLabel.text = "Última atualização: \(MathOperations.formatDate(lastUpdate: date))"
             
             return cell
             
-        }else {
+        } else {
             
             if currencyArray.count > 0 {
                 
@@ -105,8 +109,6 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
             
             cell.currencyView.layer.cornerRadius = 10.0
             cell.currencySubview.layer.cornerRadius = 10.0
-//            cell.mediumPriceLabel.text = numberFormatter(value: data2[index].mediumPrice)
-//            cell.amountLabel.text = "\(Int(data2[index].amount))"
             
             let index = indexArray[indexPath.row-1]
             
@@ -120,20 +122,20 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
             
             let invested = Float(currenciesVC.data4[index].invested)
             let investedBRL = Float(currenciesVC.data4[index].investedBRL)
-            let proportion = Float(currenciesVC.data4[index].proportion)
+            let price = Float(currenciesVC.data4[index].price)
             let mediumValue = Float(currenciesVC.data4[index].mediumPrice)
             
-            let value = MathOperations.currencyFormatter(value: Float(invested/proportion))
+            let value = MathOperations.currencyFormatter(value: Float(invested*price))
             let currencyValue = MathOperations.currencyFormatter(value: Float(investedBRL))
-            let price = MathOperations.currencyFormatter(value: Float(1.0/proportion))
+            let priceCurrency = MathOperations.currencyFormatter(value: Float(price))
             let mediumPrice = MathOperations.currencyFormatter(value: Float(mediumValue))
-            let change = MathOperations.calculateChange(value1: investedBRL, value2: invested/proportion)
+            let change = MathOperations.calculateChange(value1: investedBRL, value2: invested*price)
             
             cell.titleLabel.text = "\(symbol) (\(name))"
             cell.valueLabel.text = value
             cell.currencyValueLabel.text = "\(symbol) \(String(format: "%.2f", invested))"
             cell.iconImage.image = UIImage(named: "\(symbol).png")
-            cell.priceValueLabel.text = price
+            cell.priceValueLabel.text = priceCurrency
             cell.mediumValueLabel.text = mediumPrice
             
             if change > 0.0{
@@ -173,13 +175,6 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
         return MathOperations.currenciesInvestedValue(currencyList: currenciesVC.currencyList, data: currenciesVC.data4, index: currenciesVC.currencyIndex)
     }
     
-//    func setCurrencyArray() {
-//
-//        let currencies = data1[0].currencyList
-//
-//        currencyArray = currencies?.components(separatedBy: ":") ?? []
-//    }
-    
     func findIndexesInCurrencyArray() -> [Int] {
         
         var indexArray: [Int] = []
@@ -192,7 +187,7 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
             
             for i in 0...currencyArray.count-1 {
                 
-                for n in 0...31 {
+                for n in 0...47 {
                     
                     if currenciesVC.data4[n].symbol == currencyArray[i] {
                         indexArray.append(n)

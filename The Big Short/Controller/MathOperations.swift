@@ -38,9 +38,7 @@ public class MathOperations: NSObject {
         return income
     }
     
-    static func formatDate(data: [Wallet]) -> String{
-        
-        let lastUpdate = data[0].lastUpdateStock!
+    static func formatDate(lastUpdate: Date) -> String{
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
@@ -92,10 +90,10 @@ public class MathOperations: NSObject {
         
         var allCurrencies: Float = 0.0
         
-        if currencyList.count != 0 {
+        if currencyList.count != 0 && index.count != 0 {
             for i in 0...currencyList.count-1 {
                 
-                let convertedValue = Float(data[index[i]].invested / data[index[i]].proportion)
+                let convertedValue = Float(data[index[i]].invested * data[index[i]].price)
                 
                 allCurrencies += convertedValue
             }

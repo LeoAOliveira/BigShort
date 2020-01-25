@@ -6,7 +6,7 @@
         <attribute name="investedBRL" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="mediumPrice" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="proportion" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="price" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="region" optional="YES" attributeType="String"/>
         <attribute name="symbol" optional="YES" attributeType="String"/>
         <attribute name="timesBought" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -50,9 +50,9 @@
         <attribute name="totalValue" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
     <elements>
+        <element name="Currency" positionX="-45" positionY="108" width="128" height="178"/>
         <element name="Glossary" positionX="-54" positionY="90" width="128" height="103"/>
         <element name="Stock" positionX="-63" positionY="-18" width="128" height="255"/>
         <element name="Wallet" positionX="-54" positionY="18" width="128" height="253"/>
-        <element name="Currency" positionX="-45" positionY="108" width="128" height="178"/>
     </elements>
 </model>

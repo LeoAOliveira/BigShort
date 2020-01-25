@@ -96,7 +96,11 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
             cell.collectionView.delegate = self
             cell.collectionView.dataSource = self
             
-            cell.lastUpdateLabel.text = "Última atualização: \(MathOperations.formatDate(data: stocksVC.data1))"
+            guard let date = stocksVC.data1[0].lastUpdateStock else {
+                return UITableViewCell()
+            }
+            
+            cell.lastUpdateLabel.text = "Última atualização: \(MathOperations.formatDate(lastUpdate: date))"
             
             if stocksVC.stockList.count > 2{
                 cell.sourceLabel.text = "Dados fornecidos por World Trading Data"

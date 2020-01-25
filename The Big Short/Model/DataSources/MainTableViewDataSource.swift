@@ -108,13 +108,11 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
             
             var incomeValue = 0.0
             
-            guard let currencies = mainVC.data1[0].currencyList else {
-                return UITableViewCell()
-            }
+            let currencies = mainVC.data1[0].currencyList
             
-            let currencyArray = currencies.components(separatedBy: ":")
+            let currencyArray = currencies?.components(separatedBy: ":")
             
-            if currencyArray.count == 0 {
+            if currencyArray?.count == 0 || currencyArray?.count == nil {
                 cell.totalValueLabel.text = MathOperations.currencyFormatter(value: 0.0)
             
             } else {
@@ -175,9 +173,7 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
             return 0.0
         }
         
-        guard let currencies = mainVC.data1[0].currencyList else {
-            return 1
-        }
+        let currencies = mainVC.data1[0].currencyList ?? ""
         
         let currencyArray = currencies.components(separatedBy: ":")
         
@@ -192,9 +188,7 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
             return 0.0
         }
         
-        guard let currencies = mainVC.data1[0].currencyList else {
-            return 1
-        }
+        let currencies = mainVC.data1[0].currencyList ?? ""
         
         let currencyArray = currencies.components(separatedBy: ":")
         
@@ -215,7 +209,7 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
             
             for i in 0...currencyArray.count-1 {
                 
-                for n in 0...31 {
+                for n in 0...47 {
                     
                     if mainVC.data4[n].symbol == currencyArray[i] {
                         indexArray.append(n)

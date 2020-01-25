@@ -71,7 +71,7 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
     
     func findIndex() {
         
-        for i in 0...31{
+        for i in 0...47{
             
             if data4[i].symbol == selectedCurrency {
                 index = i
@@ -125,9 +125,9 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        let proportion = Float(data4[index].proportion)
+        let rawPrice = Float(data4[index].price)
         
-        let price = MathOperations.currencyFormatter(value: Float(1.0/proportion))
+        let price = MathOperations.currencyFormatter(value: Float(rawPrice))
         
         titleLabel.text = name
         imageLogo.image = UIImage(named: "\(symbol).png")
@@ -147,7 +147,7 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
         if textField.text != ""{
             
             let input: Float = Float(textField.text!)!
-            value = input / data4[index].proportion
+            value = input * data4[index].price
         
         }
         
@@ -261,7 +261,7 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
             if balance >= 0 {
                 
                 let data4 = self.data4[index]
-                let price = 1.0 / data4.proportion
+                let price = self.data4[index].price
                 
                 if data4.mediumPrice == 0.0 {
                     data4.mediumPrice = price
