@@ -18,21 +18,22 @@ class StocksTableViewDelegate: NSObject, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if indexPath.row == 0{
-            return 290
+        if indexPath.row == 0 {
+            return 220
             
-        }else{
+        } else {
             
             guard let stocksVC = stocksViewController else {
-                return 470
+                return 180
             }
             
-            if (stocksVC.stockList.count + 1) <= 3{
-                return 310
-                
-            } else{
-                return 470
-            }
+            let stockList = stocksVC.stockList.count
+            
+            let cells: Double = (Double(stockList) + 1.0) / 3.0
+            
+            let rows: Int = Int(cells.rounded(.up)) - 1
+            
+            return CGFloat(180 + (rows * 145))
         }
     }
 }

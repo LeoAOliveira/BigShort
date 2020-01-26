@@ -10,11 +10,7 @@ import UIKit
 
 class StockCell: UITableViewCell {
     
-    @IBOutlet weak var stocksView: UIView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var lastUpdateLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var sourceLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

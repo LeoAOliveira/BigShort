@@ -37,6 +37,21 @@ class SearchStockViewController: UIViewController, UITableViewDelegate, UITableV
         self.view.addGestureRecognizer(tap)
 
         fetchData()
+        sortStocks()
+    }
+    
+    func sortStocks() {
+        
+        let sortedData2 = self.data2.sorted(by: { $0.symbol! < $1.symbol! })
+        data2 = sortedData2
+        stockArray = data2
+        
+        do {
+            try self.context?.save()
+            
+        } catch{
+            print("Error when sorting")
+        }
     }
     
     
@@ -47,8 +62,6 @@ class SearchStockViewController: UIViewController, UITableViewDelegate, UITableV
         do{
             data1 = try context!.fetch(Wallet.fetchRequest())
             data2 = try context!.fetch(Stock.fetchRequest())
-            
-            stockArray = data2
             
         } catch{
             print(error.localizedDescription)
@@ -110,10 +123,11 @@ class SearchStockViewController: UIViewController, UITableViewDelegate, UITableV
         if segue.identifier == "selectStocksSegue"{
             
             selectedStock = (sender as! SimpleCell).titleLabel.text!
-            // selectedText = (sender as! WarningsCollectionViewCell).textLabel.text!
             
             let destination = segue.destination as! BuySellStockViewController
             destination.selectedStock = selectedStock
+            destination.data1 = data1
+            destination.data2 = data2
             destination.parentVC = self
             tabBarController?.tabBar.isHidden = true
             

@@ -7,34 +7,23 @@
 //
 
 import UIKit
-import CoreData
 
 class StocksViewController: UIViewController {
     
-    public var data1: [Wallet] = []
-    public var data2: [Stock] = []
-    var context: NSManagedObjectContext?
+    var data1: [Wallet] = []
+    var data2: [Stock] = []
     
-    var stockDataManager: StockDataManager?
+    var dataManager: DataManager?
     var tableViewDataSource: StocksTableViewDataSource?
     var tableviewDelegate: StocksTableViewDelegate?
-    
-    var category: String!
     
     var index: [Int] = []
     var stockList = [String]()
     var selectedIndex = -1
     var selectedStock = " "
     
-    var infoSource: String = " "
-    var infoUpdate: String = " "
-    
     var marketLabel: String = " "
     var marketColor: UIColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-    
-    var hasYDUQ3: Bool = false
-    
-    var removeNotifications = UNUserNotificationCenter.current()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -45,36 +34,29 @@ class StocksViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableviewDelegate = StocksTableViewDelegate(viewController: self)
-        tableViewDataSource = StocksTableViewDataSource(viewController: self)
-        
-        tableView.delegate = tableviewDelegate
-        tableView.dataSource = tableViewDataSource
-        
         self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         verifyMarket(purpose: "keepTracking")
         fetchData()
-        
-        if data1[0].notifications == true{
-            NotificationsManager.setNotifications(notiifcations: removeNotifications, data: data1)
-        } else{
-            removeNotifications.removeAllPendingNotificationRequests()
-        }
     }
     
     // MARK: - Fetch from CoreData and Stock Data update
     
     func fetchData() {
        
-        self.stockDataManager = StockDataManager(viewController: self)
-        stockDataManager?.fetchData(completion: { isValid in
+        dataManager = DataManager(stocksViewController: self)
+        
+        dataManager?.fetchData(completion: { isValid in
             
             if isValid == true{
-                print("YESS")
+                
+                self.tableviewDelegate = StocksTableViewDelegate(viewController: self)
+                self.tableViewDataSource = StocksTableViewDataSource(viewController: self)
+                
+                self.tableView.delegate = self.tableviewDelegate
+                self.tableView.dataSource = self.tableViewDataSource
                 
             } else{
                 
@@ -95,20 +77,6 @@ class StocksViewController: UIViewController {
     }
     
     
-    // MARK: - Math Functions
-    
-    func stocksCurrentPrice() -> Float{
-        return MathOperations.stocksCurrentPrice(stockList: stockList, data: data2, index: index)
-    }
-    
-    func stocksPriceClose() -> Float{
-        return MathOperations.stocksPriceClose(stockList: stockList, data: data2, index: index)
-    }
-
-    func investedValue() -> Float{
-        return MathOperations.investedValue(stockList: stockList, data: data2, index: index)
-    }
-    
     // MARK: - Market verification
     func verifyMarket(purpose: String){
         
@@ -119,6 +87,9 @@ class StocksViewController: UIViewController {
             marketLabel = "Mercado fechado"
             
         } else if marketStatus == "Market closed alert" {
+            createAlert(title: "Mercado fechado", message: "Operações só podem ser realizadas das 10:00 às 17:00", actionTitle: "OK")
+            
+        } else if marketStatus == "Market closed alert 2" {
             createAlert(title: "Mercado fechado", message: "Operações só podem ser realizadas em dias úteis.", actionTitle: "OK")
             
         } else if marketStatus == "Market open" {

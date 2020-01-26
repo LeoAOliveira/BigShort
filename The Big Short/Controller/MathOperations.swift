@@ -38,9 +38,7 @@ public class MathOperations: NSObject {
         return income
     }
     
-    static func formatDate(data: [Wallet]) -> String{
-        
-        let lastUpdate = data[0].lastUpdate!
+    static func formatDate(lastUpdate: Date) -> String{
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
@@ -54,19 +52,10 @@ public class MathOperations: NSObject {
         
         var allStocks: Float = 0.0
         
-        for i in 0...stockList.count-1{
-            allStocks += data[index[i]].price * data[index[i]].amount
-        }
-        
-        return allStocks
-    }
-    
-    static func stocksPriceClose(stockList: [String], data: [Stock], index: [Int]) -> Float{
-        
-        var allStocks: Float = 0.0
-        
-        for i in 0...(stockList.count-1){
-            allStocks += data[index[i]].close
+        if stockList.count != 0 {
+            for i in 0...stockList.count-1 {
+                allStocks += data[index[i]].price * data[index[i]].amount
+            }
         }
         
         return allStocks
@@ -76,12 +65,53 @@ public class MathOperations: NSObject {
         
         var allStocks: Float = 0.0
         
-        for i in 0...stockList.count-1{
-            allStocks += data[index[i]].invested
+        if stockList.count != 0 {
+            for i in 0...stockList.count-1{
+                allStocks += data[index[i]].invested
+            }
         }
         
         return allStocks
         
     }
+    
+    static func currenciesCurrentPrice(currencyList: [String], data: [Currency], index: [Int]) -> Float {
+        
+        var allCurrencies: Float = 0.0
+        
+        if currencyList.count != 0 && index.count != 0 {
+            for i in 0...currencyList.count-1 {
+                
+                let convertedValue = Float(data[index[i]].invested * data[index[i]].price)
+                
+                allCurrencies += convertedValue
+            }
+        }
+        
+        return allCurrencies
+    }
+    
+    static func currenciesInvestedValue(currencyList: [String], data: [Currency], index: [Int]) -> Float {
+        
+        var allCurrencies: Float = 0.0
+        
+        if currencyList.count != 0 {
+            for i in 0...currencyList.count-1 {
+                
+                allCurrencies += Float(data[index[i]].investedBRL)
+            }
+        }
+        
+        return allCurrencies
+    }
+    
+    static func brlValue(currencyValue: Float, rate: Float) -> Float{
+        
+        let newValue = Float(currencyValue / rate)
+        
+        return newValue
+    }
+    
+    
     
 }

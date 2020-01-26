@@ -14,7 +14,6 @@ class PositionCell: UITableViewCell {
     @IBOutlet weak var marketLabel: UILabel!
     @IBOutlet weak var positionView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var balanceLabel: UILabel!
     @IBOutlet weak var totalValueLabel: UILabel!
     @IBOutlet weak var investedValueLabel: UILabel!
     @IBOutlet weak var incomeLabel: UILabel!
