@@ -34,12 +34,6 @@ class StocksViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableviewDelegate = StocksTableViewDelegate(viewController: self)
-        tableViewDataSource = StocksTableViewDataSource(viewController: self)
-        
-        tableView.delegate = tableviewDelegate
-        tableView.dataSource = tableViewDataSource
-        
         self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
     }
     
@@ -57,7 +51,12 @@ class StocksViewController: UIViewController {
         dataManager?.fetchData(completion: { isValid in
             
             if isValid == true{
-                print("YESS")
+                
+                self.tableviewDelegate = StocksTableViewDelegate(viewController: self)
+                self.tableViewDataSource = StocksTableViewDataSource(viewController: self)
+                
+                self.tableView.delegate = self.tableviewDelegate
+                self.tableView.dataSource = self.tableViewDataSource
                 
             } else{
                 
@@ -88,6 +87,9 @@ class StocksViewController: UIViewController {
             marketLabel = "Mercado fechado"
             
         } else if marketStatus == "Market closed alert" {
+            createAlert(title: "Mercado fechado", message: "Operações só podem ser realizadas das 10:00 às 17:00", actionTitle: "OK")
+            
+        } else if marketStatus == "Market closed alert 2" {
             createAlert(title: "Mercado fechado", message: "Operações só podem ser realizadas em dias úteis.", actionTitle: "OK")
             
         } else if marketStatus == "Market open" {
@@ -105,7 +107,7 @@ class StocksViewController: UIViewController {
     // MARK: - Navigation
     
     @IBAction func addStockBtnPressed(_ sender: Any) {
-        verifyMarket(purpose: "buyAndSell")
+        // verifyMarket(purpose: "buyAndSell")
         performSegue(withIdentifier: "addStockSegue", sender: self)
     }
     

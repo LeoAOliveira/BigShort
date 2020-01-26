@@ -38,7 +38,7 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
     
     public var data1: [Wallet] = []
     public var data2: [Stock] = []
-    var context: NSManagedObjectContext?
+    var context: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var parentVC: UIViewController!
     
@@ -306,7 +306,7 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
                 data1.availableBalance = balance
                 
                 do{
-                    try self.context!.save()
+                    try self.context.save()
                     
                 } catch{
                     print("Error when saving context")
@@ -356,7 +356,7 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
             data1.availableBalance = data1.availableBalance + balance
             
             do{
-                try self.context!.save()
+                try self.context.save()
                 
             } catch{
                 print("Error when saving context")

@@ -22,18 +22,7 @@ class MainTableViewDelegate: NSObject, UITableViewDelegate {
             return 200
             
         } else {
-            
-            guard let mainVC = mainViewController else {
-                return 180
-            }
-            
-            let stockList = mainVC.stockList.count
-            
-            let cells: Double = (Double(stockList) + 1.0) / 3.0
-            
-            let rows: Int = Int(cells.rounded(.up)) - 1
-            
-            return CGFloat(180 + (rows * 145))
+           return 155
         }
     }
     

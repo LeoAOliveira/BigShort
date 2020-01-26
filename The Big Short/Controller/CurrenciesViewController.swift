@@ -18,7 +18,7 @@ class CurrenciesViewController: UIViewController {
     var tableviewDelegate: CurrenciesTableViewDelegate?
     
     var currencyIndex: [Int] = []
-    var currencyList = [String]()
+    var currencyList: [String] = [String]()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -28,12 +28,6 @@ class CurrenciesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableviewDelegate = CurrenciesTableViewDelegate(viewController: self)
-        tableViewDataSource = CurrenciesTableViewDataSource(viewController: self)
-        
-        tableView.delegate = tableviewDelegate
-        tableView.dataSource = tableViewDataSource
         
         self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
     }
@@ -51,7 +45,12 @@ class CurrenciesViewController: UIViewController {
         dataManager?.fetchData(completion: { isValid in
             
             if isValid == true{
-                print("YESS")
+                
+                self.tableviewDelegate = CurrenciesTableViewDelegate(viewController: self)
+                self.tableViewDataSource = CurrenciesTableViewDataSource(viewController: self)
+                
+                self.tableView.delegate = self.tableviewDelegate
+                self.tableView.dataSource = self.tableViewDataSource
                 
             } else{
                 

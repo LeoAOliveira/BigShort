@@ -50,7 +50,7 @@ class StockData {
     }
     
     
-    func stocksDataFetch(){
+    func stocksDataFetch(completion: @escaping (Bool) -> ()){
         
         let urlString = "https://fcsapi.com/api/stock/latest?id=105746,105747,105748,105749,105750,105751,105752,105753,105754,105755,105756,105757,105758,105759,105760,105761,105762,105763,105764,105765,105766,105767,105768,105769,105770,105771,105772,105773,105774,105775,105776,105777,105778,105779,105780,105781,105782,105783,105784,105785,105786,105787,105788,105789,105790,105791,105792,105793,105794,105795,105796,105797,105798,105799,105800,105801,105802,105803,105804,105805,105806,105807,105808,105809,105810,105811,105812,105813,105900,105939,105943,105982,105988&access_key=JvVn0G72MS2Ab0WcprB68I2CUXOowawWEIcoTqHPFgf3scwFjw"
         
@@ -64,17 +64,20 @@ class StockData {
                 
                 if let error = error{
                     print("Erro 2")
+                    completion(false)
                     return
                 }
                 
                 guard let data = data else{
                     print("Erro 3")
+                    completion(false)
                     return
                 }
                 
                 do{
                     
                     guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:Any] else{
+                        completion(false)
                         return
                     }
                     
@@ -114,18 +117,23 @@ class StockData {
                                 try self.context.save()
                                 
                             } catch{
+                                completion(false)
                                 print("Error when saving context (Stocks)")
                             }
                         }
                         
                     } catch {
+                        completion(false)
                         print("Erro ao inserir os dados de ações")
                         print(error.localizedDescription)
                     }
                     
                 } catch let err{
+                    completion(false)
                     print(err.localizedDescription)
                 }
+                
+                completion(true)
             }
             
         }.resume()

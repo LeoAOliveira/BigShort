@@ -24,15 +24,16 @@ class StocksTableViewDelegate: NSObject, UITableViewDelegate {
         } else {
             
             guard let stocksVC = stocksViewController else {
-                return 470
+                return 180
             }
             
-            if (stocksVC.stockList.count + 1) <= 3 {
-                return 295
-                
-            } else{
-                return 470
-            }
+            let stockList = stocksVC.stockList.count
+            
+            let cells: Double = (Double(stockList) + 1.0) / 3.0
+            
+            let rows: Int = Int(cells.rounded(.up)) - 1
+            
+            return CGFloat(180 + (rows * 145))
         }
     }
 }

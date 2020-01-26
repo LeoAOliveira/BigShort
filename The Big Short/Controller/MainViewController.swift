@@ -40,12 +40,6 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableviewDelegate = MainTableViewDelegate(viewController: self)
-        tableViewDataSource = MainTableViewDataSource(viewController: self)
-        
-        tableView.delegate = tableviewDelegate
-        tableView.dataSource = tableViewDataSource
-        
         self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
     }
     
@@ -53,11 +47,6 @@ class MainViewController: UIViewController {
         
         fetchData()
         
-        if data1[0].notifications == true{
-            NotificationsManager.setNotifications(notiifcations: removeNotifications, data: data1)
-        } else{
-            removeNotifications.removeAllPendingNotificationRequests()
-        }
     }
     
     // MARK: - Fetch from CoreData and Stock Data update
@@ -69,7 +58,18 @@ class MainViewController: UIViewController {
         dataManager?.fetchData(completion: { isValid in
             
             if isValid == true{
-                print("Fetched")
+                
+                self.tableviewDelegate = MainTableViewDelegate(viewController: self)
+                self.tableViewDataSource = MainTableViewDataSource(viewController: self)
+                
+                self.tableView.delegate = self.tableviewDelegate
+                self.tableView.dataSource = self.tableViewDataSource
+                
+                if self.data1[0].notifications == true {
+                    NotificationsManager.setNotifications(notiifcations: self.removeNotifications, data: self.data1)
+                } else{
+                    self.removeNotifications.removeAllPendingNotificationRequests()
+                }
                 
             } else{
                 

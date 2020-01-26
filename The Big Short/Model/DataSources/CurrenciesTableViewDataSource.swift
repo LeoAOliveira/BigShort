@@ -32,15 +32,17 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
             return 1
         }
         
-        guard let currencies = currenciesVC.data1[0].currencyList else {
-            return 1
+        if let currencies = currenciesVC.data1[0].currencyList {
+            
+            let currenciesArray = currencies.components(separatedBy: ":")
+            
+            self.currencyArray = currenciesArray
+            
+            return (3 + currenciesArray.count)
+            
+        } else {
+            return 3
         }
-        
-        let currenciesArray = currencies.components(separatedBy: ":")
-        
-        self.currencyArray = currenciesArray
-        
-        return (3 + currenciesArray.count)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

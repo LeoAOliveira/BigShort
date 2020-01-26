@@ -48,7 +48,7 @@ class CurrencyData {
     }
     
     
-    func exchangeRatesFetch(){
+    func exchangeRatesFetch(completion: @escaping (Bool) -> ()){
         
         let urlString = "https://fcsapi.com/api/forex/latest?id=297,298,299,301,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,323,324,327,328,329,331,333,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,356&access_key=JvVn0G72MS2Ab0WcprB68I2CUXOowawWEIcoTqHPFgf3scwFjw"
         
@@ -60,12 +60,14 @@ class CurrencyData {
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             DispatchQueue.main.async {
                 
-                if let error = error{
+                if let error = error {
+                    completion(false)
                     print("Erro 2")
                     return
                 }
                 
-                guard let data = data else{
+                guard let data = data else {
+                    completion(false)
                     print("Erro 3")
                     return
                 }
@@ -73,6 +75,7 @@ class CurrencyData {
                 do{
                     
                     guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:Any] else{
+                        completion(false)
                         return
                     }
                     
@@ -84,6 +87,9 @@ class CurrencyData {
                         
                         let data1 = self.data1[0]
                         data1.lastUpdateCurrency = Date()
+                        
+                        let sortedData4 = self.data4.sorted(by: { $0.symbol! < $1.symbol! })
+                        self.data4 = sortedData4
                         
                         let orderedExchange = currency.exchange.sorted(by: <)
                         var currencyArray: [Float] = []
@@ -102,18 +108,23 @@ class CurrencyData {
                                 try self.context.save()
                                 
                             } catch{
+                                completion(false)
                                 print("Error when saving context (Currency)")
                             }
                         }
                         
                     } catch {
+                        completion(false)
                         print("Erro ao inserir os dados de moedas")
                         print(error.localizedDescription)
                     }
                     
                 } catch let err{
+                    completion(false)
                     print(err.localizedDescription)
                 }
+                
+                completion(true)
             }
             
         }.resume()
