@@ -96,10 +96,6 @@ class MainViewController: UIViewController {
     func stocksCurrentPrice() -> Float{
         return MathOperations.stocksCurrentPrice(stockList: stockList, data: data2, index: stockIndex)
     }
-    
-    func stocksPriceClose() -> Float{
-        return MathOperations.stocksPriceClose(stockList: stockList, data: data2, index: stockIndex)
-    }
 
     func investedValue() -> Float{
         return MathOperations.investedValue(stockList: stockList, data: data2, index: stockIndex)
@@ -121,8 +117,6 @@ class MainViewController: UIViewController {
             destination.data2 = self.data2
             destination.index = self.stockIndex
             destination.stockList = self.stockList
-            destination.infoSource = self.infoSource
-            destination.infoUpdate = self.infoUpdate
         }
     }
 }

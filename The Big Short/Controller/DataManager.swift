@@ -27,15 +27,23 @@ class DataManager: NSObject {
     var indexCurrency: [Int] = []
     var currencyList = [String]()
     
-    var infoSource: String = " "
-    
-    var hasYDUQ3: Bool = false
-    
     init(mainViewController: MainViewController? = nil, stocksViewController: StocksViewController? = nil, currenciesViewController: CurrenciesViewController? = nil) {
         super.init()
         self.mainViewController = mainViewController
         self.stocksViewController = stocksViewController
         self.currenciesViewController = currenciesViewController
+    }
+    
+    func sortStocks() {
+        let sortedData2 = self.data2.sorted(by: { $0.symbol! < $1.symbol! })
+        data2 = sortedData2
+        
+        do {
+            try self.context?.save()
+            
+        } catch{
+            print("Error when sorting")
+        }
     }
     
     // MARK: - Fetch stocks in CoreData
@@ -55,6 +63,7 @@ class DataManager: NSObject {
             print(error.localizedDescription)
         }
         
+        sortStocks()
         getStocks()
         getCurrencies()
         
@@ -64,17 +73,14 @@ class DataManager: NSObject {
                 completion(false)
                 return
             }
-            
-            if infoSource == "Error" {
-                mainVC.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
-            }
 
             mainVC.data1 = data1
             mainVC.data2 = data2
             mainVC.data4 = data4
             mainVC.stockList = stockList
             mainVC.stockIndex = indexStock
-            mainVC.infoSource = infoSource
+            mainVC.currencyList = currencyList
+            mainVC.currencyIndex = indexCurrency
 
             mainVC.tableView.reloadData()
         
@@ -84,17 +90,12 @@ class DataManager: NSObject {
                 completion(false)
                 return
             }
-            
-            if infoSource == "Error" {
-                stocksVC.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
-            }
 
             stocksVC.data1 = data1
             stocksVC.data2 = data2
             stocksVC.stockList = stockList
             stocksVC.index = indexStock
-            stocksVC.infoSource = infoSource
-
+            
             stocksVC.tableView.reloadData()
             
         } else {
@@ -103,16 +104,11 @@ class DataManager: NSObject {
                 completion(false)
                 return
             }
-            
-            if infoSource == "Error" {
-                currenciesVC.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
-            }
 
             currenciesVC.data1 = data1
             currenciesVC.data4 = data4
             currenciesVC.currencyList = currencyList
             currenciesVC.currencyIndex = indexCurrency
-            currenciesVC.infoSource = infoSource
 
             currenciesVC.tableView.reloadData()
             
@@ -123,47 +119,34 @@ class DataManager: NSObject {
     
     func getStocks() {
         
-        // Verify how many stocks the user has
+        let stocks = data1[0].stockList
         
-        if data1[0].stock1 != nil{
-            stockList.append(data1[0].stock1!)
+        if stocks != "" {
+            stockList = stocks?.components(separatedBy: ":") ?? []
         }
         
-        if data1[0].stock2 != nil{
-            stockList.append(data1[0].stock2!)
-        }
-        
-        if data1[0].stock3 != nil{
-            stockList.append(data1[0].stock3!)
-        }
-        
-        if data1[0].stock4 != nil{
-            stockList.append(data1[0].stock4!)
-        }
-        
-        if data1[0].stock5 != nil{
-            stockList.append(data1[0].stock5!)
-        }
+        if stockList.count > 0 {
             
-        // Get selected stock data
-        
-        if stockList.count >= 1{
-            
-            do{
+            for i in 0...stockList.count-1{
                 
-                for i in 0...stockList.count-1{
+                for n in 0...72 {
                     
-                    for n in 0...65{
-                        
-                        if data2[n].symbol == stockList[i]{
-                            indexStock.append(n)
-                        }
+                    if data2[n].symbol == stockList[i]{
+                        indexStock.append(n)
                     }
                 }
+            }
+        }
+        
+        if stockList.count >= 1 || stocksViewController != nil {
+            
+            do {
                 
                 if verifyStocksUpdate() == true {
-                    infoSource = updateStockData()
+                    StockData().stocksDataFetch()
                 }
+                
+                StockData().stocksDataFetch()
                 
             } catch{
                 print(error.localizedDescription)
@@ -180,21 +163,22 @@ class DataManager: NSObject {
             currencyList = currencies?.components(separatedBy: ":") ?? []
         }
         
-        if currencyList.count >= 1 || currenciesViewController != nil {
+        if currencyList.count > 0 {
             
-            do{
+            for i in 0...currencyList.count-1{
                 
-                if currencyList.count >= 1 {
-                    for i in 0...currencyList.count-1{
-                        
-                        for n in 0...47 {
-                            
-                            if data4[n].symbol == currencyList[i]{
-                                indexCurrency.append(n)
-                            }
-                        }
+                for n in 0...47 {
+                    
+                    if data4[n].symbol == currencyList[i]{
+                        indexCurrency.append(n)
                     }
                 }
+            }
+        }
+        
+        if currencyList.count >= 1 || currenciesViewController != nil {
+            
+            do {
                 
                 if verifyCurrencyUpdate() == true {
                     CurrencyData().exchangeRatesFetch()
@@ -203,7 +187,6 @@ class DataManager: NSObject {
             } catch{
                 print(error.localizedDescription)
             }
-            
         }
     }
     
@@ -346,115 +329,5 @@ class DataManager: NSObject {
           }
           return false
     }
-    
-    
-    func updateStockData() -> String {
-        
-        var stocksArray = stockList
-        
-        for i in 0...stocksArray.count-1{
-            
-            if stocksArray[i] == "YDUQ3"{
-                hasYDUQ3 = true
-                stocksArray.remove(at: i)
-            }
-        }
-        
-        CurrencyData().exchangeRatesFetch()
-        
-        var message: String = "Error"
-        
-        if stocksArray.count > 2 {
-
-            MultiStockData().worldTradingDataFetch(stocksArray: stocksArray, index: self.indexStock){ isValid in
-
-                if isValid == true{
-
-                    message = "World Trading Data"
-                    // self.mainViewController?.tableView.reloadData()
-
-                } else{
-
-                    message = "Error"
-
-                    // self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
-                }
-            }
-
-            if hasYDUQ3 == true{
-
-                StockData().alphaVantageFetch(stocksArray: ["YDUQ3"], index: [65]){ isValid in
-
-                    if isValid == true{
-
-                        message = "Alpha Vantage & World Trading Data"
-
-//                        self.mainViewController?.infoSource = "Alpha Vantage & World Trading Data"
-//                        self.mainViewController?.tableView.reloadData()
-
-                    } else{
-
-                        message = "Error"
-
-//                        self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
-                    }
-
-                }
-
-            }
-
-        } else {
-
-            StockData().alphaVantageFetch(stocksArray: self.stockList, index: self.indexStock){ isValid in
-
-                if isValid == true{
-
-                    message = "Alpha Vantage"
-//                    self.mainViewController?.infoSource = "Alpha Vantage"
-//                    self.mainViewController?.tableView.reloadData()
-
-                } else{
-
-                    message = "Error"
-
-//                    self.mainViewController?.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
-                }
-
-            }
-        }
-        
-        return message
-        
-    }
-    
-//    func saveContext(resultArray: [Array<String>]){
-//        // Array: [0] = open ; [1] = price ; [2] = changePercent
-//
-//        for i in 0...stockList.count-1{
-//
-//            do {
-//
-//                let data1 = self.data1[0]
-//                data1.lastUpdate = Date()
-//
-//                let data2 = self.data2[self.indexStock[i]]
-//                data2.close = Float(resultArray[i][0])!
-//                data2.price = Float(resultArray[i][1])!
-//                // data2.change = resultArray[i][2]
-//
-//                do{
-//                    try context!.save()
-//
-//                } catch{
-//                    print("Error when saving context (MSD)")
-//                    print(error.localizedDescription)
-//                }
-//
-//            } catch {
-//                print("Erro ao inserir os dados de ações")
-//                print(error.localizedDescription)
-//            }
-//        }
-//    }
     
 }

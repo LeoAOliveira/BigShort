@@ -173,13 +173,13 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
             return 0.0
         }
         
-        let currencies = mainVC.data1[0].currencyList ?? ""
+//        let currencies = mainVC.data1[0].currencyList ?? ""
+//
+//        let currencyArray = currencies.components(separatedBy: ":")
+//
+//        let indexArray = findIndexesIn(currencyArray: currencyArray)
         
-        let currencyArray = currencies.components(separatedBy: ":")
-        
-        let indexArray = findIndexesIn(currencyArray: currencyArray)
-        
-        return MathOperations.currenciesCurrentPrice(currencyList: currencyArray, data: mainVC.data4, index: indexArray)
+        return MathOperations.currenciesCurrentPrice(currencyList: mainVC.currencyList, data: mainVC.data4, index: mainVC.currencyIndex)
     }
 
     func investedCurrencyValue() -> Float {
@@ -188,39 +188,33 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
             return 0.0
         }
         
-        let currencies = mainVC.data1[0].currencyList ?? ""
-        
-        let currencyArray = currencies.components(separatedBy: ":")
-        
-        let indexArray = findIndexesIn(currencyArray: currencyArray)
-        
-        return MathOperations.currenciesInvestedValue(currencyList: currencyArray, data: mainVC.data4, index: indexArray)
+        return MathOperations.currenciesInvestedValue(currencyList: mainVC.currencyList, data: mainVC.data4, index: mainVC.currencyIndex)
     }
     
-    func findIndexesIn(currencyArray: [String]) -> [Int] {
-        
-        var indexArray: [Int] = []
-        
-        guard let mainVC = mainViewController else {
-            return indexArray
-        }
-        
-        if currencyArray.count > 0 {
-            
-            for i in 0...currencyArray.count-1 {
-                
-                for n in 0...47 {
-                    
-                    if mainVC.data4[n].symbol == currencyArray[i] {
-                        indexArray.append(n)
-                    }
-                }
-            }
-        }
-        
-        mainVC.currencyIndex = indexArray
-        
-        return indexArray
-    }
+//    func findIndexesIn(currencyArray: [String]) -> [Int] {
+//
+//        var indexArray: [Int] = []
+//
+//        guard let mainVC = mainViewController else {
+//            return indexArray
+//        }
+//
+//        if currencyArray.count > 0 {
+//
+//            for i in 0...currencyArray.count-1 {
+//
+//                for n in 0...47 {
+//
+//                    if mainVC.data4[n].symbol == currencyArray[i] {
+//                        indexArray.append(n)
+//                    }
+//                }
+//            }
+//        }
+//        
+//        mainVC.currencyIndex = indexArray
+//        
+//        return indexArray
+//    }
     
 }

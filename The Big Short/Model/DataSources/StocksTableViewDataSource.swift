@@ -89,30 +89,8 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "stocksCell", for: indexPath) as! StockCell
             
-            cell.stocksView.layer.cornerRadius = 10.0
-            
-            cell.titleLabel.text = "Meus ativos"
-            
             cell.collectionView.delegate = self
             cell.collectionView.dataSource = self
-            
-            guard let date = stocksVC.data1[0].lastUpdateStock else {
-                return UITableViewCell()
-            }
-            
-            cell.lastUpdateLabel.text = "Última atualização: \(MathOperations.formatDate(lastUpdate: date))"
-            
-            if stocksVC.stockList.count > 2{
-                cell.sourceLabel.text = "Dados fornecidos por World Trading Data"
-                
-                if stocksVC.hasYDUQ3 == true{
-                    cell.sourceLabel.text = "Dados de Alpha Vantage & World Trading Data"
-                }
-            
-            } else {
-                cell.sourceLabel.text = "Dados fornecidos por Alpha Vantage"
-                
-            }
             
             cell.collectionView.reloadData()
             
@@ -173,20 +151,21 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
             cellCollection.stockView.layer.cornerRadius = 10.0
             cellCollection.symbolLabel.text = stocksVC.data2[stocksVC.index[indexPath.row]].symbol
             
-            let change = stocksVC.data2[stocksVC.index[indexPath.row]].change
-            
-            if stocksVC.data2[stocksVC.index[indexPath.row]].change < 0{
-                cellCollection.changePercentageLabel.textColor = #colorLiteral(red: 0.7725490196, green: 0.06274509804, blue: 0.1254901961, alpha: 1)
-                cellCollection.changePercentageLabel.text = "\(String(format: "%.2f", change))%"
-                
-            } else if stocksVC.data2[stocksVC.index[indexPath.row]].change > 0{
-                cellCollection.changePercentageLabel.textColor = #colorLiteral(red: 0.1176470588, green: 0.6901960784, blue: 0.2549019608, alpha: 1)
-                cellCollection.changePercentageLabel.text = "+\(String(format: "%.2f", change))%"
-                
-            } else{
-                cellCollection.changePercentageLabel.text = "\(String(format: "%.2f", change))%"
-                cellCollection.changePercentageLabel.textColor = #colorLiteral(red: 0.9408631921, green: 0.9652459025, blue: 0.9907889962, alpha: 1)
+            guard let change = stocksVC.data2[stocksVC.index[indexPath.row]].change else {
+                return cellCollection
             }
+            
+            if change.contains("-") {
+                cellCollection.changePercentageLabel.textColor = #colorLiteral(red: 0.7725490196, green: 0.06274509804, blue: 0.1254901961, alpha: 1)
+            } else {
+                if change == "0%" {
+                    cellCollection.changePercentageLabel.textColor = #colorLiteral(red: 0.9408631921, green: 0.9652459025, blue: 0.9907889962, alpha: 1)
+                } else {
+                    cellCollection.changePercentageLabel.textColor = #colorLiteral(red: 0.1176470588, green: 0.6901960784, blue: 0.2549019608, alpha: 1)
+                }
+            }
+            
+            cellCollection.changePercentageLabel.text = change
             
             cellCollection.priceLabel.text = MathOperations.currencyFormatter(value: stocksVC.data2[stocksVC.index[indexPath.row]].price)
             

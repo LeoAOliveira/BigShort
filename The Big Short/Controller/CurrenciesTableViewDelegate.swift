@@ -22,7 +22,18 @@ class CurrenciesTableViewDelegate: NSObject, UITableViewDelegate {
             return 200
             
         } else {
-            return 225
+            
+            guard let currenciesVC = currenciesViewController else {
+                return 225
+            }
+            
+            if indexPath.row == currenciesVC.currencyList.count+1 {
+                return 150
+            } else if indexPath.row == currenciesVC.currencyList.count+2 {
+                return 80
+            } else {
+                return 225
+            }
         }
     }
 }

@@ -61,17 +61,6 @@ public class MathOperations: NSObject {
         return allStocks
     }
     
-    static func stocksPriceClose(stockList: [String], data: [Stock], index: [Int]) -> Float{
-        
-        var allStocks: Float = 0.0
-        
-        for i in 0...(stockList.count-1){
-            allStocks += data[index[i]].close
-        }
-        
-        return allStocks
-    }
-    
     static func investedValue(stockList: [String], data: [Stock], index: [Int]) -> Float{
         
         var allStocks: Float = 0.0

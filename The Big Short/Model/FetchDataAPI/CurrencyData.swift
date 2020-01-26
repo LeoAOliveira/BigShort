@@ -94,8 +94,9 @@ class CurrencyData {
                         
                         for i in 0...47 {
                             
+                            let price = Float(1.0) / Float(currencyArray[i])
                             let data4 = self.data4[i]
-                            data4.price = Float(currencyArray[i])
+                            data4.price = Float(price)
                             
                             do {
                                 try self.context.save()

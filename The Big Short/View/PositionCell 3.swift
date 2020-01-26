@@ -1,5 +1,5 @@
 //
-//  StockCell.swift
+//  PositionCell.swift
 //  The Big Short
 //
 //  Created by Leonardo Oliveira on 26/07/19.
@@ -8,10 +8,16 @@
 
 import UIKit
 
-class StockCell: UITableViewCell {
+class PositionCell: UITableViewCell {
     
-    @IBOutlet weak var collectionView: UICollectionView!
-    
+    @IBOutlet weak var positionView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var balanceLabel: UILabel!
+    @IBOutlet weak var totalValueLabel: UILabel!
+    @IBOutlet weak var investedValueLabel: UILabel!
+    @IBOutlet weak var incomeLabel: UILabel!
+    @IBOutlet weak var incomeValueLabel: UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

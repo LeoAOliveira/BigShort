@@ -39,8 +39,8 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
         let currenciesArray = currencies.components(separatedBy: ":")
         
         self.currencyArray = currenciesArray
-
-        return (2 + currenciesArray.count)
+        
+        return (3 + currenciesArray.count)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -86,8 +86,14 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
             return cell
             
             
-        // MARK: - Currencies Cards
+        // MARK: - Add Currency Cards
         } else if indexPath.row == currencyArray.count+1 {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "addCurrencyCell", for: indexPath) as! SimpleCell
+            return cell
+        
+        // MARK: - Source Cards
+        } else if indexPath.row == currencyArray.count+2 {
         
             let cell = tableView.dequeueReusableCell(withIdentifier: "sourceCell", for: indexPath) as! SimpleCell
             
@@ -99,11 +105,8 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
             
             return cell
             
+        // MARK: - Currencies Cards
         } else {
-            
-            if currencyArray.count > 0 {
-                
-            }
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath) as! CurrencyCell
             
@@ -126,7 +129,6 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
             let mediumValue = Float(currenciesVC.data4[index].mediumPrice)
             
             let value = MathOperations.currencyFormatter(value: Float(invested*price))
-            let currencyValue = MathOperations.currencyFormatter(value: Float(investedBRL))
             let priceCurrency = MathOperations.currencyFormatter(value: Float(price))
             let mediumPrice = MathOperations.currencyFormatter(value: Float(mediumValue))
             let change = MathOperations.calculateChange(value1: investedBRL, value2: invested*price)
@@ -152,8 +154,6 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
             }
             
             return cell
-            
-            
         }
     }
     

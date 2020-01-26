@@ -243,13 +243,12 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
             data1[0].stocksValue = 0.0
             data1[0].totalValue = 0.0
             
-            for i in 0...65{
+            for i in 0...72{
                 
                 data2[i].income = 0.0
                 data2[i].invested = 0.0
                 data2[i].amount = 0.0
-                data2[i].change = 0.0
-                data2[i].close = 0.0
+                data2[i].change = ""
                 data2[i].price = 0.0
                 data2[i].mediumPrice = 0.0
             }

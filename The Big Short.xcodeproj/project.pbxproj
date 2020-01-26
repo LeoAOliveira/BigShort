@@ -11,7 +11,6 @@
 		7607CAF722FBB398005A3E3C /* AddCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7607CAF622FBB398005A3E3C /* AddCollectionViewCell.swift */; };
 		760D165522DE681B00F37C3D /* CurrencyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760D165422DE681B00F37C3D /* CurrencyData.swift */; };
 		762459EC22D7ACB3009B915B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762459EB22D7ACB3009B915B /* AppDelegate.swift */; };
-		762459EE22D7ACB3009B915B /* StockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762459ED22D7ACB3009B915B /* StockData.swift */; };
 		762459F122D7ACB3009B915B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 762459EF22D7ACB3009B915B /* Main.storyboard */; };
 		762459F422D7ACB3009B915B /* The_Big_Short.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 762459F222D7ACB3009B915B /* The_Big_Short.xcdatamodeld */; };
 		762459F622D7ACB5009B915B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 762459F522D7ACB5009B915B /* Assets.xcassets */; };
@@ -20,8 +19,7 @@
 		762D04DC22EBD91E00D537E6 /* StockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762D04DB22EBD91E00D537E6 /* StockCell.swift */; };
 		762D04DE22EBE19000D537E6 /* StockCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762D04DD22EBE19000D537E6 /* StockCollectionViewCell.swift */; };
 		764DD5C222EB734800719F5F /* StocksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764DD5C122EB734800719F5F /* StocksViewController.swift */; };
-		7654424022E968BD0096CA00 /* MultiStockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7654423F22E968BD0096CA00 /* MultiStockData.swift */; };
-		7654424222EA158C0096CA00 /* SimulatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7654424122EA158C0096CA00 /* SimulatorViewController.swift */; };
+		7654424022E968BD0096CA00 /* StockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7654423F22E968BD0096CA00 /* StockData.swift */; };
 		7664A2C122DD142B00EE5BE0 /* WalletCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7664A2C022DD142B00EE5BE0 /* WalletCell.swift */; };
 		7664A2C822DD184300EE5BE0 /* InvestmentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7664A2C722DD184300EE5BE0 /* InvestmentsCell.swift */; };
 		766B01FA22EFB94D00511224 /* SearchStockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766B01F922EFB94D00511224 /* SearchStockViewController.swift */; };
@@ -66,7 +64,6 @@
 		760D165422DE681B00F37C3D /* CurrencyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyData.swift; sourceTree = "<group>"; };
 		762459E822D7ACB3009B915B /* The Big Short.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Big Short.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		762459EB22D7ACB3009B915B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		762459ED22D7ACB3009B915B /* StockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockData.swift; sourceTree = "<group>"; };
 		762459F022D7ACB3009B915B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		762459F322D7ACB3009B915B /* The_Big_Short.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = The_Big_Short.xcdatamodel; sourceTree = "<group>"; };
 		762459F522D7ACB5009B915B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -76,8 +73,7 @@
 		762D04DB22EBD91E00D537E6 /* StockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockCell.swift; sourceTree = "<group>"; };
 		762D04DD22EBE19000D537E6 /* StockCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockCollectionViewCell.swift; sourceTree = "<group>"; };
 		764DD5C122EB734800719F5F /* StocksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksViewController.swift; sourceTree = "<group>"; };
-		7654423F22E968BD0096CA00 /* MultiStockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiStockData.swift; sourceTree = "<group>"; };
-		7654424122EA158C0096CA00 /* SimulatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorViewController.swift; sourceTree = "<group>"; };
+		7654423F22E968BD0096CA00 /* StockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockData.swift; sourceTree = "<group>"; };
 		7664A2C022DD142B00EE5BE0 /* WalletCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletCell.swift; sourceTree = "<group>"; };
 		7664A2C722DD184300EE5BE0 /* InvestmentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestmentsCell.swift; sourceTree = "<group>"; };
 		766B01F922EFB94D00511224 /* SearchStockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStockViewController.swift; sourceTree = "<group>"; };
@@ -230,7 +226,6 @@
 		76D079B222F4A725004BCF73 /* Others */ = {
 			isa = PBXGroup;
 			children = (
-				7654424122EA158C0096CA00 /* SimulatorViewController.swift */,
 				76D079A222F0F3FF004BCF73 /* SelectViewController.swift */,
 				76D079A422F11EF8004BCF73 /* InvestmentsViewController.swift */,
 			);
@@ -270,8 +265,7 @@
 		A76587DE23D2674800D517F8 /* FetchDataAPI */ = {
 			isa = PBXGroup;
 			children = (
-				7654423F22E968BD0096CA00 /* MultiStockData.swift */,
-				762459ED22D7ACB3009B915B /* StockData.swift */,
+				7654423F22E968BD0096CA00 /* StockData.swift */,
 				760D165422DE681B00F37C3D /* CurrencyData.swift */,
 			);
 			path = FetchDataAPI;
@@ -390,7 +384,6 @@
 				762459F422D7ACB3009B915B /* The_Big_Short.xcdatamodeld in Sources */,
 				7607CAF522FB91F7005A3E3C /* StartViewController.swift in Sources */,
 				760D165522DE681B00F37C3D /* CurrencyData.swift in Sources */,
-				762459EE22D7ACB3009B915B /* StockData.swift in Sources */,
 				A76587ED23D680D500D517F8 /* MainTableViewDataSource.swift in Sources */,
 				A76587EF23D6847200D517F8 /* MenuCell.swift in Sources */,
 				A76587EB23D67E0400D517F8 /* MainViewController.swift in Sources */,
@@ -406,7 +399,6 @@
 				762D04DC22EBD91E00D537E6 /* StockCell.swift in Sources */,
 				76D079A922F1BB44004BCF73 /* DetailViewController.swift in Sources */,
 				762D04DA22EBD6F200D537E6 /* PositionCell.swift in Sources */,
-				7654424222EA158C0096CA00 /* SimulatorViewController.swift in Sources */,
 				A76587F123D68D9600D517F8 /* MainTableViewDelegate.swift in Sources */,
 				A76587FD23D930FA00D517F8 /* CurrencyCell.swift in Sources */,
 				A76587E023D2679000D517F8 /* StocksTableViewDelegate.swift in Sources */,
@@ -420,7 +412,7 @@
 				A76587D823D15DC300D517F8 /* DataManager.swift in Sources */,
 				A76587E723D27BC100D517F8 /* MarketManager.swift in Sources */,
 				76D079A722F1B722004BCF73 /* GlossaryViewController.swift in Sources */,
-				7654424022E968BD0096CA00 /* MultiStockData.swift in Sources */,
+				7654424022E968BD0096CA00 /* StockData.swift in Sources */,
 				76D079A122F0805A004BCF73 /* BuySellStockViewController.swift in Sources */,
 				7664A2C822DD184300EE5BE0 /* InvestmentsCell.swift in Sources */,
 				76C105DE22F7EC5600A1F6C2 /* CustomView.swift in Sources */,

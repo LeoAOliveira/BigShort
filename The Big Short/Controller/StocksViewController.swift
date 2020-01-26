@@ -22,13 +22,8 @@ class StocksViewController: UIViewController {
     var selectedIndex = -1
     var selectedStock = " "
     
-    var infoSource: String = " "
-    var infoUpdate: String = " "
-    
     var marketLabel: String = " "
     var marketColor: UIColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-    
-    var hasYDUQ3: Bool = false
     
     @IBOutlet weak var tableView: UITableView!
     

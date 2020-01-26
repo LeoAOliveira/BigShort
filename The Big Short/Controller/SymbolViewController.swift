@@ -37,6 +37,18 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     // MARK: - Fetch from CoreData and Stock Data update
     
+    func sortStocks() {
+        let sortedData2 = self.data2.sorted(by: { $0.symbol! < $1.symbol! })
+        data2 = sortedData2
+        
+        do {
+            try self.context?.save()
+            
+        } catch{
+            print("Error when sorting")
+        }
+    }
+    
     func fetchData(){
         
         context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -50,6 +62,8 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
         } catch {
             print(error.localizedDescription)
         }
+        
+        sortStocks()
         
         tableView.reloadData()
     }
@@ -119,21 +133,21 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.titleLabel.text = "Hoje (\(formatDate()))"
             cell.changeLabel.text = numberFormatter(value: positionPrice())
             
-            let change = calculateChange(value1: stocksPriceClose(), value2: positionPrice())
-            
-            if change > 0.0{
-                cell.changeLabel.textColor = #colorLiteral(red: 0, green: 0.7020406723, blue: 0.1667427123, alpha: 1)
-                cell.changeLabel.text = "+\(String(format: "%.2f", change))%"
-                
-            } else if change < 0.0{
-                cell.changeLabel.textColor = #colorLiteral(red: 0.7722620368, green: 0.0615144521, blue: 0.1260437667, alpha: 1)
-                cell.changeLabel.text = "\(String(format: "%.2f", change))%"
-                
-            } else{
-                cell.changeLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
-                cell.changeLabel.text = "\(String(format: "%.2f", change))%"
+            guard let change = data2[index].change else {
+                return cell
             }
             
+            if change.contains("-") {
+                cell.changeLabel.textColor = #colorLiteral(red: 0.7725490196, green: 0.06274509804, blue: 0.1254901961, alpha: 1)
+            } else {
+                if change == "0%" {
+                    cell.changeLabel.textColor = #colorLiteral(red: 0.9408631921, green: 0.9652459025, blue: 0.9907889962, alpha: 1)
+                } else {
+                    cell.changeLabel.textColor = #colorLiteral(red: 0.1176470588, green: 0.6901960784, blue: 0.2549019608, alpha: 1)
+                }
+            }
+            
+            cell.changeLabel.text = change
             
             cell.priceLable.text = numberFormatter(value: data2[index].price)
             
@@ -243,13 +257,6 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let position: Float = data2[index].price * data2[index].amount
         
         return position
-    }
-    
-    func stocksPriceClose() -> Float{
-        
-        let close = data2[index].close * data2[index].amount
-        
-        return close
     }
     
     // MARK: - Market verification

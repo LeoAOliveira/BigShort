@@ -94,10 +94,8 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
             
             for i in 0...currencyArray.count-1{
                 
-                for n in 0...31 {
-                    if data4[n].symbol == currencyArray[i] {
-                        indexCurrency = i
-                    }
+                if currencyArray[i] == selectedCurrency {
+                    indexCurrency = i
                 }
             }
         }
@@ -175,7 +173,9 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
         
         if mathOperation == "Buy"{
             value = data1[0].availableBalance - totalValue(mathOperation: "Buy")
-        
+            balanceLabel.text = "Saldo restante"
+            balanceNumberLabel.textColor = #colorLiteral(red: 0.5568627451, green: 0.5568627451, blue: 0.5764705882, alpha: 1)
+            
         } else{
             
             let data4 = self.data4[index]
@@ -183,6 +183,19 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
             if textField.text! != ""{
                 
                 let change = investedValueBRL() - data4.investedBRL
+                
+                if change < 0 {
+                    balanceLabel.text = "Perda"
+                    balanceNumberLabel.textColor = #colorLiteral(red: 0.7725490196, green: 0.06274509804, blue: 0.1254901961, alpha: 1)
+                    
+                } else if change > 0 {
+                    balanceLabel.text = "Ganho"
+                    balanceNumberLabel.textColor = #colorLiteral(red: 0.1176470588, green: 0.6901960784, blue: 0.2549019608, alpha: 1)
+                    
+                } else{
+                    balanceLabel.text = "Ganho"
+                    balanceNumberLabel.textColor = #colorLiteral(red: 0.9408631921, green: 0.9652459025, blue: 0.9907889962, alpha: 1)
+                }
                 
                  value = change
             
@@ -255,7 +268,6 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
         if operation == "Buy" && textField.text != ""{
             
             let invested = Float(textField.text!)!
-            let total = totalValue(mathOperation: "Buy")
             let balance = balanceValue(mathOperation: "Buy")
             
             if balance >= 0 {
@@ -310,7 +322,6 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
                 currencyArray.remove(at: currencyIndex)
                 data1[0].currencyList = currencyArray.joined(separator: ":")
                 
-                let total = totalValue(mathOperation: "Sell")
                 let balance = balanceValue(mathOperation: "Sell")
                 
                 let data1 = self.data1[0]
@@ -331,7 +342,7 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
                 data4.invested = data4.invested - invested
                 data4.investedBRL = data4.investedBRL - investedBRL
                 data4.invested = data4.invested - invested
-                data1.availableBalance = balance
+                data1.availableBalance = data1.availableBalance + balance
                 
                 do {
                     try self.context.save()

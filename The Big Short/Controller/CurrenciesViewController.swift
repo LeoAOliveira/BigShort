@@ -19,15 +19,6 @@ class CurrenciesViewController: UIViewController {
     
     var currencyIndex: [Int] = []
     var currencyList = [String]()
-    var selectedStock = " "
-    
-    var infoSource: String = " "
-    var infoUpdate: String = " "
-    
-    var marketLabel: String = " "
-    var marketColor: UIColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-    
-    var hasYDUQ3: Bool = false
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -80,14 +71,4 @@ class CurrenciesViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    // MARK: - Navigation
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-//        if segue.identifier == "detailStockSegue"{
-//            let destination = segue.destination as! SymbolViewController
-//            destination.index = selectedIndex
-//            destination.selectedStock = selectedStock
-//        }
-    }
 }
