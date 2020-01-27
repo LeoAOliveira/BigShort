@@ -21,7 +21,7 @@ class StocksTableViewDelegate: NSObject, UITableViewDelegate {
         if indexPath.row == 0 {
             return 220
             
-        } else {
+        } else if indexPath.row == 1 {
             
             guard let stocksVC = stocksViewController else {
                 return 180
@@ -34,6 +34,9 @@ class StocksTableViewDelegate: NSObject, UITableViewDelegate {
             let rows: Int = Int(cells.rounded(.up)) - 1
             
             return CGFloat(180 + (rows * 145))
+        
+        } else {
+            return 80
         }
     }
 }

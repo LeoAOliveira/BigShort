@@ -70,6 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // MARK: - Stocks
             
             let stocks = [["ABEV3","Ambev SA", "ON", "Ambev", "Bebidas"],
+                          
                           ["AZUL4","Azul SA", "PN N2", "Azul", "Transporte aéreo"],
                           ["B3SA3","B3 SA - Brasil Bolsa Balcão", "ON NM", "B3", "Serviços financeiros diversos"],
                           ["BBAS3","Banco do Brasil SA", "ON NM", "BB", "Bancos"],
@@ -80,6 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                           ["BRDT3","Petrobrás Distribuidora SA", "ON NM", "Petrobras", "Petróleo, gás e biocombustíveis"],
                           ["BRFS3","BRF SA", "ON NM", "brf", "Alimentos processados"],
                           ["BRKM5","Braskem SA", "PNA N1", "Braskem", "Petroquímicos"],
+                          
                           ["BRML3","BR Malls Participações SA", "ON NM", "brMalls", "Exploração de imóveis"],
                           ["BTOW3","B2W Cia Digital", "ON NM", "B2W", "Comércio"],
                           ["CCRO3","CCR SA", "ON NM", "CCR", "Exploração de rodovias"],
@@ -90,6 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                           ["CVCB3","CVC Brasil Operadora e Agência de Viagens SA", "ON NM", "CVC", "Viagens e Turismo"],
                           ["CYRE3","Cyrela Brazil Realty SA", "ON NM", "Cyrela", "Construção civil"],
                           ["ECOR3","EcoRodovias Infraestrutura e Logística SA", "ON NM", "ecorodovias", "Exploração de rodovias"],
+                          
                           ["EGIE3","Engie Brasil Energia SA", "ON NM", "Engie", "Energia elétrica"],
                           ["ELET3","Eletrobras", "ON N1", "Eletrobras", "Energia elétrica"],
                           ["ELET6","Eletrobras", "PNB N1", "Eletrobras", "Energia elétrica"],
@@ -100,6 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                           ["GGBR4","Gerdau SA", "PN N1", "Gerdau", "Siderurgia"],
                           ["GOAU4","Metalúrgica Gerdau SA", "PN N1", "Gerdau", "Siderurgia"],
                           ["GOLL4","GOL Linhas Aéreas Inteligentes SA", "PN N2", "GOL", "Transporte aéreo"],
+                          
                           ["HYPE3","Hypera SA", "ON NM", "Hypera", "Saúde"],
                           ["IGTA3","Iguatemi Empresa de Shopping Centers SA", "ON NM", "Iguatemi", "Exploração de imóveis"],
                           ["IRBR3","IRB Brasil Resseguros S/A", "ON NM", "IRB", "Previdência e seguros"],
@@ -107,18 +111,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                           ["ITUB4","Itaú Unibanco Holding SA", "PN ED N1", "Itau", "Bancos"],
                           ["JBSS3","JBS SA", "ON NM", "JBS", "Alimentos processados"],
                           ["KLBN11","Klabin SA", "UNT N2", "Klabin", "Papel e celulose"],
-                          ["COGN3","Kroton Educacional SA", "ON NM", "Kroton", "Serviços educacionais"],
+                          ["KROT3","Kroton Educacional SA", "ON NM", "Kroton", "Serviços educacionais"],
                           ["LAME4","Lojas Americanas SA", "PN N1", "Americanas", "Comércio"],
                           ["LREN3","Lojas Renner SA", "ON NM", "Renner", "Comércio"],
+                          
                           ["MGLU3","Magazine Luiza SA", "ON NM", "magazineluiza", "Comércio"],
                           ["MRFG3","Marfrig Global Foods SA", "ON NM", "Marfrig", "Alimentos processados"],
                           ["MRVE3","MRV Engenharia e Participações SA", "ON NM", "MRV", "Construção civil"],
                           ["MULT3","Multiplan Empreendimentos Imobiliários SA", "ON N2", "Multiplan", "Exploração de imóveis"],
-                          ["NTCO3","Natura Cosmeticos SA", "ON NM", "Natura", "Produtos de uso pessoal e de limpeza"],
+                          ["NATU3","Natura Cosmeticos SA", "ON NM", "Natura", "Produtos de uso pessoal e de limpeza"],
                           ["PCAR4","Companhia Brasileira de Distribuição", "PN N1", "GPA", "Comércio"],
                           ["PETR3","Petrobrás SA", "ON N2", "Petrobras", "Petróleo, gás e biocombustíveis"],
                           ["PETR4","Petrobrás SA", "PN N2", "Petrobras", "Petróleo, gás e biocombustíveis"],
                           ["QUAL3","Qualicorp Consultoria e Corretora de Seguros SA", "ON ED NM", "Qualicorp", "Saúde"],
+                          
                           ["RADL3","Raia Drogasil SA", "ON NM", "Raia", "Saúde"],
                           ["RAIL3","Rumo SA", "ON NM", "Rumo", "Transporte ferroviário"],
                           ["RENT3","Localiza Rent a Car SA", "ON NM", "Localiza", "Aluguel de carros"],
@@ -129,6 +135,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                           ["TAEE11","Transmissora Aliança de Energia Elétrica SA", "UNT N2", "taesa", "Energia elétrica"],
                           ["TIMP3","TIM Participações SA", "ON NM", "TIM", "Telecomunicações"],
                           ["UGPA3","Ultrapar Participações SA", "ON NM", "Ultrapar", "Petróleo, gás e biocombustíveis"],
+                          
                           ["USIM5","Usiminas", "PNA N1", "Usiminas", "Siderurgia"],
                           ["VALE3","Vale SA", "ON NM", "Vale", "Mineração"],
                           ["VIVT4","Telefônica Brasil SA", "PN", "Telefonica", "Telecomunicações"],
@@ -154,33 +161,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         if !opened || !update105 {
-            
-            if update105 == false && opened == true {
-                    
-                var data3: [Glossary] = []
-                
-                do {
-                    data3 = try context.fetch(Glossary.fetchRequest())
-                    
-                    
-                } catch {
-                    print(error.localizedDescription)
-                }
-                
-                for i in 0...data3.count-1 {
-                    data3[i].word = nil
-                    data3[i].meaning = nil
-                    data3[i].source = nil
-                    data3[i].sourceURL = nil
-                }
-                
-                do {
-                    try context.save()
-                    
-                } catch {
-                    print("Error when saving context")
-                }
-            }
             
             // MARK: - Glossary
                 
@@ -279,18 +259,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 ["Título privado","\"​Títulos privados são títulos de renda fixa, emitidos por bancos ou empresas, com a intenção de arrecadar recursos. Ou seja, um título é um papel de dívida da entidade emissora, que se compromete a devolver o dinheiro para o investidor com juros. São exemplos de títulos privados CDBs, COE, Debêntures, LC, LCI e LCA.\"", "Bússola do Investidor", "https://www.bussoladoinvestidor.com.br/abc_do_investidor/titulo-privado/"],
                 
                 ["Título público","\"​Os títulos públicos são ativos de renda fixa, ou seja, seu rendimento pode ser dimensionado no momento do investimento, ao contrário dos ativos de renda variável (como ações), cujo retorno não pode ser estimado no instante da aplicação. Dada a menor volatilidade dos ativos de renda fixa frente aos ativos de renda variável, este tipo de investimento é considerado mais conservador, ou seja, de menor risco. [...] Títulos públicos são considerados os ativos de menor risco da economia de um País, e são 100% garantidos pelo Tesouro Nacional.\"", "Tesouro Direto", "http://www.tesouro.fazenda.gov.br/o-que-sao-titulos-publicos-"]]
-        
-            for i in 0...words.count-1{
+            
+            if update105 == false && opened == true {
                 
-                let registry = Glossary(context: context)
+                var data3: [Glossary] = []
                 
-                registry.word = words[i][0]
-                registry.meaning = words[i][1]
-                registry.source = words[i][2]
-                registry.sourceURL = words[i][3]
-                word.append(registry)
+                do {
+                    data3 = try context.fetch(Glossary.fetchRequest())
+                    
+                    
+                } catch {
+                    print(error.localizedDescription)
+                }
                 
-                self.saveContext()
+                for i in 0...data3.count-1 {
+                    data3[i].word = words[i][0]
+                    data3[i].meaning = words[i][1]
+                    data3[i].source = words[i][2]
+                    data3[i].sourceURL = words[i][3]
+                }
+                
+                do {
+                    try context.save()
+                    
+                } catch {
+                    print("Error when saving context")
+                }
+                
+                for i in data3.count...words.count-1 {
+                    let registry = Glossary(context: context)
+                    registry.word = words[i][0]
+                    registry.meaning = words[i][1]
+                    registry.source = words[i][2]
+                    registry.sourceURL = words[i][3]
+                    word.append(registry)
+                    self.saveContext()
+                }
+                
+            } else {
+                for i in 0...words.count-1{
+                    let registry = Glossary(context: context)
+                    registry.word = words[i][0]
+                    registry.meaning = words[i][1]
+                    registry.source = words[i][2]
+                    registry.sourceURL = words[i][3]
+                    word.append(registry)
+                    self.saveContext()
+                }
             }
             
             // MARK: - Currencies
@@ -362,8 +377,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 wallet = try context.fetch(Wallet.fetchRequest())
                 stock = try context.fetch(Stock.fetchRequest())
                 
-                stock[38].symbol = "COGN3"
-                stock[45].symbol = "NTCO3"
+                for i in 0...65 {
+                    
+                    if stock[i].symbol == "KROT3" {
+                        stock[i].symbol = "COGN3"
+                    }
+                    
+                    if stock[i].symbol == "NATU3" {
+                        stock[i].symbol = "NTCO3"
+                    }
+                }
                 
                 if wallet[0].stock1 == "KROT3" {
                     wallet[0].stock1 = "COGN3"
@@ -393,24 +416,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("Sem NATU3")
                 }
                 
-                var stockList = ""
+                var stockArray: [String] = []
                 
                 if wallet[0].stock1 != nil {
-                    stockList = "\(wallet[0].stock1!):"
-                } else if wallet[0].stock2 != nil {
-                    stockList = "\(wallet[0].stock2!):"
-                } else if wallet[0].stock3 != nil {
-                    stockList = "\(wallet[0].stock3!):"
-                } else if wallet[0].stock4 != nil {
-                    stockList = "\(wallet[0].stock4!):"
-                } else if wallet[0].stock5 != nil {
-                    stockList = "\(wallet[0].stock5!):"
-                } else {
-                    print("Sem ações")
+                    stockArray.append(wallet[0].stock1!)
                 }
                 
-                wallet[0].stockList = stockList
+                if wallet[0].stock2 != nil {
+                    stockArray.append(wallet[0].stock2!)
+                }
                 
+                if wallet[0].stock3 != nil {
+                    stockArray.append(wallet[0].stock3!)
+                }
+                
+                if wallet[0].stock4 != nil {
+                    stockArray.append(wallet[0].stock4!)
+                }
+                
+                if wallet[0].stock5 != nil {
+                    stockArray.append(wallet[0].stock5!)
+                }
+                
+                let stockList = stockArray.joined(separator: ":")
+                wallet[0].stockList = stockList
                 
                 self.saveContext()
                 

@@ -88,7 +88,7 @@ class StockData {
                         self.data2 = try self.context.fetch(Stock.fetchRequest())
                         
                         let data1 = self.data1[0]
-                        data1.lastUpdateCurrency = Date()
+                        data1.lastUpdateStock = Date()
                         
                         let sortedData2 = self.data2.sorted(by: { $0.symbol! < $1.symbol! })
                         self.data2 = sortedData2
@@ -111,7 +111,7 @@ class StockData {
                             
                             let data2 = self.data2[i]
                             data2.price = Float(pricesArray[i])
-                            data2.change = String(changesArray[i])
+                            data2.changePercentage = String(changesArray[i])
                             
                             do {
                                 try self.context.save()

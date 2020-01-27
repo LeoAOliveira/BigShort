@@ -41,13 +41,11 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "myInvestmentsCell", for: indexPath) as! InvestmentsCell
             
             let totalInvestment: Float = stocksCurrentPrice() + currenciesCurrentPrice()
-            
+            let invested: Float = investedStocksValue() + investedCurrencyValue()
             var incomeValue = 0.0
             
             cell.valueLabel.text = MathOperations.currencyFormatter(value: totalInvestment)
-            incomeValue = Double(MathOperations.calculateIncome(value1: stocksCurrentPrice(), value2: investedValue()))
-            
-            incomeValue = Double(MathOperations.calculateIncome(value1: stocksCurrentPrice(), value2: investedValue()))
+            incomeValue = Double(MathOperations.calculateIncome(value1: totalInvestment, value2: invested))
             
             if incomeValue > 0 {
                 cell.descriptionLabel.text = "+ \(MathOperations.currencyFormatter(value: Float(incomeValue)))"
@@ -79,10 +77,10 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
             
             } else {
                 cell.totalValueLabel.text = MathOperations.currencyFormatter(value: stocksCurrentPrice())
-                incomeValue = Double(MathOperations.calculateIncome(value1: stocksCurrentPrice(), value2: investedValue()))
+                incomeValue = Double(MathOperations.calculateIncome(value1: stocksCurrentPrice(), value2: investedStocksValue()))
             }
             
-            cell.subtitle1Label.text = "Minhas ações hoje: "
+            cell.subtitle1Label.text = "Rendimento: "
             
             if incomeValue > 0 {
                 cell.description1Label.text = "+ \(MathOperations.currencyFormatter(value: Float(incomeValue)))"
@@ -120,7 +118,7 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
                 incomeValue = Double(MathOperations.calculateIncome(value1: currenciesCurrentPrice(), value2: investedCurrencyValue()))
             }
             
-            cell.subtitle1Label.text = "Minhas moedas hoje: "
+            cell.subtitle1Label.text = "Rendimento:  "
             
             if incomeValue > 0 {
                 cell.description1Label.text = "+ \(MathOperations.currencyFormatter(value: Float(incomeValue)))"
@@ -158,7 +156,7 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
         return MathOperations.stocksCurrentPrice(stockList: mainVC.stockList, data: mainVC.data2, index: mainVC.stockIndex)
     }
     
-    func investedValue() -> Float {
+    func investedStocksValue() -> Float {
         
         guard let mainVC = mainViewController else {
             return 0.0
@@ -173,12 +171,6 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
             return 0.0
         }
         
-//        let currencies = mainVC.data1[0].currencyList ?? ""
-//
-//        let currencyArray = currencies.components(separatedBy: ":")
-//
-//        let indexArray = findIndexesIn(currencyArray: currencyArray)
-        
         return MathOperations.currenciesCurrentPrice(currencyList: mainVC.currencyList, data: mainVC.data4, index: mainVC.currencyIndex)
     }
 
@@ -190,31 +182,5 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
         
         return MathOperations.currenciesInvestedValue(currencyList: mainVC.currencyList, data: mainVC.data4, index: mainVC.currencyIndex)
     }
-    
-//    func findIndexesIn(currencyArray: [String]) -> [Int] {
-//
-//        var indexArray: [Int] = []
-//
-//        guard let mainVC = mainViewController else {
-//            return indexArray
-//        }
-//
-//        if currencyArray.count > 0 {
-//
-//            for i in 0...currencyArray.count-1 {
-//
-//                for n in 0...47 {
-//
-//                    if mainVC.data4[n].symbol == currencyArray[i] {
-//                        indexArray.append(n)
-//                    }
-//                }
-//            }
-//        }
-//        
-//        mainVC.currencyIndex = indexArray
-//        
-//        return indexArray
-//    }
     
 }

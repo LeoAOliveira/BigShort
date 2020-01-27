@@ -114,6 +114,8 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
     func createModal(){
         
         modalView.layer.cornerRadius = 10.0
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.08235294118, green: 0.1568627451, blue: 0.2941176471, alpha: 1)], for: .selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.9450980392, green: 0.9647058824, blue: 0.9882352941, alpha: 1)], for: .normal)
         
         guard let name = data4[index].name else {
             return
@@ -290,6 +292,19 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
                 
                 if currencyIndex == -1 {
                     currencyArray.append(symbol)
+                    
+                    var removeIndex = -1
+                    
+                    for i in 0...currencyArray.count-1 {
+                        if currencyArray[i] == "" {
+                            removeIndex = i
+                        }
+                    }
+                    
+                    if removeIndex != -1 {
+                        currencyArray.remove(at: removeIndex)
+                    }
+                    
                     data1[0].currencyList = currencyArray.joined(separator: ":")
                 }
                 
@@ -351,7 +366,7 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
                     print("Error when saving context")
                 }
                 
-                createAlert(title: "Sucesso", message: "Simulação de peração realizada.", actionTitle: "OK")
+                createAlert(title: "Sucesso", message: "Simulação de operação realizada.", actionTitle: "OK")
                 
                 dismiss(animated: true, completion: nil)
             
@@ -360,7 +375,7 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
             }
             
         } else{
-            createAlert(title: "Falta de dados", message: "Preencha a quantidade de ações para prosseguir.", actionTitle: "OK")
+            createAlert(title: "Falta de dados", message: "Preencha o valor na moeda escolhida para prosseguir.", actionTitle: "OK")
             
         }
     }

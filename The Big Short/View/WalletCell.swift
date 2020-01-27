@@ -30,7 +30,6 @@ class WalletCell: UITableViewCell {
     @IBOutlet weak var savingsPercentageLabel: UILabel!
     @IBOutlet weak var savingsLabel: UILabel!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

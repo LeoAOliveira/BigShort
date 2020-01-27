@@ -82,9 +82,9 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
     
     func setStockArray() {
         
-        let currencies = data1[0].currencyList
+        let stocks = data1[0].stockList
         
-        stockArray = currencies?.components(separatedBy: ":") ?? []
+        stockArray = stocks?.components(separatedBy: ":") ?? []
     }
     
     func findIndexInStockArray() -> Int {
@@ -104,23 +104,23 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
         return indexStock
     }
     
-    func setCurrencyString() {
-        
-        stockList = stockArray.joined(separator: ":")
-    }
-    
     // MARK: - Modal creation
     
     func createModal(){
         
         modalView.layer.cornerRadius = 10.0
-        // titleLabel.text = data2[index].name
-        imageLogo.image = UIImage(named: "\(data2[index].imageName!).png")
+        
+        if let image = data2[index].imageName {
+            imageLogo.image = UIImage(named: "\(image).png")
+        }
+        
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.08235294118, green: 0.1568627451, blue: 0.2941176471, alpha: 1)], for: .selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.9450980392, green: 0.9647058824, blue: 0.9882352941, alpha: 1)], for: .normal)
         
         stockView.layer.cornerRadius = 10.0
         symbolLabel.text = data2[index].symbol
         
-        guard let change = data2[index].change else {
+        guard let change = data2[index].changePercentage else {
             return
         }
         
@@ -278,6 +278,10 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func buySellBtnPressed(_ sender: Any) {
         
+        guard let symbol = data2[index].symbol else {
+            return
+        }
+        
         if operation == "Buy" && textField.text != ""{
             
             let amount: Float = Float(textField.text!)!
@@ -304,6 +308,24 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
                 data2.timesBought += 1
                 
                 data1.availableBalance = balance
+                
+                if stockIndex == -1 {
+                    stockArray.append(symbol)
+                    
+                    var removeIndex = -1
+                    
+                    for i in 0...stockArray.count-1 {
+                        if stockArray[i] == "" {
+                            removeIndex = i
+                        }
+                    }
+                    
+                    if removeIndex != -1 {
+                        stockArray.remove(at: removeIndex)
+                    }
+                    
+                    data1.stockList = stockArray.joined(separator: ":")
+                }
                 
                 do{
                     try self.context.save()
@@ -332,39 +354,48 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
                 
             let amount: Float = Float(textField.text!)!
             
-            let invested = investedValue()
-            let balance = balanceValue(mathOperation: "Sell")
-            
-            let data1 = self.data1[0]
-            let data2 = self.data2[index]
-            
-            if data2.invested - invested == 0{
-                data2.invested = 0
-                data2.mediumPrice = 0
-            
-            } else if data2.invested - invested > 0{
-                data2.invested = data2.invested - invested
-            
-            } else{
-                createAlert(title: "Saldo insuficiente", message: "Não há saldo sufifiente para essa compra.", actionTitle: "OK")
-                return
-            }
-            
-            data2.timesBought -= 1
-            data2.amount = data2.amount - amount
-            data2.invested = data2.invested - invested
-            data1.availableBalance = data1.availableBalance + balance
-            
-            do{
-                try self.context.save()
+            if stockIndex != -1 {
                 
-            } catch{
-                print("Error when saving context")
+                stockArray.remove(at: stockIndex)
+                data1[0].stockList = stockArray.joined(separator: ":")
+            
+                let invested = investedValue()
+                let balance = balanceValue(mathOperation: "Sell")
+                
+                let data1 = self.data1[0]
+                let data2 = self.data2[index]
+                
+                if data2.invested - invested == 0{
+                    data2.invested = 0
+                    data2.mediumPrice = 0
+                
+                } else if data2.invested - invested > 0{
+                    data2.invested = data2.invested - invested
+                
+                } else{
+                    createAlert(title: "Saldo insuficiente", message: "Não há saldo sufifiente para essa compra.", actionTitle: "OK")
+                    return
+                }
+                
+                data2.timesBought -= 1
+                data2.amount = data2.amount - amount
+                data2.invested = data2.invested - invested
+                data1.availableBalance = data1.availableBalance + balance
+                
+                do{
+                    try self.context.save()
+                    
+                } catch{
+                    print("Error when saving context")
+                }
+                
+                createAlert(title: "Sucesso", message: "Simulação de operação realizada.", actionTitle: "OK")
+                
+                dismiss(animated: true, completion: nil)
+                
+            } else {
+                createAlert(title: "Ação não encontrada", message: "Você não possui essa ação, portanto não há como vender.", actionTitle: "OK")
             }
-            
-            createAlert(title: "Sucesso", message: "Simulação de peração realizada.", actionTitle: "OK")
-            
-            dismiss(animated: true, completion: nil)
             
         } else{
             

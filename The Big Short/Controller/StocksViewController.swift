@@ -118,5 +118,10 @@ class StocksViewController: UIViewController {
             destination.index = selectedIndex
             destination.selectedStock = selectedStock
         }
+        
+        if segue.identifier == "walletStockSegue"{
+            let destination = segue.destination as! WalletViewController
+            destination.segmentedIndex = 1
+        }
     }
 }

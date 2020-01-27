@@ -14,6 +14,7 @@ class DataManager: NSObject {
     weak var mainViewController: MainViewController?
     weak var stocksViewController: StocksViewController?
     weak var currenciesViewController: CurrenciesViewController?
+    weak var walletViewController: WalletViewController?
     
     var context: NSManagedObjectContext?
     
@@ -27,11 +28,12 @@ class DataManager: NSObject {
     var indexCurrency: [Int] = []
     var currencyList = [String]()
     
-    init(mainViewController: MainViewController? = nil, stocksViewController: StocksViewController? = nil, currenciesViewController: CurrenciesViewController? = nil) {
+    init(mainViewController: MainViewController? = nil, stocksViewController: StocksViewController? = nil, currenciesViewController: CurrenciesViewController? = nil, walletViewController: WalletViewController? = nil) {
         super.init()
         self.mainViewController = mainViewController
         self.stocksViewController = stocksViewController
         self.currenciesViewController = currenciesViewController
+        self.walletViewController = walletViewController
     }
     
     func sortData() {
@@ -137,7 +139,7 @@ class DataManager: NSObject {
             
             stocksVC.tableView.reloadData()
             
-        } else {
+        } else if currenciesViewController != nil {
             
             guard let currenciesVC = currenciesViewController else {
                 completion(false)
@@ -150,6 +152,23 @@ class DataManager: NSObject {
             currenciesVC.currencyIndex = indexCurrency
 
             currenciesVC.tableView.reloadData()
+            
+        } else {
+            
+            guard let walletVC = walletViewController else {
+                completion(false)
+                return
+            }
+
+            walletVC.data1 = data1
+            walletVC.data2 = data2
+            walletVC.data4 = data4
+            walletVC.stockList = stockList
+            walletVC.stockIndex = indexStock
+            walletVC.currencyList = currencyList
+            walletVC.currencyIndex = indexCurrency
+
+            walletVC.tableView.reloadData()
             
         }
         completion(true)
@@ -251,27 +270,6 @@ class DataManager: NSObject {
                         completion(false)
                         print("Error exchangeRatesFetch")
                     }
-                }
-            }
-            
-            CurrencyData().exchangeRatesFetch(){ isValid in
-                    
-                if isValid == true{
-                    self.data1.removeAll()
-                    self.data4.removeAll()
-                    
-                    do{
-                        self.data1 = try self.context!.fetch(Wallet.fetchRequest())
-                        self.data4 = try self.context!.fetch(Currency.fetchRequest())
-                    } catch{
-                        print(error.localizedDescription)
-                    }
-                    
-                    self.sortData()
-                    print("exchangeRatesFetch")
-                } else{
-                    print("Error exchangeRatesFetch")
-                    completion(false)
                 }
             }
         }

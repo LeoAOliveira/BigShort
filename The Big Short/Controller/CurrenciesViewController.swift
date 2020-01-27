@@ -70,4 +70,14 @@ class CurrenciesViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        if segue.identifier == "walletCurrencySegue"{
+            let destination = segue.destination as! WalletViewController
+            destination.segmentedIndex = 2
+        }
+    }
+    
 }
