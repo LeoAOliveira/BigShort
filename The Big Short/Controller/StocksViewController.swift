@@ -107,8 +107,7 @@ class StocksViewController: UIViewController {
     // MARK: - Navigation
     
     @IBAction func addStockBtnPressed(_ sender: Any) {
-        // verifyMarket(purpose: "buyAndSell")
-        performSegue(withIdentifier: "addStockSegue", sender: self)
+        verifyMarket(purpose: "buyAndSell")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
