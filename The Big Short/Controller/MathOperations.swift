@@ -52,7 +52,7 @@ public class MathOperations: NSObject {
         
         var allStocks: Float = 0.0
         
-        if stockList.count != 0 {
+        if stockList.count != 0 && index.count != 0 {
             for i in 0...stockList.count-1 {
                 allStocks += data[index[i]].price * data[index[i]].amount
             }

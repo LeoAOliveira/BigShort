@@ -25,7 +25,7 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 2
+        return 3
     }
     
     
@@ -98,12 +98,13 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
             
             
         } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "sourceCell", for: indexPath) as! SimpleCell
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "investmentsCell", for: indexPath) as! InvestmentsCell
+            guard let date = stocksVC.data1[0].lastUpdateStock else {
+                return UITableViewCell()
+            }
             
-            cell.titleLabel.text = ""
-            cell.valueLabel.text = ""
-            cell.descriptionLabel.text = ""
+            cell.titleLabel.text = "Última atualização: \(MathOperations.formatDate(lastUpdate: date))"
             
             return cell
         }
@@ -151,17 +152,17 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
             cellCollection.stockView.layer.cornerRadius = 10.0
             cellCollection.symbolLabel.text = stocksVC.data2[stocksVC.index[indexPath.row]].symbol
             
-            guard let change = stocksVC.data2[stocksVC.index[indexPath.row]].change else {
+            guard let change = stocksVC.data2[stocksVC.index[indexPath.row]].changePercentage else {
                 return cellCollection
             }
             
             if change.contains("-") {
-                cellCollection.changePercentageLabel.textColor = #colorLiteral(red: 0.7725490196, green: 0.06274509804, blue: 0.1254901961, alpha: 1)
+                cellCollection.changePercentageLabel.textColor = #colorLiteral(red: 0.9352485538, green: 0.128194809, blue: 0.1147380844, alpha: 1)
             } else {
                 if change == "0%" {
                     cellCollection.changePercentageLabel.textColor = #colorLiteral(red: 0.9408631921, green: 0.9652459025, blue: 0.9907889962, alpha: 1)
                 } else {
-                    cellCollection.changePercentageLabel.textColor = #colorLiteral(red: 0.1176470588, green: 0.6901960784, blue: 0.2549019608, alpha: 1)
+                    cellCollection.changePercentageLabel.textColor = #colorLiteral(red: 0, green: 0.7549133897, blue: 0.1463539004, alpha: 1)
                 }
             }
             

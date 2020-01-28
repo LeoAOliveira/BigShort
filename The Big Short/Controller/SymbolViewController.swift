@@ -133,7 +133,7 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.titleLabel.text = "Hoje (\(formatDate()))"
             cell.changeLabel.text = numberFormatter(value: positionPrice())
             
-            guard let change = data2[index].change else {
+            guard let change = data2[index].changePercentage else {
                 return cell
             }
             

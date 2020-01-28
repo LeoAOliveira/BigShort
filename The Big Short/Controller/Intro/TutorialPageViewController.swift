@@ -24,8 +24,9 @@ class TutorialPageViewController: UIPageViewController, UIPageViewControllerData
         let vc4 = storyboard.instantiateViewController(withIdentifier: "Tutoria4VC")
         let vc5 = storyboard.instantiateViewController(withIdentifier: "Tutoria5VC")
         let vc6 = storyboard.instantiateViewController(withIdentifier: "Tutoria6VC")
+        let vc7 = storyboard.instantiateViewController(withIdentifier: "Tutoria7VC")
         
-        return [vc1, vc2, vc3, vc4, vc5, vc6]
+        return [vc1, vc2, vc3, vc4, vc5, vc6, vc7]
     }()
 
     override func viewDidLoad() {

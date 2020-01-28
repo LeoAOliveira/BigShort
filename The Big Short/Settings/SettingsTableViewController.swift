@@ -24,6 +24,7 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
     
     public var data1: [Wallet] = []
     public var data2: [Stock] = []
+    public var data4: [Currency] = []
     var context: NSManagedObjectContext?
     
     var wantsNotifications: Bool!
@@ -211,28 +212,7 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
             
             data1 = try context!.fetch(Wallet.fetchRequest())
             data2 = try context!.fetch(Stock.fetchRequest())
-            
-            var stockList: [String] = []
-            
-            if data1[0].stock1 != nil{
-                stockList.append(data1[0].stock1!)
-            }
-            
-            if data1[0].stock2 != nil{
-                stockList.append(data1[0].stock2!)
-            }
-            
-            if data1[0].stock3 != nil{
-                stockList.append(data1[0].stock3!)
-            }
-            
-            if data1[0].stock4 != nil{
-                stockList.append(data1[0].stock4!)
-            }
-            
-            if data1[0].stock5 != nil{
-                stockList.append(data1[0].stock5!)
-            }
+            data4 = try context!.fetch(Currency.fetchRequest())
             
             data1[0].stock1 = nil
             data1[0].stock2 = nil
@@ -242,15 +222,25 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
             data1[0].availableBalance = 0.0
             data1[0].stocksValue = 0.0
             data1[0].totalValue = 0.0
+            data1[0].currencyList = ""
+            data1[0].stockList = ""
             
             for i in 0...72{
-                
                 data2[i].income = 0.0
                 data2[i].invested = 0.0
                 data2[i].amount = 0.0
-                data2[i].change = ""
+                data2[i].changePercentage = ""
                 data2[i].price = 0.0
                 data2[i].mediumPrice = 0.0
+                data2[i].timesBought = 0
+            }
+            
+            for i in 0...47{
+                data4[i].invested = 0.0
+                data4[i].investedBRL = 0.0
+                data4[i].timesBought = 0
+                data4[i].price = 0.0
+                data4[i].mediumPrice = 0.0
             }
             
             do{

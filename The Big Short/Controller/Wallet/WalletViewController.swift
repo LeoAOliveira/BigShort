@@ -1,15 +1,15 @@
 //
-//  MainViewController.swift
+//  WalletViewController.swift
 //  The Big Short
 //
-//  Created by Leonardo Oliveira on 20/01/20.
+//  Created by Leonardo Oliveira on 27/01/20.
 //  Copyright © 2020 Leonardo Oliveira. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class MainViewController: UIViewController {
+class WalletViewController: UIViewController {
     
     public var data1: [Wallet] = []
     public var data2: [Stock] = []
@@ -17,8 +17,10 @@ class MainViewController: UIViewController {
     var context: NSManagedObjectContext?
     
     var dataManager: DataManager?
-    var tableviewDelegate: MainTableViewDelegate?
-    var tableViewDataSource: MainTableViewDataSource?
+    var tableviewDelegate: WalletTableViewDelegate?
+    var tableViewDataSource: WalletTableViewDataSource?
+    
+    var segmentedIndex = 0
     
     var stockIndex: [Int] = []
     var stockList = [String]()
@@ -32,6 +34,8 @@ class MainViewController: UIViewController {
     var removeNotifications = UNUserNotificationCenter.current()
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var segmented: UISegmentedControl!
+    
     
     override var preferredStatusBarStyle: UIStatusBarStyle{
         return .lightContent
@@ -41,35 +45,31 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
+        
+        segmented.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.08235294118, green: 0.1568627451, blue: 0.2941176471, alpha: 1)], for: .selected)
+        segmented.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.9450980392, green: 0.9647058824, blue: 0.9882352941, alpha: 1)], for: .normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        segmented.selectedSegmentIndex = segmentedIndex
         fetchData()
-        
     }
     
     // MARK: - Fetch from CoreData and Stock Data update
     
     func fetchData() {
        
-        dataManager = DataManager(mainViewController: self)
+        dataManager = DataManager(walletViewController: self)
         
         dataManager?.fetchData(completion: { isValid in
             
             if isValid == true{
                 
-                self.tableviewDelegate = MainTableViewDelegate(viewController: self)
-                self.tableViewDataSource = MainTableViewDataSource(viewController: self)
+                self.tableviewDelegate = WalletTableViewDelegate(viewController: self)
+                self.tableViewDataSource = WalletTableViewDataSource(viewController: self)
                 
                 self.tableView.delegate = self.tableviewDelegate
                 self.tableView.dataSource = self.tableViewDataSource
-                
-                if self.data1[0].notifications == true {
-                    NotificationsManager.setNotifications(notiifcations: self.removeNotifications, data: self.data1)
-                } else{
-                    self.removeNotifications.removeAllPendingNotificationRequests()
-                }
                 
             } else{
                 
@@ -78,6 +78,13 @@ class MainViewController: UIViewController {
         })
         
     }
+    
+    @IBAction func segmentValueChanged(_ sender: Any) {
+        
+        tableView.reloadData()
+    }
+    
+    
     
     // MARK: - Create alert
     
@@ -90,6 +97,7 @@ class MainViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    
     // MARK: - Math Functions
     
     func stocksCurrentPrice() -> Float{
@@ -99,14 +107,5 @@ class MainViewController: UIViewController {
     func investedValue() -> Float{
         return MathOperations.investedValue(stockList: stockList, data: data2, index: stockIndex)
     }
-    
-    // MARK: - Navigation
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-        if segue.identifier == "walletSimulatorSegue"{
-            let destination = segue.destination as! WalletViewController
-            destination.segmentedIndex = 0
-        }
-    }
 }
+
