@@ -475,23 +475,34 @@ class CoreDataManager: NSObject {
             var stockArray: [String] = []
             
             if wallet[0].stock1 != nil {
-                stockArray.append(wallet[0].stock1!)
+                
+                if wallet[0].stock1 != "" {
+                    stockArray.append(wallet[0].stock1!)
+                }
             }
             
             if wallet[0].stock2 != nil {
-                stockArray.append(wallet[0].stock2!)
+                if wallet[0].stock2 != "" {
+                    stockArray.append(wallet[0].stock2!)
+                }
             }
             
             if wallet[0].stock3 != nil {
-                stockArray.append(wallet[0].stock3!)
+                if wallet[0].stock3 != "" {
+                    stockArray.append(wallet[0].stock3!)
+                }
             }
             
             if wallet[0].stock4 != nil {
-                stockArray.append(wallet[0].stock4!)
+                if wallet[0].stock4 != "" {
+                    stockArray.append(wallet[0].stock4!)
+                }
             }
             
             if wallet[0].stock5 != nil {
-                stockArray.append(wallet[0].stock5!)
+                if wallet[0].stock5 != "" {
+                    stockArray.append(wallet[0].stock5!)
+                }
             }
             
             let stockList = stockArray.joined(separator: ":")
