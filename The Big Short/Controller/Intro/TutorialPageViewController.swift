@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class TutorialPageViewController: UIPageViewController, UIPageViewControllerDataSource {
     
@@ -32,15 +33,21 @@ class TutorialPageViewController: UIPageViewController, UIPageViewControllerData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
-
-        self.dataSource = self
-        
-        if let firstViewController = viewControllerList.first{
-            self.setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
+        CoreDataManager().checkForInitialData(){ isValid in
+                
+            if isValid == true {
+                
+                self.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
+                self.dataSource = self
+                
+                if let firstViewController = self.viewControllerList.first{
+                    self.setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
+                }
+                
+            } else {
+                print("Error checkForInitialData")
+            }
         }
-        
-        
     }
     
     

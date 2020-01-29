@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Foundation
 
 class DetailViewController: UIViewController {
 

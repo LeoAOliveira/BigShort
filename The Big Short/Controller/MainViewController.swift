@@ -6,6 +6,7 @@
 //  Copyright © 2020 Leonardo Oliveira. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import CoreData
 
@@ -40,7 +41,16 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
+        CoreDataManager().checkForInitialData(){ isValid in
+                
+            if isValid == true {
+                
+                self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
+                
+            } else {
+                print("Error checkForInitialData")
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

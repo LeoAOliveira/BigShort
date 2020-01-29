@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Foundation
 
 class GlossaryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 

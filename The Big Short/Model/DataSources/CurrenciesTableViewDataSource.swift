@@ -6,6 +6,7 @@
 //  Copyright © 2020 Leonardo Oliveira. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {

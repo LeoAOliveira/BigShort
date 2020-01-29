@@ -10,6 +10,7 @@
 import UIKit
 import CoreData
 import UserNotifications
+import Foundation
 
 class SettingsTableViewController: UITableViewController, UNUserNotificationCenterDelegate {
     
@@ -214,11 +215,11 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
             data2 = try context!.fetch(Stock.fetchRequest())
             data4 = try context!.fetch(Currency.fetchRequest())
             
-            data1[0].stock1 = nil
-            data1[0].stock2 = nil
-            data1[0].stock3 = nil
-            data1[0].stock4 = nil
-            data1[0].stock5 = nil
+            data1[0].stock1 = ""
+            data1[0].stock2 = ""
+            data1[0].stock3 = ""
+            data1[0].stock4 = ""
+            data1[0].stock5 = ""
             data1[0].availableBalance = 0.0
             data1[0].stocksValue = 0.0
             data1[0].totalValue = 0.0

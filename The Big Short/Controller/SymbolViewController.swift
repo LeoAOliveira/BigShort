@@ -6,6 +6,7 @@
 //  Copyright © 2019 Leonardo Oliveira. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import CoreData
 
