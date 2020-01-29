@@ -53,8 +53,8 @@
 		A76587FD23D930FA00D517F8 /* CurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587FC23D930FA00D517F8 /* CurrencyCell.swift */; };
 		A76587FF23DA206B00D517F8 /* CurrenciesTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587FE23DA206B00D517F8 /* CurrenciesTableViewDelegate.swift */; };
 		A765880123DA7BB400D517F8 /* BuySellCurrencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A765880023DA7BB400D517F8 /* BuySellCurrencyViewController.swift */; };
-		A76B498C23E0FE9500598CC8 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76B498B23E0FE9500598CC8 /* CoreDataManager.swift */; };
 		A76B49B123E22A1E00598CC8 /* MappingModel2to3 2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = A76B49B023E22A1D00598CC8 /* MappingModel2to3 2.xcmappingmodel */; };
+		A76B49B323E22C3400598CC8 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76B49B223E22C3400598CC8 /* CoreDataManager.swift */; };
 		A78D253A23D0D59D002FC307 /* MathOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78D253923D0D59D002FC307 /* MathOperations.swift */; };
 		A7A14D0423DF2FDB00ACB059 /* SectorChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A14D0323DF2FDB00ACB059 /* SectorChartView.swift */; };
 		A7A14D0723DF425B00ACB059 /* WalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A14D0623DF425B00ACB059 /* WalletViewController.swift */; };
@@ -113,8 +113,8 @@
 		A76587FC23D930FA00D517F8 /* CurrencyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCell.swift; sourceTree = "<group>"; };
 		A76587FE23DA206B00D517F8 /* CurrenciesTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesTableViewDelegate.swift; sourceTree = "<group>"; };
 		A765880023DA7BB400D517F8 /* BuySellCurrencyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuySellCurrencyViewController.swift; sourceTree = "<group>"; };
-		A76B498B23E0FE9500598CC8 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		A76B49B023E22A1D00598CC8 /* MappingModel2to3 2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "MappingModel2to3 2.xcmappingmodel"; sourceTree = "<group>"; };
+		A76B49B223E22C3400598CC8 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		A78D253923D0D59D002FC307 /* MathOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathOperations.swift; sourceTree = "<group>"; };
 		A7A14CFE23DE820F00ACB059 /* The_Big_Short 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "The_Big_Short 2.xcdatamodel"; sourceTree = "<group>"; };
 		A7A14D0323DF2FDB00ACB059 /* SectorChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorChartView.swift; sourceTree = "<group>"; };
@@ -305,7 +305,7 @@
 				A76587D723D15DC300D517F8 /* DataManager.swift */,
 				A76587D923D25DC600D517F8 /* NotificationsManager.swift */,
 				A76587E623D27BC100D517F8 /* MarketManager.swift */,
-				A76B498B23E0FE9500598CC8 /* CoreDataManager.swift */,
+				A76B49B223E22C3400598CC8 /* CoreDataManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -445,8 +445,8 @@
 				A76587DA23D25DC600D517F8 /* NotificationsManager.swift in Sources */,
 				76C1105822FFEE230075EB46 /* NextViewController.swift in Sources */,
 				766B01FA22EFB94D00511224 /* SearchStockViewController.swift in Sources */,
+				A76B49B323E22C3400598CC8 /* CoreDataManager.swift in Sources */,
 				766B01FE22EFBC1100511224 /* SimpleCell.swift in Sources */,
-				A76B498C23E0FE9500598CC8 /* CoreDataManager.swift in Sources */,
 				A76587F623D9248100D517F8 /* SearchCurrencyViewController.swift in Sources */,
 				A76587F323D7BD7400D517F8 /* ButtonCell.swift in Sources */,
 				A7A14D0723DF425B00ACB059 /* WalletViewController.swift in Sources */,
