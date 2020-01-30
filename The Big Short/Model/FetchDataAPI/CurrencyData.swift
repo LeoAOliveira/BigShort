@@ -89,7 +89,7 @@ class CurrencyData {
                         let data1 = self.data1[0]
                         data1.lastUpdateCurrency = Date()
                         
-                        let sortedData4 = self.data4.sorted(by: { $0.symbol! < $1.symbol! })
+                        let sortedData4 = self.data4.sorted(by: { $0.symbol ?? "" < $1.symbol ?? "" })
                         self.data4 = sortedData4
                         
                         let orderedExchange = currency.exchange.sorted(by: <)

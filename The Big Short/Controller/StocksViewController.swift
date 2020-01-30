@@ -108,7 +108,8 @@ class StocksViewController: UIViewController {
     // MARK: - Navigation
     
     @IBAction func addStockBtnPressed(_ sender: Any) {
-        verifyMarket(purpose: "buyAndSell")
+        performSegue(withIdentifier: "addStockSegue", sender: self)
+        // verifyMarket(purpose: "buyAndSell")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -117,6 +118,8 @@ class StocksViewController: UIViewController {
             let destination = segue.destination as! SymbolViewController
             destination.index = selectedIndex
             destination.selectedStock = selectedStock
+            destination.data1 = data1
+            destination.data2 = data2
         }
         
         if segue.identifier == "walletStockSegue"{

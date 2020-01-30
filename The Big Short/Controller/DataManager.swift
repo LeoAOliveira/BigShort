@@ -17,7 +17,7 @@ class DataManager: NSObject {
     weak var currenciesViewController: CurrenciesViewController?
     weak var walletViewController: WalletViewController?
     
-    var context: NSManagedObjectContext?
+    var context: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var data1: [Wallet] = []
     var data2: [Stock] = []
@@ -37,15 +37,16 @@ class DataManager: NSObject {
         self.walletViewController = walletViewController
     }
     
+    // MARK: - Sort data array
     func sortData() {
-        let sortedData2 = self.data2.sorted(by: { $0.symbol! < $1.symbol! })
+        let sortedData2 = self.data2.sorted(by: { ($0.symbol ?? "") < ($1.symbol ?? "") })
         data2 = sortedData2
         
-        let sortedData4 = self.data4.sorted(by: { $0.symbol! < $1.symbol! })
+        let sortedData4 = self.data4.sorted(by: { ($0.symbol ?? "") < ($1.symbol ?? "") })
         data4 = sortedData4
         
         do {
-            try self.context?.save()
+            try self.context.save()
             
         } catch{
             print("Error when sorting")
@@ -61,9 +62,9 @@ class DataManager: NSObject {
         data2.removeAll()
         
         do{
-            data1 = try context!.fetch(Wallet.fetchRequest())
-            data2 = try context!.fetch(Stock.fetchRequest())
-            data4 = try context!.fetch(Currency.fetchRequest())
+            data1 = try context.fetch(Wallet.fetchRequest())
+            data2 = try context.fetch(Stock.fetchRequest())
+            data4 = try context.fetch(Currency.fetchRequest())
             
         } catch{
             print(error.localizedDescription)
@@ -107,6 +108,7 @@ class DataManager: NSObject {
         }
     }
     
+    // MARK: - Pass data to controller
     func setController(completion: @escaping (Bool) -> () ) {
         
         if mainViewController != nil {
@@ -175,6 +177,7 @@ class DataManager: NSObject {
         completion(true)
     }
     
+    // MARK: - Get stock data
     func getStocks(completion: @escaping (Bool) -> ()) {
         
         let stocks = data1[0].stockList
@@ -207,8 +210,8 @@ class DataManager: NSObject {
                         self.data4.removeAll()
                         
                         do{
-                            self.data1 = try self.context!.fetch(Wallet.fetchRequest())
-                            self.data4 = try self.context!.fetch(Currency.fetchRequest())
+                            self.data1 = try self.context.fetch(Wallet.fetchRequest())
+                            self.data4 = try self.context.fetch(Currency.fetchRequest())
                         } catch{
                             print(error.localizedDescription)
                         }
@@ -226,6 +229,7 @@ class DataManager: NSObject {
         completion(true)
     }
     
+    // MARK: - Get curriecy data
     func getCurrencies(completion: @escaping (Bool) -> ()) {
         
         let currencies = data1[0].currencyList
@@ -258,8 +262,8 @@ class DataManager: NSObject {
                         self.data4.removeAll()
                         
                         do{
-                            self.data1 = try self.context!.fetch(Wallet.fetchRequest())
-                            self.data4 = try self.context!.fetch(Currency.fetchRequest())
+                            self.data1 = try self.context.fetch(Wallet.fetchRequest())
+                            self.data4 = try self.context.fetch(Currency.fetchRequest())
                         } catch{
                             print(error.localizedDescription)
                         }
@@ -315,6 +319,9 @@ class DataManager: NSObject {
         let weekdayString = dayFormatter.string(from: dateCurrent)
         let lastUpdateWeekday = dayFormatter.string(from: lastUpdate)
         
+        let dayInt = Int(dayString) ?? 0
+        let lastUpdateDayInt = Int(lastUpdateDay) ?? 0
+        
         if weekdayString != "Saturday" && weekdayString != "Sunday"{
             
             if dayString > lastUpdateDay{
@@ -329,12 +336,12 @@ class DataManager: NSObject {
                 
             } else {
                 
-                let now = Float(hourString)!
-                let lastUpdate = Float(lastUpdateHour)!
+                let now = Float(hourString) ?? 0.0
+                let lastUpdate = Float(lastUpdateHour) ?? 0.0
                 
                 let difference = now - lastUpdate
                 
-                if difference >= 1{
+                if difference >= 1 {
                     return true
                 }
                 
@@ -342,7 +349,7 @@ class DataManager: NSObject {
             
         } else if weekdayString == "Saturday"{
             
-            if lastUpdateWeekday == "Saturday" && (Int(dayString)! - Int(lastUpdateDay)!) != 0{
+            if lastUpdateWeekday == "Saturday" && (dayInt - lastUpdateDayInt) != 0{
                 return true
             
             } else if lastUpdateWeekday == "Friday" && lastUpdateHour > "17:00"{
@@ -353,7 +360,7 @@ class DataManager: NSObject {
             
         } else if weekdayString == "Sunday"{
             
-            if lastUpdateWeekday == "Saturday" && (Int(dayString)! - Int(lastUpdateDay)!) <= 1{
+            if lastUpdateWeekday == "Saturday" && (dayInt - lastUpdateDayInt) <= 1{
                 
             } else if lastUpdateWeekday == "Friday" && lastUpdateHour > "17:00"{
                 
@@ -366,55 +373,54 @@ class DataManager: NSObject {
     }
     
     // MARK: - Check the need for currency update
-      func verifyCurrencyUpdate() -> Bool {
+    func verifyCurrencyUpdate() -> Bool {
+        
+        // Current date and last update
           
-          // Current date and last update
+        let dateCurrent = Date()
           
-          let dateCurrent = Date()
-          
-          guard let lastUpdate = data1[0].lastUpdateCurrency else {
+        guard let lastUpdate = data1[0].lastUpdateCurrency else {
               return true
-          }
+        }
           
-          // Hour
-          let hourFormatter = DateFormatter()
-          hourFormatter.dateFormat = "HH.mm"
+        // Hour
+        let hourFormatter = DateFormatter()
+        hourFormatter.dateFormat = "HH.mm"
+        
+        hourFormatter.timeZone = TimeZone(identifier: "America/Sao_Paulo")
+        
+        let hourString = hourFormatter.string(from: dateCurrent)
+        let lastUpdateHour = hourFormatter.string(from: lastUpdate)
           
-          hourFormatter.timeZone = TimeZone(identifier: "America/Sao_Paulo")
+        // Day
+        let dayFormatter = DateFormatter()
+        dayFormatter.dateFormat = "yyyMMdd"
+        
+        dayFormatter.timeZone = TimeZone(identifier: "America/Sao_Paulo")
+        
+        let dayString = dayFormatter.string(from: dateCurrent)
+        let lastUpdateDay = dayFormatter.string(from: lastUpdate)
+        
+        // Weekday
+        let weekdayFormatter = DateFormatter()
+        weekdayFormatter.dateFormat = "EEE"
+        
+        weekdayFormatter.timeZone = TimeZone(identifier: "America/Sao_Paulo")
+        
+        if dayString > lastUpdateDay{
+            return true
+            
+        } else {
+            
+            let now = Float(hourString) ?? 0.0
+            let lastUpdate = Float(lastUpdateHour) ?? 0.0
           
-          let hourString = hourFormatter.string(from: dateCurrent)
-          let lastUpdateHour = hourFormatter.string(from: lastUpdate)
+            let difference = now - lastUpdate
           
-          // Day
-          let dayFormatter = DateFormatter()
-          dayFormatter.dateFormat = "yyyMMdd"
-          
-          dayFormatter.timeZone = TimeZone(identifier: "America/Sao_Paulo")
-          
-          let dayString = dayFormatter.string(from: dateCurrent)
-          let lastUpdateDay = dayFormatter.string(from: lastUpdate)
-          
-          // Weekday
-          let weekdayFormatter = DateFormatter()
-          weekdayFormatter.dateFormat = "EEE"
-          
-          weekdayFormatter.timeZone = TimeZone(identifier: "America/Sao_Paulo")
-          
-          if dayString > lastUpdateDay{
-              return true
-              
-          } else {
-              
-              let now = Float(hourString)!
-              let lastUpdate = Float(lastUpdateHour)!
-              
-              let difference = now - lastUpdate
-              
-              if difference >= 1{
-                  return true
-              }
-          }
-          return false
+            if difference >= 1{
+                return true
+            }
+        }
+        return false
     }
-    
 }

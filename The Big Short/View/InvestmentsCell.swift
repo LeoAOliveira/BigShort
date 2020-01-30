@@ -14,6 +14,7 @@ class InvestmentsCell: UITableViewCell {
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var vizualizeButton: UIButton!
+    @IBOutlet weak var currencyValueLabel: UILabel!
     
     @IBOutlet weak var marketView: UIView!
     @IBOutlet weak var marketLabel: UILabel!

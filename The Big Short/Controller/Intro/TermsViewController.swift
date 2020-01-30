@@ -91,8 +91,4 @@ class TermsViewController: UIViewController, UITextFieldDelegate {
             self.view.frame.origin.y = 0
         }
     }
-    
-    
-    
-
 }

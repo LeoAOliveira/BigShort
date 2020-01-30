@@ -55,6 +55,7 @@
 		A765880123DA7BB400D517F8 /* BuySellCurrencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A765880023DA7BB400D517F8 /* BuySellCurrencyViewController.swift */; };
 		A76B49B123E22A1E00598CC8 /* MappingModel2to3 2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = A76B49B023E22A1D00598CC8 /* MappingModel2to3 2.xcmappingmodel */; };
 		A76B49B323E22C3400598CC8 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76B49B223E22C3400598CC8 /* CoreDataManager.swift */; };
+		A76B49B523E2B45000598CC8 /* CodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76B49B423E2B45000598CC8 /* CodeViewController.swift */; };
 		A78D253A23D0D59D002FC307 /* MathOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78D253923D0D59D002FC307 /* MathOperations.swift */; };
 		A7A14D0423DF2FDB00ACB059 /* SectorChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A14D0323DF2FDB00ACB059 /* SectorChartView.swift */; };
 		A7A14D0723DF425B00ACB059 /* WalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A14D0623DF425B00ACB059 /* WalletViewController.swift */; };
@@ -115,6 +116,7 @@
 		A765880023DA7BB400D517F8 /* BuySellCurrencyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuySellCurrencyViewController.swift; sourceTree = "<group>"; };
 		A76B49B023E22A1D00598CC8 /* MappingModel2to3 2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "MappingModel2to3 2.xcmappingmodel"; sourceTree = "<group>"; };
 		A76B49B223E22C3400598CC8 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		A76B49B423E2B45000598CC8 /* CodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewController.swift; sourceTree = "<group>"; };
 		A78D253923D0D59D002FC307 /* MathOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathOperations.swift; sourceTree = "<group>"; };
 		A7A14CFE23DE820F00ACB059 /* The_Big_Short 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "The_Big_Short 2.xcdatamodel"; sourceTree = "<group>"; };
 		A7A14D0323DF2FDB00ACB059 /* SectorChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorChartView.swift; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 			isa = PBXGroup;
 			children = (
 				A76587F823D924A800D517F8 /* CurrenciesViewController.swift */,
+				A76B49B423E2B45000598CC8 /* CodeViewController.swift */,
 				A76587F523D9248100D517F8 /* SearchCurrencyViewController.swift */,
 				A765880023DA7BB400D517F8 /* BuySellCurrencyViewController.swift */,
 			);
@@ -412,6 +415,7 @@
 				7607CAF722FBB398005A3E3C /* AddCollectionViewCell.swift in Sources */,
 				762D04DE22EBE19000D537E6 /* StockCollectionViewCell.swift in Sources */,
 				A7A14D0B23DF42C600ACB059 /* WalletTableViewDelegate.swift in Sources */,
+				A76B49B523E2B45000598CC8 /* CodeViewController.swift in Sources */,
 				76D079B022F1CE58004BCF73 /* HistoricCell.swift in Sources */,
 				76D079AC22F1CAF0004BCF73 /* SymbolViewController.swift in Sources */,
 				7664A2C122DD142B00EE5BE0 /* WalletCell.swift in Sources */,
@@ -597,7 +601,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 4BUKN8ST5B;
 				INFOPLIST_FILE = "The Big Short/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -617,7 +621,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 4BUKN8ST5B;
 				INFOPLIST_FILE = "The Big Short/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (

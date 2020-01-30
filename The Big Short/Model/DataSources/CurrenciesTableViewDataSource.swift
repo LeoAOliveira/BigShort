@@ -35,11 +35,16 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
         
         if let currencies = currenciesVC.data1[0].currencyList {
             
-            let currenciesArray = currencies.components(separatedBy: ":")
+            if currencies != "" {
+                let currenciesArray = currencies.components(separatedBy: ":")
+                
+                self.currencyArray = currenciesArray
+                
+                return (3 + currenciesArray.count)
             
-            self.currencyArray = currenciesArray
-            
-            return (3 + currenciesArray.count)
+            } else {
+                return 3
+            }
             
         } else {
             return 3
@@ -129,19 +134,13 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
             let invested = Float(currenciesVC.data4[index].invested)
             let investedBRL = Float(currenciesVC.data4[index].investedBRL)
             let price = Float(currenciesVC.data4[index].price)
-            let mediumValue = Float(currenciesVC.data4[index].mediumPrice)
             
-            let value = MathOperations.currencyFormatter(value: Float(invested*price))
             let priceCurrency = MathOperations.currencyFormatter(value: Float(price))
-            let mediumPrice = MathOperations.currencyFormatter(value: Float(mediumValue))
             let change = MathOperations.calculateChange(value1: investedBRL, value2: invested*price)
             
             cell.titleLabel.text = "\(symbol) (\(name))"
-            cell.valueLabel.text = value
-            cell.currencyValueLabel.text = "\(symbol) \(String(format: "%.2f", invested))"
             cell.iconImage.image = UIImage(named: "\(symbol).png")
             cell.priceValueLabel.text = priceCurrency
-            cell.mediumValueLabel.text = mediumPrice
             
             if change > 0.0{
                 cell.variationValueLabel.textColor = #colorLiteral(red: 0, green: 0.7020406723, blue: 0.1667427123, alpha: 1)
@@ -160,6 +159,7 @@ class CurrenciesTableViewDataSource: NSObject, UITableViewDataSource {
         }
     }
     
+    // MARK: - Math Operations
     func currenciesCurrentPrice() -> Float {
         
         guard let currenciesVC = currenciesViewController else {

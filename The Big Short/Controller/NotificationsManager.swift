@@ -20,9 +20,10 @@ public class NotificationsManager: NSObject, UNUserNotificationCenterDelegate {
             
             let notificationCenter = UNUserNotificationCenter.current()
             notificationCenter.getNotificationSettings { (settings) in
+                
                 if settings.authorizationStatus == .authorized {
                     
-                    // Abertura
+                    // MARK: - Opening
                     let content1 = UNMutableNotificationContent()
                     content1.title = NSString.localizedUserNotificationString(forKey: "Mercado aberto", arguments: nil)
                     content1.sound = UNNotificationSound.default
@@ -43,7 +44,7 @@ public class NotificationsManager: NSObject, UNUserNotificationCenterDelegate {
                         }
                     }
                     
-                    // Fechamento
+                    // MARK: - Closing
                     let content2 = UNMutableNotificationContent()
                     content2.title = NSString.localizedUserNotificationString(forKey: "Mercado fechado", arguments: nil)
                     content2.sound = UNNotificationSound.default

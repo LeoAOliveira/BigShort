@@ -387,6 +387,20 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
         return false
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+    
     @IBAction func cancelBtnPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
