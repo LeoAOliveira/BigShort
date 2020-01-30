@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class CurrenciesTableViewDelegate: NSObject, UITableViewDelegate {
     
@@ -24,7 +25,7 @@ class CurrenciesTableViewDelegate: NSObject, UITableViewDelegate {
         } else {
             
             guard let currenciesVC = currenciesViewController else {
-                return 225
+                return 165
             }
             
             if indexPath.row == currenciesVC.currencyList.count+1 {
@@ -32,8 +33,23 @@ class CurrenciesTableViewDelegate: NSObject, UITableViewDelegate {
             } else if indexPath.row == currenciesVC.currencyList.count+2 {
                 return 80
             } else {
-                return 225
+                return 165
             }
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let currenciesVC = currenciesViewController else {
+            return
+        }
+        
+        if indexPath.row != 0 && indexPath.row != currenciesVC.currencyList.count+1 && indexPath.row != currenciesVC.currencyList.count+2 {
+            currenciesVC.selectedIndex = currenciesVC.currencyIndex[indexPath.row-1]
+            currenciesVC.selectedCurrency = currenciesVC.data4[currenciesVC.currencyIndex[indexPath.row-1]].symbol ?? ""
+            
+            currenciesVC.performSegue(withIdentifier: "detailCurrencySegue", sender: self)
+        }
+    }
+    
 }

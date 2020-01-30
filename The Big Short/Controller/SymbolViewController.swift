@@ -6,6 +6,7 @@
 //  Copyright © 2019 Leonardo Oliveira. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import CoreData
 
@@ -311,7 +312,8 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // MARK: - Navigation
     
     @IBAction func addBtnPressed(_ sender: Any) {
-        verifyMarket()
+        // verifyMarket()
+        performSegue(withIdentifier: "addThisStockSegue", sender: self)
     }
     
     
@@ -321,6 +323,8 @@ class SymbolViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             let destination = segue.destination as! BuySellStockViewController
             destination.selectedStock = navBarTitle.title
+            destination.data1 = data1
+            destination.data2 = data2
             destination.parentVC = self
             tabBarController?.tabBar.isHidden = true
             

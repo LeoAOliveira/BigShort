@@ -18,7 +18,6 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
     }
     
     // MARK: - TableView DataSource
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -135,6 +134,7 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
             
             return cell
             
+        // MARK: - Default Card
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "myInvestmentsCell", for: indexPath) as! InvestmentsCell
@@ -147,6 +147,7 @@ class MainTableViewDataSource: NSObject, UITableViewDataSource {
         }
     }
     
+    // MARK: - Math Operations
     func stocksCurrentPrice() -> Float {
         
         guard let mainVC = mainViewController else {

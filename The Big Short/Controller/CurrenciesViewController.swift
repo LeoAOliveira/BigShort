@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class CurrenciesViewController: UIViewController {
 
@@ -19,6 +20,8 @@ class CurrenciesViewController: UIViewController {
     
     var currencyIndex: [Int] = []
     var currencyList: [String] = [String]()
+    var selectedIndex = -1
+    var selectedCurrency = " "
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -73,6 +76,14 @@ class CurrenciesViewController: UIViewController {
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "detailCurrencySegue"{
+            let destination = segue.destination as! CodeViewController
+            destination.index = selectedIndex
+            destination.selectedCurrency = selectedCurrency
+            destination.data1 = data1
+            destination.data4 = data4
+        }
 
         if segue.identifier == "walletCurrencySegue"{
             let destination = segue.destination as! WalletViewController

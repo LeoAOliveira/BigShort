@@ -49,17 +49,17 @@ class SectorChartView: UIView {
             radius = (rect.height - circleWidth) / 2.0
         }
         
-        let context = UIGraphicsGetCurrentContext()
+        let graphicsContext = UIGraphicsGetCurrentContext()
         
-        context?.setLineWidth(circleWidth)
-        context?.setLineCap(CGLineCap.square)
+        graphicsContext?.setLineWidth(circleWidth)
+        graphicsContext?.setLineCap(CGLineCap.square)
         
-        context?.setStrokeColor(self.secondValueColor.cgColor)
-        context?.addArc(center: centerPoint, radius: radius, startAngle: 0, endAngle: fullCircle, clockwise: false)
-        context?.strokePath()
+        graphicsContext?.setStrokeColor(self.secondValueColor.cgColor)
+        graphicsContext?.addArc(center: centerPoint, radius: radius, startAngle: 0, endAngle: fullCircle, clockwise: false)
+        graphicsContext?.strokePath()
         
-        context?.setStrokeColor(firstValueColor.cgColor)
-        context?.addArc(center: centerPoint, radius: radius, startAngle: start, endAngle: firstValueEnd, clockwise: false)
-        context?.strokePath()
+        graphicsContext?.setStrokeColor(firstValueColor.cgColor)
+        graphicsContext?.addArc(center: centerPoint, radius: radius, startAngle: start, endAngle: firstValueEnd, clockwise: false)
+        graphicsContext?.strokePath()
     }
 }

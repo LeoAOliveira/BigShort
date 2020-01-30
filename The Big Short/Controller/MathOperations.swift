@@ -6,6 +6,7 @@
 //  Copyright © 2020 Leonardo Oliveira. All rights reserved.
 //
 
+import UIKit
 import Foundation
 
 public class MathOperations: NSObject {

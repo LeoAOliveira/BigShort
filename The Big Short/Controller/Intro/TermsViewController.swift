@@ -9,6 +9,7 @@
 //
 
 import UIKit
+import Foundation
 
 class TermsViewController: UIViewController, UITextFieldDelegate {
 
@@ -90,8 +91,4 @@ class TermsViewController: UIViewController, UITextFieldDelegate {
             self.view.frame.origin.y = 0
         }
     }
-    
-    
-    
-
 }

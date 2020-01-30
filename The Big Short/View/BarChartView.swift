@@ -40,19 +40,19 @@ class BarChartView: UIView {
         let space:CGFloat = end.x - start.x
         let endProgress = CGPoint(x: start.x + space * valueWidth, y: end.y)
         
-        let context = UIGraphicsGetCurrentContext()
+        let graphicsContext = UIGraphicsGetCurrentContext()
         
-        context?.setLineWidth(lineWidth)
-        context?.setLineCap(CGLineCap.round)
+        graphicsContext?.setLineWidth(lineWidth)
+        graphicsContext?.setLineCap(CGLineCap.round)
         
-        context?.setStrokeColor(lineColor.cgColor)
-        context?.move(to: CGPoint(x: start.x, y: start.y))
-        context?.addLine(to: CGPoint(x: end.x, y: end.y))
-        context?.strokePath()
+        graphicsContext?.setStrokeColor(lineColor.cgColor)
+        graphicsContext?.move(to: CGPoint(x: start.x, y: start.y))
+        graphicsContext?.addLine(to: CGPoint(x: end.x, y: end.y))
+        graphicsContext?.strokePath()
         
-        context?.setStrokeColor(valueColor.cgColor)
-        context?.move(to: CGPoint(x: start.x, y: start.y))
-        context?.addLine(to: CGPoint(x: endProgress.x, y: endProgress.y))
-        context?.strokePath()
+        graphicsContext?.setStrokeColor(valueColor.cgColor)
+        graphicsContext?.move(to: CGPoint(x: start.x, y: start.y))
+        graphicsContext?.addLine(to: CGPoint(x: endProgress.x, y: endProgress.y))
+        graphicsContext?.strokePath()
     }
 }

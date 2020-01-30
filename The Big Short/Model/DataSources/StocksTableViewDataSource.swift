@@ -6,6 +6,7 @@
 //  Copyright © 2020 Leonardo Oliveira. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -17,7 +18,6 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
     }
     
     // MARK: - TableView DataSource
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -28,14 +28,13 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
         return 3
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let stocksVC = stocksViewController else {
             return UITableViewCell()
         }
         
-        // Position Card
+        // MARK: - Position Card
         if indexPath.row == 0 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "positionCell", for: indexPath) as! InvestmentsCell
@@ -45,46 +44,34 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
             cell.marketView.layer.cornerRadius = cell.marketView.frame.size.width/2
             cell.marketView.clipsToBounds = true
             
-            // cell.positionView.layer.cornerRadius = 10.0
-            
             cell.titleLabel.text = "Posição"
-            // cell.balanceLabel.text = "Saldo disponível: \(MathOperations.currencyFormatter(value: stocksVC.data1[0].availableBalance))"
             
             var incomeValue = 0.0
             
             if stocksVC.stockList.count == 0 {
                 cell.valueLabel.text = MathOperations.currencyFormatter(value: 0.0)
-                // cell.investedValueLabel.text = "Valor investido: \(MathOperations.currencyFormatter(value: 0.0))"
-            
+                
             } else {
                 cell.valueLabel.text = MathOperations.currencyFormatter(value: stocksCurrentPrice())
                 
                 incomeValue = Double(MathOperations.calculateIncome(value1: stocksCurrentPrice(), value2: investedValue()))
-                // cell.investedValueLabel.text = "Valor investido: \(MathOperations.currencyFormatter(value: investedValue()))"
             }
             
-            if incomeValue > 0 {
-                
-                // cell.incomeLabel.text = "Rendimento: "
-                cell.descriptionLabel.text = "+ \(MathOperations.currencyFormatter(value: Float(incomeValue)))"
+            if incomeValue > 0 {cell.descriptionLabel.text = "+ \(MathOperations.currencyFormatter(value: Float(incomeValue)))"
                 cell.descriptionLabel.textColor = #colorLiteral(red: 0.1176470588, green: 0.6901960784, blue: 0.2549019608, alpha: 1)
             
             } else if incomeValue < 0 {
-                
-                // cell.incomeLabel.text = "Prejuízo: "
                 cell.descriptionLabel.text = "- \(MathOperations.currencyFormatter(value: Float(incomeValue) * -1.0))"
                 cell.descriptionLabel.textColor = #colorLiteral(red: 0.7098039216, green: 0.1647058824, blue: 0.1647058824, alpha: 1)
             
             } else{
-                // cell.incomeLabel.text = "Rendimento: "
                 cell.descriptionLabel.text = MathOperations.currencyFormatter(value: Float(incomeValue))
                 cell.descriptionLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
             }
             
             return cell
             
-            
-        // Stocks Card
+        // MARK: - Stocks Card
         } else if indexPath.row == 1{
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "stocksCell", for: indexPath) as! StockCell
@@ -96,7 +83,7 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
             
             return cell
             
-            
+        // MARK: - Default Card
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "sourceCell", for: indexPath) as! SimpleCell
             
@@ -110,26 +97,7 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
         }
     }
     
-    func stocksCurrentPrice() -> Float {
-        
-        guard let stocksVC = stocksViewController else {
-            return 0.0
-        }
-        
-        return MathOperations.stocksCurrentPrice(stockList: stocksVC.stockList, data: stocksVC.data2, index: stocksVC.index)
-    }
-    
-    func investedValue() -> Float {
-        
-        guard let stocksVC = stocksViewController else {
-            return 0.0
-        }
-        
-        return MathOperations.investedValue(stockList: stocksVC.stockList, data: stocksVC.data2, index: stocksVC.index)
-    }
-    
     // MARK: - CollectionView DataSource
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         guard let stocksVC = stocksViewController else {
@@ -145,6 +113,7 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
             return UICollectionViewCell()
         }
         
+        // MARK: - Stock cell
         if indexPath.row != stocksVC.stockList.count{
             
             let cellCollection = collectionView.dequeueReusableCell(withReuseIdentifier: "stockCollectionCell", for: indexPath) as! StockCollectionViewCell
@@ -172,6 +141,7 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
             
                 return cellCollection
         
+        // MARK: - Default cell
         } else{
             
             let cellCollection = collectionView.dequeueReusableCell(withReuseIdentifier: "addCollectionCell", for: indexPath) as! AddCollectionViewCell
@@ -182,8 +152,6 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
     }
     
     // MARK: - CollectionView Delegate
-    
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let stocksVC = stocksViewController else {
@@ -192,25 +160,16 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
         
         if indexPath.row <= stocksVC.stockList.count-1{
             stocksVC.selectedIndex = stocksVC.index[indexPath.row]
-            stocksVC.selectedStock = stocksVC.data2[stocksVC.index[indexPath.row]].symbol!
+            stocksVC.selectedStock = stocksVC.data2[stocksVC.index[indexPath.row]].symbol ?? ""
             
             stocksVC.performSegue(withIdentifier: "detailStockSegue", sender: self)
         
         } else{
-            
-            if stocksVC.stockList.count >= 5{
-                
-                stocksVC.createAlert(title: "Limite de ações atingido", message: "Você pode possuir no máximo 5 ações diferentes.", actionTitle: "OK")
-                
-            } else{
-                
-                verifyMarket(purpose: "buyAndSell")
-            }
+            verifyMarket(purpose: "buyAndSell")
         }
     }
     
     // MARK: - Market verification
-    
     func verifyMarket(purpose: String){
         
         guard let stocksVC = stocksViewController else {
@@ -239,6 +198,25 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
         } else {
             print("Error at market verification")
         }
+    }
+    
+    // MARK: - Math Operations
+    func stocksCurrentPrice() -> Float {
+        
+        guard let stocksVC = stocksViewController else {
+            return 0.0
+        }
+        
+        return MathOperations.stocksCurrentPrice(stockList: stocksVC.stockList, data: stocksVC.data2, index: stocksVC.index)
+    }
+    
+    func investedValue() -> Float {
+        
+        guard let stocksVC = stocksViewController else {
+            return 0.0
+        }
+        
+        return MathOperations.investedValue(stockList: stocksVC.stockList, data: stocksVC.data2, index: stocksVC.index)
     }
     
 }
