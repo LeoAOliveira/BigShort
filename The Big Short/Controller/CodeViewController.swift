@@ -33,8 +33,16 @@ class CodeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         navBarTitle.title = selectedCurrency
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 241/255, green: 246/255, blue: 252/255, alpha: 1.0)]
+        
+        fetchData()
+    }
+    
+    // MARK: - Fetch from CoreData
+    
+    func fetchData() {
         
         dataManager = DataManager(codeViewController: self)
         
@@ -55,7 +63,9 @@ class CodeViewController: UIViewController {
         })
     }
     
+    
     // MARK: - Create alert
+    
     func createAlert(title: String, message: String, actionTitle: String){
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)

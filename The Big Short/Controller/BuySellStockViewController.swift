@@ -71,6 +71,8 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
         parentVC.tabBarController?.tabBar.isHidden = false
     }
     
+    // MARK: - Set Index and Array
+    
     func findIndex() {
         
         for i in 0...data2.count-1 {
@@ -137,22 +139,212 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
         
         changePercentLabel.text = change
         
-        priceLabel.text = numberFormatter(value: data2[index].price)
+        priceLabel.text = MathOperations.currencyFormatter(value: data2[index].price)
         
         textField.attributedPlaceholder = NSAttributedString(string: "Quantidade", attributes: [NSAttributedString.Key.foregroundColor: UIColor.init(red: 137.0, green: 180.0, blue: 255.0, alpha: 1.0)])
     }
     
-    func numberFormatter(value: Float) -> String{
+    // MARK: - Make operation
+    
+    @IBAction func buySellBtnPressed(_ sender: Any) {
         
-        let currencyFormatter = NumberFormatter()
-        currencyFormatter.usesGroupingSeparator = true
-        currencyFormatter.numberStyle = .currency
-        currencyFormatter.locale = Locale(identifier: "pt_BR")
+        guard let symbol = data2[index].symbol else {
+            return
+        }
         
-        let valueString = currencyFormatter.string(from: NSNumber(value: value))
+        // MARK: - Buy stock
+        if operation == "Buy" && textField.text != ""{
+            
+            let amount: Float = Float(textField.text!)!
+            
+            let invested = investedValue()
+            let balance = balanceValue(mathOperation: "Buy")
+            
+            if balance >= 0{
+                
+                let data1 = self.data1[0]
+                
+                let data2 = self.data2[index]
+                let price = data2.price
+                
+                if data2.mediumPrice == 0.0 {
+                    data2.mediumPrice = price
+                
+                } else {
+                    data2.mediumPrice = (data2.mediumPrice + price)/2.0
+                }
+                
+                data2.amount = data2.amount + amount
+                data2.invested = data2.invested + invested
+                data2.timesBought += 1
+                
+                data1.availableBalance = balance
+                
+                if stockIndex == -1 {
+                    stockArray.append(symbol)
+                    
+                    var removeIndex = -1
+                    
+                    for i in 0...stockArray.count-1 {
+                        if stockArray[i] == "" {
+                            removeIndex = i
+                        }
+                    }
+                    
+                    if removeIndex != -1 {
+                        stockArray.remove(at: removeIndex)
+                    }
+                    
+                    data1.stockList = stockArray.joined(separator: ":")
+                }
+                
+                do{
+                    try self.context.save()
+                    
+                } catch{
+                    print("Error when saving context")
+                }
+                
+                let alert = UIAlertController(title: "Sucesso", message: "Simulação de operação realizada.", preferredStyle: UIAlertController.Style.alert)
+                
+                let fillLabelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (UIAlertAction) in
+                    self.dismiss(animated: true, completion: nil)
+                })
+                
+                alert.addAction(fillLabelAction)
+                self.present(alert, animated: true, completion: nil)
+
+                
+            } else{
+                
+                createAlert(title: "Saldo insuficiente", message: "Não há saldo disponível para essa compra.", actionTitle: "OK")
+            }
+            
+        // MARK: - Sell stock
+        } else if operation == "Sell" && textField.text != ""{
+                
+            let amount: Float = Float(textField.text!)!
+            
+            if stockIndex != -1 {
+                
+                stockArray.remove(at: stockIndex)
+                data1[0].stockList = stockArray.joined(separator: ":")
+            
+                let invested = investedValue()
+                let balance = balanceValue(mathOperation: "Sell")
+                
+                let data1 = self.data1[0]
+                let data2 = self.data2[index]
+                
+                if data2.invested - invested == 0{
+                    data2.invested = 0
+                    data2.mediumPrice = 0
+                
+                } else if data2.invested - invested > 0{
+                    data2.invested = data2.invested - invested
+                    data2.mediumPrice -= 1
+                
+                } else{
+                    createAlert(title: "Saldo insuficiente", message: "Não há saldo sufifiente para essa compra.", actionTitle: "OK")
+                    return
+                }
+                
+                data2.timesBought -= 1
+                data2.amount -= amount
+                data1.availableBalance += balance
+                
+                do{
+                    try self.context.save()
+                    
+                } catch{
+                    print("Error when saving context")
+                }
+                
+                createAlert(title: "Sucesso", message: "Simulação de operação realizada.", actionTitle: "OK")
+                
+                dismiss(animated: true, completion: nil)
+                
+            } else {
+                createAlert(title: "Ação não encontrada", message: "Você não possui essa ação, portanto não há como vender.", actionTitle: "OK")
+            }
+            
+        } else{
+            
+            createAlert(title: "Falta de dados", message: "Preencha a quantidade de ações para prosseguir.", actionTitle: "OK")
+        }
         
-        return valueString!
     }
+    
+    // MARK: - Segmented Control
+    
+    @IBAction func segmentedControlChanged(_ sender: Any) {
+        if segmentedControl.selectedSegmentIndex == 0{
+            operation = "Buy"
+            
+            investedValueLabel.text = "Valor investido"
+            investedNumberLabel.text = MathOperations.currencyFormatter(value: investedValue())
+            
+            costsLabel.text = "Custos"
+            costsNumberLabel.text = MathOperations.currencyFormatter(value: 10.0)
+            
+            totalLabel.text = "Total da operação"
+            totalNumberLabel.text = MathOperations.currencyFormatter(value: totalValue(mathOperation: "Buy"))
+            
+            balanceLabel.text = "Saldo restante"
+            balanceNumberLabel.text = MathOperations.currencyFormatter(value: balanceValue(mathOperation: "Buy"))
+            buySellBtn.titleLabel?.text = "Comprar"
+            
+        } else {
+            operation = "Sell"
+            
+            investedValueLabel.text = "Valor resgatado"
+            investedNumberLabel.text = MathOperations.currencyFormatter(value: investedValue())
+            
+            costsLabel.text = "Custos"
+            costsNumberLabel.text = MathOperations.currencyFormatter(value: 10.0)
+            
+            totalLabel.text = "Total da operação"
+            totalNumberLabel.text = MathOperations.currencyFormatter(value: totalValue(mathOperation: "Sell"))
+            
+            balanceLabel.text = " "
+            
+            buySellBtn.titleLabel?.text = " Vender"
+        }
+    }
+    
+    // MARK: - TextField
+    
+    @IBAction func textFieldChanged(_ sender: Any) {
+        
+        if operation == "Buy"{
+            investedNumberLabel.text = MathOperations.currencyFormatter(value: investedValue())
+            costsNumberLabel.text = MathOperations.currencyFormatter(value: 10.0)
+            totalNumberLabel.text = MathOperations.currencyFormatter(value: totalValue(mathOperation: "Buy"))
+            balanceNumberLabel.text = MathOperations.currencyFormatter(value: balanceValue(mathOperation: "Buy"))
+            
+        } else{
+            investedNumberLabel.text = MathOperations.currencyFormatter(value: investedValue())
+            costsNumberLabel.text = MathOperations.currencyFormatter(value: 10.0)
+            totalNumberLabel.text = MathOperations.currencyFormatter(value: totalValue(mathOperation: "Sell"))
+            balanceNumberLabel.text = MathOperations.currencyFormatter(value: balanceValue(mathOperation: "Sell"))
+        }
+        
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    // MARK: - Math Operations
     
     func investedValue() -> Float{
         
@@ -225,210 +417,7 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
         return value
     }
     
-    @IBAction func textFieldChanged(_ sender: Any) {
-        
-        if operation == "Buy"{
-            investedNumberLabel.text = numberFormatter(value: investedValue())
-            costsNumberLabel.text = numberFormatter(value: 10.0)
-            totalNumberLabel.text = numberFormatter(value: totalValue(mathOperation: "Buy"))
-            balanceNumberLabel.text = numberFormatter(value: balanceValue(mathOperation: "Buy"))
-            
-        } else{
-            investedNumberLabel.text = numberFormatter(value: investedValue())
-            costsNumberLabel.text = numberFormatter(value: 10.0)
-            totalNumberLabel.text = numberFormatter(value: totalValue(mathOperation: "Sell"))
-            balanceNumberLabel.text = numberFormatter(value: balanceValue(mathOperation: "Sell"))
-        }
-        
-    }
-    
-    @IBAction func segmentedControlChanged(_ sender: Any) {
-        if segmentedControl.selectedSegmentIndex == 0{
-            operation = "Buy"
-            
-            investedValueLabel.text = "Valor investido"
-            investedNumberLabel.text = numberFormatter(value: investedValue())
-            
-            costsLabel.text = "Custos"
-            costsNumberLabel.text = numberFormatter(value: 10.0)
-            
-            totalLabel.text = "Total da operação"
-            totalNumberLabel.text = numberFormatter(value: totalValue(mathOperation: "Buy"))
-            
-            balanceLabel.text = "Saldo restante"
-            balanceNumberLabel.text = numberFormatter(value: balanceValue(mathOperation: "Buy"))
-            buySellBtn.titleLabel?.text = "Comprar"
-            
-        } else {
-            operation = "Sell"
-            
-            investedValueLabel.text = "Valor resgatado"
-            investedNumberLabel.text = numberFormatter(value: investedValue())
-            
-            costsLabel.text = "Custos"
-            costsNumberLabel.text = numberFormatter(value: 10.0)
-            
-            totalLabel.text = "Total da operação"
-            totalNumberLabel.text = numberFormatter(value: totalValue(mathOperation: "Sell"))
-            
-            balanceLabel.text = " "
-            
-            buySellBtn.titleLabel?.text = " Vender"
-        }
-    }
-    
-    @IBAction func buySellBtnPressed(_ sender: Any) {
-        
-        guard let symbol = data2[index].symbol else {
-            return
-        }
-        
-        if operation == "Buy" && textField.text != ""{
-            
-            let amount: Float = Float(textField.text!)!
-            
-            let invested = investedValue()
-            let balance = balanceValue(mathOperation: "Buy")
-            
-            if balance >= 0{
-                
-                let data1 = self.data1[0]
-                
-                let data2 = self.data2[index]
-                let price = data2.price
-                
-                if data2.mediumPrice == 0.0 {
-                    data2.mediumPrice = price
-                
-                } else {
-                    data2.mediumPrice = (data2.mediumPrice + price)/2.0
-                }
-                
-                data2.amount = data2.amount + amount
-                data2.invested = data2.invested + invested
-                data2.timesBought += 1
-                
-                data1.availableBalance = balance
-                
-                if stockIndex == -1 {
-                    stockArray.append(symbol)
-                    
-                    var removeIndex = -1
-                    
-                    for i in 0...stockArray.count-1 {
-                        if stockArray[i] == "" {
-                            removeIndex = i
-                        }
-                    }
-                    
-                    if removeIndex != -1 {
-                        stockArray.remove(at: removeIndex)
-                    }
-                    
-                    data1.stockList = stockArray.joined(separator: ":")
-                }
-                
-                do{
-                    try self.context.save()
-                    
-                } catch{
-                    print("Error when saving context")
-                }
-                
-                let alert = UIAlertController(title: "Sucesso", message: "Simulação de operação realizada.", preferredStyle: UIAlertController.Style.alert)
-                
-                let fillLabelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (UIAlertAction) in
-                    self.dismiss(animated: true, completion: nil)
-                })
-                
-                alert.addAction(fillLabelAction)
-                self.present(alert, animated: true, completion: nil)
-
-                
-            } else{
-                
-                createAlert(title: "Saldo insuficiente", message: "Não há saldo disponível para essa compra.", actionTitle: "OK")
-            }
-            
-            
-        } else if operation == "Sell" && textField.text != ""{
-                
-            let amount: Float = Float(textField.text!)!
-            
-            if stockIndex != -1 {
-                
-                stockArray.remove(at: stockIndex)
-                data1[0].stockList = stockArray.joined(separator: ":")
-            
-                let invested = investedValue()
-                let balance = balanceValue(mathOperation: "Sell")
-                
-                let data1 = self.data1[0]
-                let data2 = self.data2[index]
-                
-                if data2.invested - invested == 0{
-                    data2.invested = 0
-                    data2.mediumPrice = 0
-                
-                } else if data2.invested - invested > 0{
-                    data2.invested = data2.invested - invested
-                    data2.mediumPrice -= 1
-                
-                } else{
-                    createAlert(title: "Saldo insuficiente", message: "Não há saldo sufifiente para essa compra.", actionTitle: "OK")
-                    return
-                }
-                
-                data2.timesBought -= 1
-                data2.amount -= amount
-                data1.availableBalance += balance
-                
-                do{
-                    try self.context.save()
-                    
-                } catch{
-                    print("Error when saving context")
-                }
-                
-                createAlert(title: "Sucesso", message: "Simulação de operação realizada.", actionTitle: "OK")
-                
-                dismiss(animated: true, completion: nil)
-                
-            } else {
-                createAlert(title: "Ação não encontrada", message: "Você não possui essa ação, portanto não há como vender.", actionTitle: "OK")
-            }
-            
-        } else{
-            
-            createAlert(title: "Falta de dados", message: "Preencha a quantidade de ações para prosseguir.", actionTitle: "OK")
-        }
-        
-    }
-    
-    // MARK: - TextField
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-        return false
-    }
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
-        }
-    }
-    
-    @IBAction func cancelBtnPressed(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
+    // MARK: - Create Alert
     
     func createAlert(title: String, message: String, actionTitle: String){
         
@@ -437,6 +426,20 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
         let fillLabelAction = UIAlertAction(title: actionTitle, style: UIAlertAction.Style.default, handler: nil)
         alert.addAction(fillLabelAction)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: - Keyboard
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+    
+    // MARK: - Navigation
+    
+    @IBAction func cancelBtnPressed(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
     
 }

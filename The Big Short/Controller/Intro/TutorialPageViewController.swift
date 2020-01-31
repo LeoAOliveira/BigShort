@@ -15,6 +15,8 @@ class TutorialPageViewController: UIPageViewController, UIPageViewControllerData
         return .lightContent
     }
     
+    // MARK: - Controller list
+    
     var viewControllerList: [UIViewController] = {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -50,6 +52,7 @@ class TutorialPageViewController: UIPageViewController, UIPageViewControllerData
         }
     }
     
+    // MARK: - PageViewController Data Source and Delegate
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
@@ -77,16 +80,5 @@ class TutorialPageViewController: UIPageViewController, UIPageViewControllerData
         
         return viewControllerList[nextIndex]
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

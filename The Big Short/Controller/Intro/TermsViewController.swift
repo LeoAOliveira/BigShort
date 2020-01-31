@@ -34,13 +34,14 @@ class TermsViewController: UIViewController, UITextFieldDelegate {
         self.view.addGestureRecognizer(tap)
     }
     
+    // MARK: - TextField
+    
     @IBAction func didBegingEditing(_ sender: Any) {
         
         textField.textColor = #colorLiteral(red: 0.9408631921, green: 0.9652459025, blue: 0.9907889962, alpha: 1)
         textField.text = ""
         
     }
-    
     
     @IBAction func didEndEditing(_ sender: Any) {
         
@@ -54,6 +55,13 @@ class TermsViewController: UIViewController, UITextFieldDelegate {
             textField.textColor = #colorLiteral(red: 0.9408631921, green: 0.9652459025, blue: 0.9907889962, alpha: 1)
         }
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    
+    // MARK: - Start simulator
     
     @IBAction func startBtnPressed(_ sender: Any) {
         
@@ -73,10 +81,7 @@ class TermsViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-        return false
-    }
+    // MARK: - Keyboard
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {

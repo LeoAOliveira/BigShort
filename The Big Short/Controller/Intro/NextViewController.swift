@@ -13,9 +13,9 @@ class NextViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
+    
+    // MARK: - Next button
     
     @IBAction func nextBtnPressed(_ sender: Any) {
         

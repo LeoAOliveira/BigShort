@@ -40,6 +40,7 @@ class SearchCurrencyViewController: UIViewController, UITableViewDelegate, UITab
         fetchData()
     }
     
+    // MARK: - Fetch from CoreData
     
     func fetchData(){
         

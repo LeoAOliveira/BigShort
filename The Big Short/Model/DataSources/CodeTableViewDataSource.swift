@@ -1,5 +1,5 @@
 //
-//  SymbolTableViewDataSource.swift
+//  CodeTableViewDataSource.swift
 //  The Big Short
 //
 //  Created by Leonardo Oliveira on 30/01/20.
@@ -9,12 +9,12 @@
 import UIKit
 import Foundation
 
-class SymbolTableViewDataSource: NSObject, UITableViewDataSource {
+class CodeTableViewDataSource: NSObject, UITableViewDataSource {
     
-    weak var symbolViewController: SymbolViewController?
+    weak var codeViewController: CodeViewController?
     
-    init(viewController: SymbolViewController) {
-        symbolViewController = viewController
+    init(viewController: CodeViewController) {
+        codeViewController = viewController
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -30,15 +30,27 @@ class SymbolTableViewDataSource: NSObject, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let symbolVC = symbolViewController else {
+        guard let codeVC = codeViewController else {
             return UITableViewCell()
         }
         
-        let positionPrice = symbolVC.data2[symbolVC.index].price * symbolVC.data2[symbolVC.index].amount
-        let invested = symbolVC.data2[symbolVC.index].invested
-        let price = symbolVC.data2[symbolVC.index].price
-        let mediumPrice = symbolVC.data2[symbolVC.index].mediumPrice
-        let amount = symbolVC.data2[symbolVC.index].amount
+        guard let symbol = codeVC.data4[codeVC.index].symbol else {
+            return UITableViewCell()
+        }
+        
+        guard let name = codeVC.data4[codeVC.index].name else {
+            return UITableViewCell()
+        }
+        
+        let invested = Float(codeVC.data4[codeVC.index].invested)
+        let investedBRL = Float(codeVC.data4[codeVC.index].investedBRL)
+        let price = Float(codeVC.data4[codeVC.index].price)
+        let mediumValue = Float(codeVC.data4[codeVC.index].mediumPrice)
+        
+        let value = MathOperations.currencyFormatter(value: Float(invested*price))
+        let priceCurrency = MathOperations.currencyFormatter(value: Float(price))
+        let mediumPrice = MathOperations.currencyFormatter(value: Float(mediumValue))
+        let change = MathOperations.calculateChange(value1: investedBRL, value2: invested*price)
         
         // MARK: - Position Card
         if indexPath.row == 0{
@@ -46,35 +58,38 @@ class SymbolTableViewDataSource: NSObject, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "positionCell", for: indexPath) as! InvestmentsCell
             
             cell.titleLabel.text = "Posição"
-            cell.valueLabel.text = MathOperations.currencyFormatter(value: positionPrice)
             
-            let income = Double(MathOperations.calculateIncome(value1: positionPrice, value2: invested))
+            cell.valueLabel.text = value
+            cell.valueLabel.text = value
+            cell.currencyValueLabel.text = "\(symbol) \(String(format: "%.2f", invested))"
             
-            if income > 0.0{
-                cell.descriptionLabel.textColor = #colorLiteral(red: 0, green: 0.7020406723, blue: 0.1667427123, alpha: 1)
-                cell.descriptionLabel.text = "+ \(MathOperations.currencyFormatter(value: Float(income)))"
-                
-            } else if income < 0.0{
-                cell.descriptionLabel.textColor = #colorLiteral(red: 0.7722620368, green: 0.0615144521, blue: 0.1260437667, alpha: 1)
-                cell.descriptionLabel.text = "- \(MathOperations.currencyFormatter(value: Float(income)))"
-                
+            let incomeValue = Double(MathOperations.calculateIncome(value1: invested*price, value2: investedBRL))
+            
+            if incomeValue > 0 {
+                cell.descriptionLabel.text = "+ \(MathOperations.currencyFormatter(value: Float(incomeValue)))"
+                cell.descriptionLabel.textColor = #colorLiteral(red: 0.1176470588, green: 0.6901960784, blue: 0.2549019608, alpha: 1)
+            
+            } else if incomeValue < 0 {
+                cell.descriptionLabel.text = "- \(MathOperations.currencyFormatter(value: Float(incomeValue) * -1.0))"
+                cell.descriptionLabel.textColor = #colorLiteral(red: 0.7098039216, green: 0.1647058824, blue: 0.1647058824, alpha: 1)
+            
             } else{
+                cell.descriptionLabel.text = MathOperations.currencyFormatter(value: Float(incomeValue))
                 cell.descriptionLabel.textColor = #colorLiteral(red: 0.8195154071, green: 0.8196598291, blue: 0.8195170164, alpha: 1)
-                cell.descriptionLabel.text = "\(MathOperations.currencyFormatter(value: Float(income)))"
             }
             
             return cell
         
-        // MARK: - Company Card
+        // MARK: - Country Card
         } else if indexPath.row == 1{
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "companyCell", for: indexPath) as! SimpleCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "countryCell", for: indexPath) as! SimpleCell
             
             cell.simpleView.layer.cornerRadius = 10.0
             
-            cell.titleLabel.text = symbolVC.data2[symbolVC.index].name!
-            cell.descriptionLabel.text = "Setor: \(symbolVC.data2[symbolVC.index].sector!)"
-            cell.imageLogo.image = UIImage(named: "\(symbolVC.data2[symbolVC.index].imageName!).pdf")
+            cell.titleLabel.text = name
+            cell.descriptionLabel.text = codeVC.data4[codeVC.index].region!
+            cell.imageLogo.image = UIImage(named: "\(symbol).png")
             
             return cell
             
@@ -87,24 +102,8 @@ class SymbolTableViewDataSource: NSObject, UITableViewDataSource {
             cell.todayView.layer.cornerRadius = 10.0
             cell.todaySubView.layer.cornerRadius = 10.0
             cell.titleLabel.text = "Hoje (\(formatDate()))"
-            cell.changeLabel.text = MathOperations.currencyFormatter(value: positionPrice)
             
-            guard let change = symbolVC.data2[symbolVC.index].changePercentage else {
-                return cell
-            }
-            
-            if change.contains("-") {
-                cell.changeLabel.textColor = #colorLiteral(red: 0.7725490196, green: 0.06274509804, blue: 0.1254901961, alpha: 1)
-            } else {
-                if change == "0%" {
-                    cell.changeLabel.textColor = #colorLiteral(red: 0.9408631921, green: 0.9652459025, blue: 0.9907889962, alpha: 1)
-                } else {
-                    cell.changeLabel.textColor = #colorLiteral(red: 0.1176470588, green: 0.6901960784, blue: 0.2549019608, alpha: 1)
-                }
-            }
-            
-            cell.changeLabel.text = change
-            cell.priceLable.text = MathOperations.currencyFormatter(value: price)
+            cell.priceLable.text = priceCurrency
             
             return cell
             
@@ -115,10 +114,7 @@ class SymbolTableViewDataSource: NSObject, UITableViewDataSource {
             
             cell.histView.layer.cornerRadius = 10.0
             cell.histSubView.layer.cornerRadius = 10.0
-            cell.mediumPriceLabel.text = MathOperations.currencyFormatter(value: mediumPrice)
-            cell.amountLabel.text = "\(Int(amount))"
-            
-            let change = MathOperations.calculateChange(value1: invested, value2: positionPrice)
+            cell.mediumPriceLabel.text = mediumPrice
             
             if change > 0.0{
                 cell.totalChangeLabel.textColor = #colorLiteral(red: 0, green: 0.7020406723, blue: 0.1667427123, alpha: 1)

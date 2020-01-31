@@ -20,6 +20,7 @@ class CoreDataManager: NSObject {
     var word = [Glossary]()
     var currency = [Currency]()
     
+    // MARK: - Check Initial Data
     func checkForInitialData(completion: @escaping (Bool) -> () ) {
         
         let opened = defaults.bool(forKey: "opened")
@@ -72,6 +73,7 @@ class CoreDataManager: NSObject {
         }
     }
     
+    // MARK: - First Time Data
     func firstTimeData(completion: @escaping (Bool) -> () ) {
             
         let registry = Wallet(context: context)
@@ -188,10 +190,13 @@ class CoreDataManager: NSObject {
         completion(true)
     }
     
+    // MARK: - Update 1.1.0
     func update110Data(completion: @escaping (Bool) -> () ) {
         
+        let opened = defaults.bool(forKey: "opened")
+        let update110 = defaults.bool(forKey: "update110")
+        
         // MARK: - Glossary
-                
         let words = [["Ação","\"Ações representam uma fração do capital social de uma empresa. Ao comprar uma ação o investidor se torna sócio da empresa, ou seja, de um negócio. Passa a correr os riscos deste negócio bem como participa dos lucros e prejuízos como qualquer empresário.\"", "XP Investimentos", "https://www.xpi.com.br/investimentos/acoes/o-que-sao-acoes/"],
             
             ["Ação Ordinária (ON)", "\"Sua principal característica é conferir ao seu titular direito a voto nas Assembleias de acionistas.\"", "Portal do Investidor", "https://www.investidor.gov.br/menu/Menu_Investidor/valores_mobiliarios/Acoes/especies_de_acoes.html"],
@@ -287,9 +292,6 @@ class CoreDataManager: NSObject {
             ["Título privado","\"​Títulos privados são títulos de renda fixa, emitidos por bancos ou empresas, com a intenção de arrecadar recursos. Ou seja, um título é um papel de dívida da entidade emissora, que se compromete a devolver o dinheiro para o investidor com juros. São exemplos de títulos privados CDBs, COE, Debêntures, LC, LCI e LCA.\"", "Bússola do Investidor", "https://www.bussoladoinvestidor.com.br/abc_do_investidor/titulo-privado/"],
             
             ["Título público","\"​Os títulos públicos são ativos de renda fixa, ou seja, seu rendimento pode ser dimensionado no momento do investimento, ao contrário dos ativos de renda variável (como ações), cujo retorno não pode ser estimado no instante da aplicação. Dada a menor volatilidade dos ativos de renda fixa frente aos ativos de renda variável, este tipo de investimento é considerado mais conservador, ou seja, de menor risco. [...] Títulos públicos são considerados os ativos de menor risco da economia de um País, e são 100% garantidos pelo Tesouro Nacional.\"", "Tesouro Direto", "http://www.tesouro.fazenda.gov.br/o-que-sao-titulos-publicos-"]]
-        
-        let opened = defaults.bool(forKey: "opened")
-        let update110 = defaults.bool(forKey: "update110")
         
         if update110 == false && opened == true {
             
@@ -430,6 +432,8 @@ class CoreDataManager: NSObject {
         
         do {
             
+            // MARK: - 1.0.0 CoreData to 1.1.0 CoreData
+            
             wallet = try context.fetch(Wallet.fetchRequest())
             stock = try context.fetch(Stock.fetchRequest())
             
@@ -530,6 +534,8 @@ class CoreDataManager: NSObject {
             print(error.localizedDescription)
             completion(false)
         }
+        
+        // MARK: - New stocks
         
         let newStocks = [["BPAC11","Banco BTG Pactual SA", "UNT N2", "Btg", "Bancos"],
                          ["GNDI3","Notre Dame Intermédica Participações SA", "ON NM", "Intermedica", "Bebidas"],

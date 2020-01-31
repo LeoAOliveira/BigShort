@@ -56,7 +56,6 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         fetchData()
-        
     }
     
     // MARK: - Fetch from CoreData and Stock Data update
