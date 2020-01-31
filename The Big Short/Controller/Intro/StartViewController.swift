@@ -34,6 +34,8 @@ class StartViewController: UIViewController, UITextFieldDelegate {
         fetchData()
     }
     
+    // MARK: - Fetch from CoreData
+    
     func fetchData(){
         
         context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -46,11 +48,14 @@ class StartViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    // MARK: - Stepper simulator
+    
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
         textField.text = Int(sender.value).description
         
     }
     
+    // MARK: -Start simulator
     
     @IBAction func startBtnPressed(_ sender: Any) {
         
@@ -91,6 +96,8 @@ class StartViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    // MARK: - TextField
+    
     @IBAction func textDidEndEditing(_ sender: Any) {
         if textField.text == ""{
             
@@ -116,6 +123,8 @@ class StartViewController: UIViewController, UITextFieldDelegate {
         self.view.endEditing(true)
         return false
     }
+    
+    // MARK: - Keyboard
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {

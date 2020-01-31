@@ -12,7 +12,6 @@ import Foundation
 
 class DetailViewController: UIViewController {
 
-    // @IBOutlet weak var wordView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var sourceLabel: UILabel!
@@ -31,10 +30,8 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // wordView.layer.cornerRadius = 10.0
         titleLabel.text = word
         titleLabel.numberOfLines = 0
-        // navBarTitle.title = word
         
         fetchData()
         
@@ -47,6 +44,8 @@ class DetailViewController: UIViewController {
         urlTextView.text = data3[index].sourceURL
         urlTextView.sizeToFit()
     }
+    
+    // MARK: - Fetch form CoreData
         
     func fetchData(){
         

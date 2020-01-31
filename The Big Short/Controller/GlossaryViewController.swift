@@ -56,16 +56,7 @@ class GlossaryViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    // MARK: - Dismiss Keyboard
-    
-    func dismissKeyboard() {
-        
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        tap.cancelsTouchesInView = false
-        self.view.addGestureRecognizer(tap)
-    }
-    
-    // MARK: - Table view data source
+    // MARK: - Table view data source and delegate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return wordsArray.count
@@ -106,6 +97,15 @@ class GlossaryViewController: UIViewController, UITableViewDelegate, UITableView
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar)  {
         searchBar.resignFirstResponder()
+    }
+    
+    // MARK: - Dismiss Keyboard
+    
+    func dismissKeyboard() {
+        
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
     }
     
     // MARK: - Navigation

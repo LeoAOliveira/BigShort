@@ -62,6 +62,8 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
         }
     }
     
+    // MARK: - Fetch from CoreData
+    
     func fetchData(){
         
         context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -76,6 +78,8 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
         }
     }
     
+    // MARK: - Notifications
+    
     func notifications(){
         
         removeNotifications.removeAllPendingNotificationRequests()
@@ -84,7 +88,7 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
         notificationCenter.getNotificationSettings { (settings) in
             if settings.authorizationStatus == .authorized {
                 
-                // Abertura
+                // Opening
                 let content1 = UNMutableNotificationContent()
                 content1.title = NSString.localizedUserNotificationString(forKey: "Mercado aberto", arguments: nil)
                 content1.sound = UNNotificationSound.default
@@ -104,7 +108,7 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
                     }
                 }
                 
-                // Fechamento
+                // Closing
                 let content2 = UNMutableNotificationContent()
                 content2.title = NSString.localizedUserNotificationString(forKey: "Mercado fechado", arguments: nil)
                 content2.sound = UNNotificationSound.default
@@ -130,8 +134,18 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
             }
         }
     }
-
-    // MARK: - Table view data source
+    
+    @IBAction func notificationsSwitchChanged(_ sender: Any) {
+        
+        if notificationsSwitch.isOn{
+            data1[0].notifications = true
+            
+        } else{
+            data1[0].notifications = false
+        }
+    }
+    
+    // MARK: - Table view data source and delegate
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -174,12 +188,16 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
         }
     }
     
+    // MARK: - TextField
+    
     func balanceTextField(textField: UITextField){
         balanceTextField = textField
         balanceTextField?.placeholder = "Escreva aqui"
         balanceTextField?.keyboardType = UIKeyboardType.numberPad
         balanceTextField?.keyboardAppearance = UIKeyboardAppearance.dark
     }
+    
+    // MARK: - Create alert
     
     func addHandle(alert: UIAlertAction!){
         
@@ -202,6 +220,8 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
             }
         }
     }
+    
+    // MARK: - Restart simulator
     
     func restartHandler(alert: UIAlertAction){
         
@@ -260,16 +280,5 @@ class SettingsTableViewController: UITableViewController, UNUserNotificationCent
         navigationController?.navigationBar.isHidden = true
         performSegue(withIdentifier: "restartSegue", sender: self)
     }
-    
-    @IBAction func notificationsSwitchChanged(_ sender: Any) {
-        
-        if notificationsSwitch.isOn{
-            data1[0].notifications = true
-        
-        } else{
-            data1[0].notifications = false
-        }
-    }
-    
     
 }

@@ -41,6 +41,8 @@ class SearchStockViewController: UIViewController, UITableViewDelegate, UITableV
         sortStocks()
     }
     
+    // MARK: - Sort Data
+    
     func sortStocks() {
         
         let sortedData2 = self.data2.sorted(by: { $0.symbol! < $1.symbol! })
@@ -55,8 +57,9 @@ class SearchStockViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
+    // MARK: - Fetch from CoreData
     
-    func fetchData(){
+    func fetchData() {
         
         context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         

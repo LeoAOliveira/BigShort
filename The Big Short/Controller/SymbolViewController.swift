@@ -33,9 +33,17 @@ class SymbolViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         navBarTitle.title = selectedStock
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 241/255, green: 246/255, blue: 252/255, alpha: 1.0)]
         
+        fetchData()
+    }
+    
+    // MARK: - Fetch from CoreData
+    
+    func fetchData() {
+       
         dataManager = DataManager(symbolViewController: self)
         
         dataManager?.fetchData(completion: { isValid in
@@ -55,8 +63,8 @@ class SymbolViewController: UIViewController {
         })
     }
     
-    
     // MARK: - Market verification
+    
     func verifyMarket(purpose: String){
         
         let marketStatus = MarketManager.verifyMarket(purpose: purpose)
@@ -76,6 +84,7 @@ class SymbolViewController: UIViewController {
     }
     
     // MARK: - Create alert
+    
     func createAlert(title: String, message: String, actionTitle: String){
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)

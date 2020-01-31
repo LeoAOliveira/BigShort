@@ -66,19 +66,8 @@ class StocksViewController: UIViewController {
         })
     }
     
-    // MARK: - Create alert
-    
-    func createAlert(title: String, message: String, actionTitle: String){
-        
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        
-        let fillLabelAction = UIAlertAction(title: actionTitle, style: UIAlertAction.Style.default, handler: nil)
-        alert.addAction(fillLabelAction)
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    
     // MARK: - Market verification
+    
     func verifyMarket(purpose: String){
         
         let marketStatus = MarketManager.verifyMarket(purpose: purpose)
@@ -103,6 +92,17 @@ class StocksViewController: UIViewController {
         } else {
             print("Error at market verification")
         }
+    }
+    
+    // MARK: - Create alert
+    
+    func createAlert(title: String, message: String, actionTitle: String){
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        
+        let fillLabelAction = UIAlertAction(title: actionTitle, style: UIAlertAction.Style.default, handler: nil)
+        alert.addAction(fillLabelAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
     // MARK: - Navigation

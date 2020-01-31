@@ -115,6 +115,7 @@ class DataManager: NSObject {
     // MARK: - Pass data to controller
     func setController(completion: @escaping (Bool) -> () ) {
         
+        // Main
         if mainViewController != nil {
             
             guard let mainVC = mainViewController else {
@@ -131,6 +132,7 @@ class DataManager: NSObject {
             mainVC.currencyIndex = indexCurrency
             mainVC.tableView.reloadData()
         
+        // Stocks
         } else if stocksViewController != nil {
             
             guard let stocksVC = stocksViewController else {
@@ -144,6 +146,7 @@ class DataManager: NSObject {
             stocksVC.index = indexStock
             stocksVC.tableView.reloadData()
             
+        // Currencies
         } else if currenciesViewController != nil {
             
             guard let currenciesVC = currenciesViewController else {
@@ -157,6 +160,7 @@ class DataManager: NSObject {
             currenciesVC.currencyIndex = indexCurrency
             currenciesVC.tableView.reloadData()
             
+        // Symbol
         } else if symbolViewController != nil {
             
             guard let symbolVC = symbolViewController else {
@@ -168,6 +172,7 @@ class DataManager: NSObject {
             symbolVC.data2 = data2
             symbolVC.tableView.reloadData()
             
+        // Code
         } else if codeViewController != nil {
             
             guard let codeVC = codeViewController else {
@@ -180,6 +185,7 @@ class DataManager: NSObject {
 
             codeVC.tableView.reloadData()
             
+        // Wallet
         } else {
             
             guard let walletVC = walletViewController else {

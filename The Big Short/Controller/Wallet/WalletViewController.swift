@@ -56,7 +56,7 @@ class WalletViewController: UIViewController {
         fetchData()
     }
     
-    // MARK: - Fetch from CoreData and Stock Data update
+    // MARK: - Fetch from CoreData
     
     func fetchData() {
        
@@ -80,11 +80,12 @@ class WalletViewController: UIViewController {
         
     }
     
+    // MARK: - Segmented Control
+    
     @IBAction func segmentValueChanged(_ sender: Any) {
         
         tableView.reloadData()
     }
-    
     
     
     // MARK: - Create alert
