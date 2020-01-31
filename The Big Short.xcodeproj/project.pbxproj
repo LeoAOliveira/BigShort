@@ -63,6 +63,10 @@
 		A7A14D0B23DF42C600ACB059 /* WalletTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A14D0A23DF42C600ACB059 /* WalletTableViewDelegate.swift */; };
 		A7A14D0D23DF4A4800ACB059 /* ChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A14D0C23DF4A4800ACB059 /* ChartCell.swift */; };
 		A7A14D0F23DF5E5200ACB059 /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A14D0E23DF5E5200ACB059 /* BarChartView.swift */; };
+		A7F00B7F23E35FAD00336356 /* SymbolTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F00B7E23E35FAD00336356 /* SymbolTableViewDataSource.swift */; };
+		A7F00B8123E365AB00336356 /* SymbolTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F00B8023E365AB00336356 /* SymbolTableViewDelegate.swift */; };
+		A7F00B8323E3668A00336356 /* CodeTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F00B8223E3668A00336356 /* CodeTableViewDataSource.swift */; };
+		A7F00B8523E3678500336356 /* CodeTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F00B8423E3678500336356 /* CodeTableViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -125,6 +129,10 @@
 		A7A14D0A23DF42C600ACB059 /* WalletTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletTableViewDelegate.swift; sourceTree = "<group>"; };
 		A7A14D0C23DF4A4800ACB059 /* ChartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCell.swift; sourceTree = "<group>"; };
 		A7A14D0E23DF5E5200ACB059 /* BarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
+		A7F00B7E23E35FAD00336356 /* SymbolTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolTableViewDataSource.swift; sourceTree = "<group>"; };
+		A7F00B8023E365AB00336356 /* SymbolTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolTableViewDelegate.swift; sourceTree = "<group>"; };
+		A7F00B8223E3668A00336356 /* CodeTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTableViewDataSource.swift; sourceTree = "<group>"; };
+		A7F00B8423E3678500336356 /* CodeTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTableViewDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,10 +197,10 @@
 				76D079AA22F1CACD004BCF73 /* Stocks */,
 				A76587F423D9245A00D517F8 /* Currencies */,
 				A7A14D0523DF423600ACB059 /* Wallet */,
-				A76587E123D267A100D517F8 /* Delegates */,
 				76D079B122F238A8004BCF73 /* Glossary */,
 				76D079B722F741F6004BCF73 /* Settings */,
 				76D079BC22F794A4004BCF73 /* Intro */,
+				A76587E123D267A100D517F8 /* Delegates */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -267,7 +275,9 @@
 			children = (
 				A76587EC23D680D500D517F8 /* MainTableViewDataSource.swift */,
 				A76587DB23D2671C00D517F8 /* StocksTableViewDataSource.swift */,
+				A7F00B7E23E35FAD00336356 /* SymbolTableViewDataSource.swift */,
 				A76587FA23D92E9E00D517F8 /* CurrenciesTableViewDataSource.swift */,
+				A7F00B8223E3668A00336356 /* CodeTableViewDataSource.swift */,
 				A7A14D0823DF42A900ACB059 /* WalletTableViewDataSource.swift */,
 			);
 			path = DataSources;
@@ -287,7 +297,9 @@
 			children = (
 				A76587F023D68D9600D517F8 /* MainTableViewDelegate.swift */,
 				A76587DF23D2679000D517F8 /* StocksTableViewDelegate.swift */,
+				A7F00B8023E365AB00336356 /* SymbolTableViewDelegate.swift */,
 				A76587FE23DA206B00D517F8 /* CurrenciesTableViewDelegate.swift */,
+				A7F00B8423E3678500336356 /* CodeTableViewDelegate.swift */,
 				A7A14D0A23DF42C600ACB059 /* WalletTableViewDelegate.swift */,
 			);
 			name = Delegates;
@@ -427,19 +439,23 @@
 				762D04DA22EBD6F200D537E6 /* PositionCell.swift in Sources */,
 				A76587F123D68D9600D517F8 /* MainTableViewDelegate.swift in Sources */,
 				A76587FD23D930FA00D517F8 /* CurrencyCell.swift in Sources */,
+				A7F00B8323E3668A00336356 /* CodeTableViewDataSource.swift in Sources */,
 				A76587E023D2679000D517F8 /* StocksTableViewDelegate.swift in Sources */,
 				A765880123DA7BB400D517F8 /* BuySellCurrencyViewController.swift in Sources */,
 				76D079B422F4C909004BCF73 /* WordCell.swift in Sources */,
 				A76587F923D924A800D517F8 /* CurrenciesViewController.swift in Sources */,
 				A78D253A23D0D59D002FC307 /* MathOperations.swift in Sources */,
 				762459EC22D7ACB3009B915B /* AppDelegate.swift in Sources */,
+				A7F00B8523E3678500336356 /* CodeTableViewDelegate.swift in Sources */,
 				764DD5C222EB734800719F5F /* StocksViewController.swift in Sources */,
 				76C105DC22F7D24300A1F6C2 /* TermsViewController.swift in Sources */,
+				A7F00B8123E365AB00336356 /* SymbolTableViewDelegate.swift in Sources */,
 				A7A14D0423DF2FDB00ACB059 /* SectorChartView.swift in Sources */,
 				A76587D823D15DC300D517F8 /* DataManager.swift in Sources */,
 				A76587E723D27BC100D517F8 /* MarketManager.swift in Sources */,
 				76D079A722F1B722004BCF73 /* GlossaryViewController.swift in Sources */,
 				7654424022E968BD0096CA00 /* StockData.swift in Sources */,
+				A7F00B7F23E35FAD00336356 /* SymbolTableViewDataSource.swift in Sources */,
 				76D079A122F0805A004BCF73 /* BuySellStockViewController.swift in Sources */,
 				7664A2C822DD184300EE5BE0 /* InvestmentsCell.swift in Sources */,
 				76C105DE22F7EC5600A1F6C2 /* CustomView.swift in Sources */,
@@ -601,14 +617,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4BUKN8ST5B;
 				INFOPLIST_FILE = "The Big Short/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "LeoAOliveira.The-Big-Short";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -621,14 +637,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4BUKN8ST5B;
 				INFOPLIST_FILE = "The Big Short/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "LeoAOliveira.The-Big-Short";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

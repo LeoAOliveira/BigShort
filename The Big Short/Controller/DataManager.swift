@@ -15,6 +15,8 @@ class DataManager: NSObject {
     weak var mainViewController: MainViewController?
     weak var stocksViewController: StocksViewController?
     weak var currenciesViewController: CurrenciesViewController?
+    weak var symbolViewController: SymbolViewController?
+    weak var codeViewController: CodeViewController?
     weak var walletViewController: WalletViewController?
     
     var context: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -29,11 +31,13 @@ class DataManager: NSObject {
     var indexCurrency: [Int] = []
     var currencyList = [String]()
     
-    init(mainViewController: MainViewController? = nil, stocksViewController: StocksViewController? = nil, currenciesViewController: CurrenciesViewController? = nil, walletViewController: WalletViewController? = nil) {
+    init(mainViewController: MainViewController? = nil, stocksViewController: StocksViewController? = nil, currenciesViewController: CurrenciesViewController? = nil, symbolViewController: SymbolViewController? = nil, codeViewController: CodeViewController? = nil, walletViewController: WalletViewController? = nil) {
         super.init()
         self.mainViewController = mainViewController
         self.stocksViewController = stocksViewController
         self.currenciesViewController = currenciesViewController
+        self.symbolViewController = symbolViewController
+        self.codeViewController = codeViewController
         self.walletViewController = walletViewController
     }
     
@@ -125,7 +129,6 @@ class DataManager: NSObject {
             mainVC.stockIndex = indexStock
             mainVC.currencyList = currencyList
             mainVC.currencyIndex = indexCurrency
-
             mainVC.tableView.reloadData()
         
         } else if stocksViewController != nil {
@@ -139,7 +142,6 @@ class DataManager: NSObject {
             stocksVC.data2 = data2
             stocksVC.stockList = stockList
             stocksVC.index = indexStock
-            
             stocksVC.tableView.reloadData()
             
         } else if currenciesViewController != nil {
@@ -153,8 +155,30 @@ class DataManager: NSObject {
             currenciesVC.data4 = data4
             currenciesVC.currencyList = currencyList
             currenciesVC.currencyIndex = indexCurrency
-
             currenciesVC.tableView.reloadData()
+            
+        } else if symbolViewController != nil {
+            
+            guard let symbolVC = symbolViewController else {
+                completion(false)
+                return
+            }
+
+            symbolVC.data1 = data1
+            symbolVC.data2 = data2
+            symbolVC.tableView.reloadData()
+            
+        } else if codeViewController != nil {
+            
+            guard let codeVC = codeViewController else {
+                completion(false)
+                return
+            }
+
+            codeVC.data1 = data1
+            codeVC.data4 = data4
+
+            codeVC.tableView.reloadData()
             
         } else {
             
@@ -170,7 +194,6 @@ class DataManager: NSObject {
             walletVC.stockIndex = indexStock
             walletVC.currencyList = currencyList
             walletVC.currencyIndex = indexCurrency
-
             walletVC.tableView.reloadData()
             
         }

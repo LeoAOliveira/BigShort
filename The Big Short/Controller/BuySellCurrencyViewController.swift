@@ -72,7 +72,7 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
     
     func findIndex() {
         
-        for i in 0...47{
+        for i in 0...data4.count-1{
             
             if data4[i].symbol == selectedCurrency {
                 index = i
@@ -349,15 +349,14 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
                 
                 } else if data4.invested - invested > 0{
                     data4.invested = data4.invested - invested
+                    data4.mediumPrice -= 1
                 
                 } else{
                     createAlert(title: "Saldo insuficiente", message: "Não há saldo sufifiente para essa compra.", actionTitle: "OK")
                     return
                 }
                 data4.timesBought -= 1
-                data4.invested = data4.invested - invested
                 data4.investedBRL = data4.investedBRL - investedBRL
-                data4.invested = data4.invested - invested
                 data1.availableBalance = data1.availableBalance + balance
                 
                 do {

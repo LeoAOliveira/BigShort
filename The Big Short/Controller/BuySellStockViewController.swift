@@ -73,7 +73,7 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
     
     func findIndex() {
         
-        for i in 0...47{
+        for i in 0...data2.count-1 {
             
             if data2[i].symbol == selectedStock {
                 index = i
@@ -372,6 +372,7 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
                 
                 } else if data2.invested - invested > 0{
                     data2.invested = data2.invested - invested
+                    data2.mediumPrice -= 1
                 
                 } else{
                     createAlert(title: "Saldo insuficiente", message: "Não há saldo sufifiente para essa compra.", actionTitle: "OK")
@@ -379,9 +380,8 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
                 }
                 
                 data2.timesBought -= 1
-                data2.amount = data2.amount - amount
-                data2.invested = data2.invested - invested
-                data1.availableBalance = data1.availableBalance + balance
+                data2.amount -= amount
+                data1.availableBalance += balance
                 
                 do{
                     try self.context.save()
@@ -405,12 +405,7 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    func positionPrice() -> Float{
-        
-        let position: Float = data2[index].price * data2[index].amount
-        
-        return position
-    }
+    // MARK: - TextField
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)

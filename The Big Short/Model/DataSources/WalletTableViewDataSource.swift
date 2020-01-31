@@ -77,7 +77,7 @@ class WalletTableViewDataSource: NSObject, UITableViewDataSource {
             
             var incomeValue = 0.0
             
-            // Todos
+            // All
             if walletVC.segmented.selectedSegmentIndex == 0 {
                 
                 let totalInvestment: Float = stocksCurrentPrice() + currenciesCurrentPrice()
@@ -87,7 +87,7 @@ class WalletTableViewDataSource: NSObject, UITableViewDataSource {
                 cell.valueLabel.text = MathOperations.currencyFormatter(value: totalInvestment)
                 incomeValue = Double(MathOperations.calculateIncome(value1: totalInvestment, value2: invested))
             
-            // Ações
+            // Stocks
             } else if walletVC.segmented.selectedSegmentIndex == 1 {
                 
                 let totalInvestment: Float = stocksCurrentPrice()
@@ -96,7 +96,7 @@ class WalletTableViewDataSource: NSObject, UITableViewDataSource {
                 cell.valueLabel.text = MathOperations.currencyFormatter(value: totalInvestment)
                 incomeValue = Double(MathOperations.calculateIncome(value1: stocksCurrentPrice(), value2: investedStocksValue()))
             
-            // Moedas
+            // Currencies
             } else {
                 
                 let totalInvestment: Float = currenciesCurrentPrice()
@@ -127,7 +127,7 @@ class WalletTableViewDataSource: NSObject, UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "walletCell", for: indexPath) as! MenuCell
             
-            // Todos
+            // All
             if walletVC.segmented.selectedSegmentIndex == 0 {
             
                 cell.titleLabel.text = "Carteira"
@@ -135,7 +135,7 @@ class WalletTableViewDataSource: NSObject, UITableViewDataSource {
                 let invested = investedStocksValue() + investedCurrencyValue()
                 cell.description1Label.text = MathOperations.currencyFormatter(value: invested)
             
-            // Ações
+            // Stocks
             } else if walletVC.segmented.selectedSegmentIndex == 1 {
             
                 cell.titleLabel.text = "Ações"
@@ -143,7 +143,7 @@ class WalletTableViewDataSource: NSObject, UITableViewDataSource {
                 let invested = investedStocksValue()
                 cell.description1Label.text = MathOperations.currencyFormatter(value: invested)
             
-            // Moedas
+            // Currencies
             } else {
                 
                 cell.titleLabel.text = "Moedas"
@@ -159,7 +159,7 @@ class WalletTableViewDataSource: NSObject, UITableViewDataSource {
         // MARK: - Chart Card
         } else {
             
-            // Todos
+            // All
             if walletVC.segmented.selectedSegmentIndex == 0 {
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "sectorCell", for: indexPath) as! ChartCell
@@ -174,7 +174,7 @@ class WalletTableViewDataSource: NSObject, UITableViewDataSource {
                 
                 return cell
             
-            // Ações
+            // Stocks
             } else if walletVC.segmented.selectedSegmentIndex == 1 {
             
                 let cell = tableView.dequeueReusableCell(withIdentifier: "barCell", for: indexPath) as! ChartCell
@@ -190,7 +190,7 @@ class WalletTableViewDataSource: NSObject, UITableViewDataSource {
                 
                 return cell
             
-            // Moedas
+            // Currencies
             } else {
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "barCell", for: indexPath) as! ChartCell
