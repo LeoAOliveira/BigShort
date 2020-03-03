@@ -171,8 +171,8 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
                     data4.mediumPrice = (data4.mediumPrice + price)/2.0
                 }
                 
-                data4.invested = invested
-                data4.investedBRL = data4.investedBRL + investedBRL
+                data4.invested += invested
+                data4.investedBRL += investedBRL
                 data4.timesBought += 1
                 
                 data1[0].availableBalance = balance
@@ -235,16 +235,17 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
                     data4.mediumPrice = 0
                 
                 } else if data4.invested - invested > 0{
-                    data4.invested = data4.invested - invested
+                    data4.invested -= invested
                     data4.mediumPrice -= 1
                 
                 } else{
                     createAlert(title: "Saldo insuficiente", message: "Não há saldo sufifiente para essa compra.", actionTitle: "OK")
                     return
                 }
+                
                 data4.timesBought -= 1
-                data4.investedBRL = data4.investedBRL - investedBRL
-                data1.availableBalance = data1.availableBalance + balance
+                data4.investedBRL -= investedBRL
+                data1.availableBalance += balance
                 
                 do {
                     try self.context.save()
