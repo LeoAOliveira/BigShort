@@ -15,5 +15,113 @@
             type = "4">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "23885306-FA1B-44C8-891B-B7FCD9F46A8D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "The Big Short/Controller/StocksViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "14"
+            endingLineNumber = "14"
+            landmarkName = "StocksViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "23885306-FA1B-44C8-891B-B7FCD9F46A8D - 884595ef880f0015"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "The_Big_Short.StocksViewController.data1.getter : Swift.Array&lt;The_Big_Short.Wallet&gt;"
+                  moduleName = "The Big Short"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/leonardo/Desktop/Apple%20Developer%20Academy/Challenges/Fe%CC%81rias%20Challenges/Fe%CC%81rias%201%20(Logos)/The%20Big%20Short/The%20Big%20Short/Controller/StocksViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "140">
+               </Location>
+               <Location
+                  uuid = "23885306-FA1B-44C8-891B-B7FCD9F46A8D - 174b41ccc3d9f419"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "The_Big_Short.StocksViewController.data1.setter : Swift.Array&lt;The_Big_Short.Wallet&gt;"
+                  moduleName = "The Big Short"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/leonardo/Desktop/Apple%20Developer%20Academy/Challenges/Fe%CC%81rias%20Challenges/Fe%CC%81rias%201%20(Logos)/The%20Big%20Short/The%20Big%20Short/Controller/StocksViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "192">
+               </Location>
+               <Location
+                  uuid = "23885306-FA1B-44C8-891B-B7FCD9F46A8D - 679ac560ff269d08"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "The_Big_Short.StocksViewController.data1.modify : Swift.Array&lt;The_Big_Short.Wallet&gt;"
+                  moduleName = "The Big Short"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/leonardo/Desktop/Apple%20Developer%20Academy/Challenges/Fe%CC%81rias%20Challenges/Fe%CC%81rias%201%20(Logos)/The%20Big%20Short/The%20Big%20Short/Controller/StocksViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "23885306-FA1B-44C8-891B-B7FCD9F46A8D - 7b245b94c9b2b5d4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "The_Big_Short.StocksViewController.data1.modify : Swift.Array&lt;The_Big_Short.Wallet&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "The Big Short"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/leonardo/Desktop/Apple%20Developer%20Academy/Challenges/Fe%CC%81rias%20Challenges/Fe%CC%81rias%201%20(Logos)/The%20Big%20Short/The%20Big%20Short/Controller/StocksViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "23885306-FA1B-44C8-891B-B7FCD9F46A8D - 76cdca393b813800"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "The_Big_Short.StocksViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; The_Big_Short.StocksViewController"
+                  moduleName = "The Big Short"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/leonardo/Desktop/Apple%20Developer%20Academy/Challenges/Fe%CC%81rias%20Challenges/Fe%CC%81rias%201%20(Logos)/The%20Big%20Short/The%20Big%20Short/Controller/StocksViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "348">
+               </Location>
+               <Location
+                  uuid = "23885306-FA1B-44C8-891B-B7FCD9F46A8D - 72214b6f867b1dc2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "The_Big_Short.StocksViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;The_Big_Short.StocksViewController&gt;"
+                  moduleName = "The Big Short"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/leonardo/Desktop/Apple%20Developer%20Academy/Challenges/Fe%CC%81rias%20Challenges/Fe%CC%81rias%201%20(Logos)/The%20Big%20Short/The%20Big%20Short/Controller/StocksViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "296">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

@@ -15,7 +15,7 @@
                 <navigationController id="YmW-l4-qpD" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Simulador" image="sim2" selectedImage="sim1" id="igC-uF-pqB"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="Pal-c6-tWp">
-                        <rect key="frame" x="0.0" y="44" width="414" height="104.5"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.059875689449999998" green="0.1087657586" blue="0.1725582182" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <color key="tintColor" red="0.53725490196078429" green="0.70502692460000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -37,11 +37,11 @@
             <objects>
                 <viewController id="ANw-83-ThJ" customClass="CurrenciesViewController" customModule="The_Big_Short" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uXE-wr-Kf0">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="747.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="756"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FTe-5N-AUt">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="664.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="673"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="myInvestmentsCell" rowHeight="200" id="B6H-5U-hbM" customClass="InvestmentsCell" customModule="The_Big_Short" customModuleProvider="target">
@@ -1105,13 +1105,13 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="rLu-tB-2we">
                                                             <rect key="frame" x="90" y="22" width="264" height="46.5"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text=" AAAA" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YzK-Bf-C7B">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" ambiguous="YES" text=" AAAA" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YzK-Bf-C7B">
                                                                     <rect key="frame" x="0.0" y="0.0" width="264" height="20.5"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                                     <color key="textColor" red="0.94509803920000002" green="0.96470588239999999" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" AAA" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4cL-0R-Buh">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text=" AAA" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4cL-0R-Buh">
                                                                     <rect key="frame" x="0.0" y="30.5" width="264" height="16"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                                     <color key="textColor" red="0.94509803920000002" green="0.96470588239999999" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -1782,7 +1782,7 @@
                 <navigationController id="pu8-ce-6lT" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Geral" image="settings2" selectedImage="settings1" id="B6t-BH-QjD"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="4BG-2S-3lC">
-                        <rect key="frame" x="0.0" y="44" width="414" height="104.5"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.53725490200000003" green="0.70502692460000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <color key="barTintColor" red="0.059875689449999998" green="0.1087657586" blue="0.1725582182" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -1804,7 +1804,7 @@
                 <navigationController id="y01-Jx-Syr" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Glossário" image="book2" selectedImage="book1" id="eH6-wE-LiE"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="ekE-D9-2zw">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="104.5"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.53725490200000003" green="0.70502692460000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <color key="barTintColor" red="0.059875689449999998" green="0.1087657586" blue="0.1725582182" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -1991,11 +1991,11 @@
             <objects>
                 <viewController id="VsR-7e-mgO" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="p3D-zR-Q9s">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="747.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="756"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="white" editable="NO" textAlignment="justified" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gDt-do-DLA">
-                                <rect key="frame" x="20" y="0.0" width="374" height="664.5"/>
+                                <rect key="frame" x="20" y="0.0" width="374" height="673"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <string key="text"> BEM VINDO AO LOGOS SIMULADOR. POR FAVOR LEIA COM ATENÇÃO OS TERMOS DE USO. AO FINAL DOS TERMOS, ESCREVENDO A FRASE “EU CONCORDO”, INDICA QUE VOCÊ LEU, ENTENDEU E CONCORDOU EM CUMPRIR OS TERMOS DE USO. CASO VOCÊ NÃO CONCORDAR, VOCÊ NÃO PODERÁ UTILIZAR ESSE APLICATIVO. OBSERVE QUE OS TERMOS DE USO ESTÃO SUJEITOS A MUDANÇA PELO DESENVOLVEDOR A SEU EXCLUSIVO CRITÉRIO E A QUALQUER MOMENTO. QUANDO MUDANÇAS FOREM FEITAS, UM NOVO TERMO DE USO SERÁ APRESENTADO À VOCÊ E, NOVAMENTE, PEDIRÁ SUA CONCORDÂNCIA.
 
@@ -2763,8 +2763,8 @@ Máximo de R$ 100.000,00</string>
         <scene sceneID="EI4-4m-nMp">
             <objects>
                 <viewController id="kCr-Uz-bSH" customClass="WalletViewController" customModule="The_Big_Short" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="VwJ-yY-Tzu">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="747.5"/>
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="VwJ-yY-Tzu">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="KZC-Af-GUh">
@@ -2817,7 +2817,7 @@ Máximo de R$ 100.000,00</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="walletCell" rowHeight="145" id="awK-wF-okG" customClass="MenuCell" customModule="The_Big_Short" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="198" width="414" height="145"/>
+                                        <rect key="frame" x="0.0" y="72" width="414" height="145"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="awK-wF-okG" id="vAU-MH-iJs">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="145"/>
@@ -2901,7 +2901,7 @@ Máximo de R$ 100.000,00</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="barCell" rowHeight="35" id="P1w-Ri-d57" customClass="ChartCell" customModule="The_Big_Short" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="343" width="414" height="35"/>
+                                        <rect key="frame" x="0.0" y="217" width="414" height="35"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="P1w-Ri-d57" id="ycT-Sn-Dc8">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="35"/>
@@ -2953,7 +2953,7 @@ Máximo de R$ 100.000,00</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="sectorCell" rowHeight="220" id="HQN-7h-il4" customClass="ChartCell" customModule="The_Big_Short" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="378" width="414" height="220"/>
+                                        <rect key="frame" x="0.0" y="252" width="414" height="220"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HQN-7h-il4" id="YkP-Bh-4D2">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="220"/>
@@ -3037,6 +3037,15 @@ Máximo de R$ 100.000,00</string>
                                             <outlet property="description2Label" destination="NKf-Vt-kg4" id="r5F-MK-yhq"/>
                                             <outlet property="sectorChart" destination="XwG-Sw-LfP" id="rIw-Wo-FbU"/>
                                         </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="chartCell" rowHeight="220" id="jLD-Ab-MyL" customClass="ChartCell" customModule="The_Big_Short" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="472" width="414" height="220"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jLD-Ab-MyL" id="JbI-0x-FL5">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="220"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>

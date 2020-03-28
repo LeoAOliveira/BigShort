@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CareKitUI
 
 class WalletTableViewDataSource: NSObject, UITableViewDataSource {
     
@@ -162,15 +163,79 @@ class WalletTableViewDataSource: NSObject, UITableViewDataSource {
             // All
             if walletVC.segmented.selectedSegmentIndex == 0 {
                 
-                let cell = tableView.dequeueReusableCell(withIdentifier: "sectorCell", for: indexPath) as! ChartCell
+//                let cell = tableView.dequeueReusableCell(withIdentifier: "sectorCell", for: indexPath) as! ChartCell
+//                
+//                let totalInvestment: Float = stocksCurrentPrice() + currenciesCurrentPrice()
+//                
+//                let stocks: Float = ((100 * stocksCurrentPrice()) / totalInvestment) / 100
+//                
+//                cell.sectorChart.firstValue = CGFloat(stocks)
+//                cell.color1.layer.cornerRadius = 7.0
+//                cell.color2.layer.cornerRadius = 7.0
                 
-                let totalInvestment: Float = stocksCurrentPrice() + currenciesCurrentPrice()
+                let cell = tableView.dequeueReusableCell(withIdentifier: "chartCell", for: indexPath)
                 
-                let stocks: Float = ((100 * stocksCurrentPrice()) / totalInvestment) / 100
+                let chartView = OCKCartesianChartView(type: .line)
+
+                chartView.headerView.titleLabel.text = "Resultado de Semanal"
+                chartView.headerView.detailLabel.text = "Desempenho em %"
+                chartView.graphView.horizontalAxisMarkers = ["23", "24", "25", "26", "27"]
+
+                var dataSeries1 = OCKDataSeries(values: [-5, -12, -3, 0, 5], 
+                                                title: "Ações", 
+                                                gradientStartColor: #colorLiteral(red: 0.4568741859, green: 0.606234932, blue: 0.869666085, alpha: 1), 
+                                                gradientEndColor: #colorLiteral(red: 0.5317068696, green: 0.7064753175, blue: 0.9996883273, alpha: 1))
                 
-                cell.sectorChart.firstValue = CGFloat(stocks)
-                cell.color1.layer.cornerRadius = 7.0
-                cell.color2.layer.cornerRadius = 7.0
+                var dataSeries2 = OCKDataSeries(values: [3, 10, 8, 4, 4], 
+                                                title: "Moedas", 
+                                                gradientStartColor: #colorLiteral(red: 1, green: 0.7709652185, blue: 0.2649626732, alpha: 1), 
+                                                gradientEndColor: #colorLiteral(red: 0.9843137264, green: 0.850980401, blue: 0, alpha: 1))
+                
+                var dataSeries3 = OCKDataSeries(values: [-7, -10, -2, 7, 10], 
+                                                title: "Ibovespa", 
+                                                gradientStartColor: #colorLiteral(red: 0.8608239889, green: 0.0958115384, blue: 0.1982795596, alpha: 1), 
+                                                gradientEndColor: #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1))
+                
+                dataSeries1.size = 2.5
+                dataSeries2.size = 2.5
+                dataSeries3.size = 2.5
+                
+                
+                chartView.graphView.dataSeries = [dataSeries1, dataSeries2, dataSeries3]
+                
+                chartView.graphView.yMaximum = 20
+                chartView.graphView.yMinimum = -20
+                
+//                chartView.backgroundColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1) 
+//                
+//                chartView.tintColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1) 
+//                
+//                chartView.graphView.tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1) 
+//                
+//                chartView.graphView.backgroundColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1) 
+//                
+//                chartView.graphView.layer.backgroundColor = #colorLiteral(red: 0.5058823824, green: 0.3372549117, blue: 0.06666667014, alpha: 1) 
+//                
+//                chartView.graphView.layer.borderColor = #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1) 
+//                
+//                chartView.graphView.layer.shadowColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1) 
+//                
+//                chartView.headerView.backgroundColor = #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1) 
+//                
+//                chartView.headerView.tintColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1) 
+//                
+//                chartView.layer.cornerRadius = 0.0
+//                chartView.layer.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1) 
+//                
+                cell.contentView.addSubview(chartView)
+                chartView.translatesAutoresizingMaskIntoConstraints = false
+                
+                NSLayoutConstraint.activate([
+                    chartView.leadingAnchor.constraint(equalTo: cell.contentView.safeAreaLayoutGuide.leadingAnchor),
+                    chartView.trailingAnchor.constraint(equalTo: cell.contentView.safeAreaLayoutGuide.trailingAnchor),
+                    chartView.topAnchor.constraint(equalTo: cell.contentView.safeAreaLayoutGuide.topAnchor),
+                    chartView.bottomAnchor.constraint(equalTo: cell.contentView.safeAreaLayoutGuide.bottomAnchor)
+                ])
                 
                 return cell
             

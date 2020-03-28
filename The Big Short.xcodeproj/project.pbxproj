@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -63,6 +63,7 @@
 		A7A14D0B23DF42C600ACB059 /* WalletTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A14D0A23DF42C600ACB059 /* WalletTableViewDelegate.swift */; };
 		A7A14D0D23DF4A4800ACB059 /* ChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A14D0C23DF4A4800ACB059 /* ChartCell.swift */; };
 		A7A14D0F23DF5E5200ACB059 /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A14D0E23DF5E5200ACB059 /* BarChartView.swift */; };
+		A7CF3737240EF60700D9FE1B /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = A7CF3736240EF60700D9FE1B /* CareKitUI */; };
 		A7F00B7F23E35FAD00336356 /* SymbolTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F00B7E23E35FAD00336356 /* SymbolTableViewDataSource.swift */; };
 		A7F00B8123E365AB00336356 /* SymbolTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F00B8023E365AB00336356 /* SymbolTableViewDelegate.swift */; };
 		A7F00B8323E3668A00336356 /* CodeTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F00B8223E3668A00336356 /* CodeTableViewDataSource.swift */; };
@@ -140,6 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7CF3737240EF60700D9FE1B /* CareKitUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +361,9 @@
 			dependencies = (
 			);
 			name = "The Big Short";
+			packageProductDependencies = (
+				A7CF3736240EF60700D9FE1B /* CareKitUI */,
+			);
 			productName = "The Big Short";
 			productReference = 762459E822D7ACB3009B915B /* The Big Short.app */;
 			productType = "com.apple.product-type.application";
@@ -387,6 +392,9 @@
 				Base,
 			);
 			mainGroup = 762459DF22D7ACB3009B915B;
+			packageReferences = (
+				A7CF3735240EF60700D9FE1B /* XCRemoteSwiftPackageReference "CareKit" */,
+			);
 			productRefGroup = 762459E922D7ACB3009B915B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -620,6 +628,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4BUKN8ST5B;
 				INFOPLIST_FILE = "The Big Short/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -640,6 +649,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4BUKN8ST5B;
 				INFOPLIST_FILE = "The Big Short/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -674,6 +684,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A7CF3735240EF60700D9FE1B /* XCRemoteSwiftPackageReference "CareKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/carekit-apple/CareKit";
+			requirement = {
+				branch = stable;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A7CF3736240EF60700D9FE1B /* CareKitUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A7CF3735240EF60700D9FE1B /* XCRemoteSwiftPackageReference "CareKit" */;
+			productName = CareKitUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		762459F222D7ACB3009B915B /* The_Big_Short.xcdatamodeld */ = {
