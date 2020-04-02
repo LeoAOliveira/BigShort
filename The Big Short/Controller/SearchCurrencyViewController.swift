@@ -79,7 +79,11 @@ class SearchCurrencyViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 110
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return 110
+        } else {
+            return 130
+        }
     }
     
     // MARK: - Search bar

@@ -95,7 +95,11 @@ class SearchStockViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 130
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return 130
+        } else {
+            return 150
+        }
     }
     
     

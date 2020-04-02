@@ -20,16 +20,32 @@ class SymbolTableViewDelegate: NSObject, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.row == 0 {
-            return 140
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return 140
+            } else {
+                return 210
+            }
         
         } else if indexPath.row == 1 {
-            return 110
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return 110
+            } else {
+                return 130
+            }
         
         } else if indexPath.row == 2 {
-           return 160
+           if UIDevice.current.userInterfaceIdiom == .phone {
+               return 160
+           } else {
+               return 180
+           }
             
         } else if indexPath.row == 3 {
-           return 160
+           if UIDevice.current.userInterfaceIdiom == .phone {
+               return 160
+           } else {
+               return 180
+           }
             
         } else{
             return 190

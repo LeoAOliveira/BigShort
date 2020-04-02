@@ -20,10 +20,18 @@ class MainTableViewDelegate: NSObject, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.row == 0 {
-            return 200
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return 200
+            } else {
+                return 250
+            }
             
         } else {
-           return 155
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return 155
+            } else {
+                return 175
+            }
         }
     }
     

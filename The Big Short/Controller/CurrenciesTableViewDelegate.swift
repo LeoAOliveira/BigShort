@@ -20,20 +20,40 @@ class CurrenciesTableViewDelegate: NSObject, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.row == 0 {
-            return 200
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return 200
+            } else {
+                return 250
+            }
             
         } else {
             
             guard let currenciesVC = currenciesViewController else {
-                return 165
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    return 165
+                } else {
+                    return 250
+                }
             }
             
             if indexPath.row == currenciesVC.currencyList.count+1 {
-                return 150
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    return 150
+                } else {
+                    return 170
+                }
             } else if indexPath.row == currenciesVC.currencyList.count+2 {
-                return 80
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    return 80
+                } else {
+                    return 100
+                }
             } else {
-                return 165
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    return 165
+                } else {
+                    return 185
+                }
             }
         }
     }

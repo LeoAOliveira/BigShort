@@ -47,6 +47,22 @@ class MainViewController: UIViewController {
                 
                 self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
                 
+                let specialWhite = UIColor(red: 241/255, green: 246/255, blue: 252/255, alpha: 1.0)
+                
+                if #available(iOS 13.0, *) {
+                    let navBarAppearance = UINavigationBarAppearance()
+                    navBarAppearance.configureWithOpaqueBackground()
+                    navBarAppearance.titleTextAttributes = [.foregroundColor: specialWhite]
+                    navBarAppearance.largeTitleTextAttributes = [.foregroundColor: specialWhite]
+                    navBarAppearance.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
+                    self.navigationController?.navigationBar.standardAppearance = navBarAppearance
+                    self.navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+                
+                } else {
+                    let appearence = self.navigationController?.navigationBar
+                    appearence?.titleTextAttributes = [.foregroundColor: specialWhite]
+                }
+                
             } else {
                 print("Error checkForInitialData")
             }

@@ -169,6 +169,27 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        guard let viewController = stocksViewController else {
+            return CGSize(width: 92, height: 130)
+        }
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            layout.minimumLineSpacing = 20
+            return CGSize(width: 92, height: 130)
+            
+        } else {
+            layout.minimumLineSpacing = 40
+            return CGSize(width: 140, height: 200)
+        }
+        
+    }
+    
+    
+    
     // MARK: - Market verification
     func verifyMarket(purpose: String){
         

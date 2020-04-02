@@ -20,21 +20,42 @@ class WalletTableViewDelegate: NSObject, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.row == 0 {
-            return 170
+            
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return 170
+            } else {
+                return 210
+            }
             
         } else if indexPath.row == 1 {
-            return 145
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return 145
+            } else {
+                return 165
+            }
         
         } else {
             
             guard let walletVC = walletViewController else {
-                return 220
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    return 220
+                } else {
+                    return 240
+                }
             }
             
             if walletVC.segmented.selectedSegmentIndex == 0 {
-                return 220
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    return 220
+                } else {
+                    return 240
+                }
             } else {
-                return 35
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    return 35
+                } else {
+                    return 55
+                }
             }
         }
     }
