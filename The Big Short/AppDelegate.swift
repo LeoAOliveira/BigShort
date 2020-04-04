@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import UserNotifications
 import Foundation
+import CloudKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +19,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        UNUserNotificationCenter.current().delegate = self
+
+        // Request permission from user to send notification
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { authorized, error in
+            
+            if authorized {
+                
+                DispatchQueue.main.async(execute: {
+                    let subscription = CKQuerySubscription(recordType: "Stock", predicate: NSPredicate(value: true),
+                                                           options: [.firesOnRecordCreation])
+                    let info = CKSubscription.NotificationInfo()
+                    info.alertLocalizationKey = "movie_registered_alert"
+                    info.alertLocalizationArgs = ["title"]
+                    info.soundName = "default"
+                    info.desiredKeys = ["title"]
+                    subscription.notificationInfo = info
+                    
+                    Model.currentModel.privateDB.save(subscription) { [weak self] savedSubscription, error in
+                        guard let savedSubscription = savedSubscription, error == nil else {
+                            return
+                        }
+                    }
+                    
+                    application.registerForRemoteNotifications()
+                })
+            }
+        })
         
         let color = UIColor(red: 137/255, green: 180/255, blue: 255/255, alpha: 1.0)
         UITabBar.appearance().tintColor = color
@@ -121,5 +150,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        completionHandler([.alert, .sound])
+    }
+    
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        completionHandler()
+    }
 }
 
