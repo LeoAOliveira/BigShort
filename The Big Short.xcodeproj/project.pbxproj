@@ -37,6 +37,10 @@
 		76D079B422F4C909004BCF73 /* WordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D079B322F4C909004BCF73 /* WordCell.swift */; };
 		76D079BB22F75EEB004BCF73 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D079BA22F75EEB004BCF73 /* SettingsTableViewController.swift */; };
 		76D079E222F7A5A3004BCF73 /* TutorialPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D079E122F7A5A3004BCF73 /* TutorialPageViewController.swift */; };
+		A71E783D24380AC9000C8E48 /* CloudModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71E783C24380AC9000C8E48 /* CloudModel.swift */; };
+		A71E783F24380C93000C8E48 /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71E783E24380C93000C8E48 /* Company.swift */; };
+		A71E784124381B6A000C8E48 /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71E784024381B6A000C8E48 /* Share.swift */; };
+		A73635702437F56E006A573E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A736356F2437F56E006A573E /* CloudKit.framework */; };
 		A76587D823D15DC300D517F8 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587D723D15DC300D517F8 /* DataManager.swift */; };
 		A76587DA23D25DC600D517F8 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587D923D25DC600D517F8 /* NotificationsManager.swift */; };
 		A76587DC23D2671C00D517F8 /* StocksTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76587DB23D2671C00D517F8 /* StocksTableViewDataSource.swift */; };
@@ -102,6 +106,11 @@
 		76D079B322F4C909004BCF73 /* WordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCell.swift; sourceTree = "<group>"; };
 		76D079BA22F75EEB004BCF73 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		76D079E122F7A5A3004BCF73 /* TutorialPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialPageViewController.swift; sourceTree = "<group>"; };
+		A71E783C24380AC9000C8E48 /* CloudModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudModel.swift; sourceTree = "<group>"; };
+		A71E783E24380C93000C8E48 /* Company.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
+		A71E784024381B6A000C8E48 /* Share.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
+		A736356D2437F48C006A573E /* The Big Short.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "The Big Short.entitlements"; sourceTree = "<group>"; };
+		A736356F2437F56E006A573E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		A76587D723D15DC300D517F8 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		A76587D923D25DC600D517F8 /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		A76587DB23D2671C00D517F8 /* StocksTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksTableViewDataSource.swift; sourceTree = "<group>"; };
@@ -140,6 +149,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A73635702437F56E006A573E /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +161,7 @@
 			children = (
 				762459EA22D7ACB3009B915B /* The Big Short */,
 				762459E922D7ACB3009B915B /* Products */,
+				A736356E2437F56E006A573E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -165,6 +176,7 @@
 		762459EA22D7ACB3009B915B /* The Big Short */ = {
 			isa = PBXGroup;
 			children = (
+				A736356D2437F48C006A573E /* The Big Short.entitlements */,
 				762459EB22D7ACB3009B915B /* AppDelegate.swift */,
 				7664A2BC22DD13C700EE5BE0 /* Model */,
 				7664A2C222DD142F00EE5BE0 /* View */,
@@ -182,6 +194,9 @@
 		7664A2BC22DD13C700EE5BE0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A71E783C24380AC9000C8E48 /* CloudModel.swift */,
+				A71E783E24380C93000C8E48 /* Company.swift */,
+				A71E784024381B6A000C8E48 /* Share.swift */,
 				A76587DD23D2672900D517F8 /* DataSources */,
 				A76587DE23D2674800D517F8 /* FetchDataAPI */,
 			);
@@ -268,6 +283,14 @@
 				7607CAF422FB91F7005A3E3C /* StartViewController.swift */,
 			);
 			path = Intro;
+			sourceTree = "<group>";
+		};
+		A736356E2437F56E006A573E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A736356F2437F56E006A573E /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		A76587DD23D2672900D517F8 /* DataSources */ = {
@@ -435,6 +458,7 @@
 				76D079E222F7A5A3004BCF73 /* TutorialPageViewController.swift in Sources */,
 				A76B49B123E22A1E00598CC8 /* MappingModel2to3 2.xcmappingmodel in Sources */,
 				762D04DC22EBD91E00D537E6 /* StockCell.swift in Sources */,
+				A71E783F24380C93000C8E48 /* Company.swift in Sources */,
 				76D079A922F1BB44004BCF73 /* DetailViewController.swift in Sources */,
 				762D04DA22EBD6F200D537E6 /* PositionCell.swift in Sources */,
 				A76587F123D68D9600D517F8 /* MainTableViewDelegate.swift in Sources */,
@@ -451,10 +475,12 @@
 				76C105DC22F7D24300A1F6C2 /* TermsViewController.swift in Sources */,
 				A7F00B8123E365AB00336356 /* SymbolTableViewDelegate.swift in Sources */,
 				A7A14D0423DF2FDB00ACB059 /* SectorChartView.swift in Sources */,
+				A71E784124381B6A000C8E48 /* Share.swift in Sources */,
 				A76587D823D15DC300D517F8 /* DataManager.swift in Sources */,
 				A76587E723D27BC100D517F8 /* MarketManager.swift in Sources */,
 				76D079A722F1B722004BCF73 /* GlossaryViewController.swift in Sources */,
 				7654424022E968BD0096CA00 /* StockData.swift in Sources */,
+				A71E783D24380AC9000C8E48 /* CloudModel.swift in Sources */,
 				A7F00B7F23E35FAD00336356 /* SymbolTableViewDataSource.swift in Sources */,
 				76D079A122F0805A004BCF73 /* BuySellStockViewController.swift in Sources */,
 				7664A2C822DD184300EE5BE0 /* InvestmentsCell.swift in Sources */,
@@ -616,6 +642,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "The Big Short/The Big Short.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4BUKN8ST5B;
@@ -636,6 +663,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "The Big Short/The Big Short.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4BUKN8ST5B;
