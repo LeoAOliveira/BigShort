@@ -51,7 +51,7 @@ class CurrencyData {
     
     func exchangeRatesFetch(completion: @escaping (Bool) -> ()){
         
-        let urlString = "https://fcsapi.com/api/forex/latest?id=297,298,299,301,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,323,324,327,328,329,331,333,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,356&access_key=JvVn0G72MS2Ab0WcprB68I2CUXOowawWEIcoTqHPFgf3scwFjw"
+        let urlString = "https://fcsapi.com/api-v2/forex/latest?id=297,298,299,301,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,323,324,327,328,329,331,333,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,356&access_key=JvVn0G72MS2Ab0WcprB68I2CUXOowawWEIcoTqHPFgf3scwFjw"
         
         guard let url = URL(string: urlString) else{
             print("Erro 1")

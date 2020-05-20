@@ -48,6 +48,9 @@ class WalletTableViewDataSource: NSObject, UITableViewDataSource {
             if let stocks = walletVC.data1[0].stockList {
                 let stocksArray = stocks.components(separatedBy: ":")
                 self.stockArray = stocksArray
+                if stocksArray.count == 1 && stocksArray[0] == "" {
+                    return 2
+                }
                 return (2 + stocksArray.count)
             }
         
@@ -57,6 +60,9 @@ class WalletTableViewDataSource: NSObject, UITableViewDataSource {
             if let currencies = walletVC.data1[0].currencyList {
                 let currenciesArray = currencies.components(separatedBy: ":")
                 self.currencyArray = currenciesArray
+                if currencyArray.count == 1 && currencyArray[0] == "" {
+                    return 2
+                }
                 return (2 + currenciesArray.count)
             }
         }
@@ -181,12 +187,12 @@ class WalletTableViewDataSource: NSObject, UITableViewDataSource {
                 
                 cell.description1Label.text = stockArray[indexPath.row-2]
                 
-                let index = walletVC.stockIndex[indexPath.row-2]
-                let position = walletVC.data2[index].price * walletVC.data2[index].amount
-                
-                let stock: Float = ((100 * position) / stocksCurrentPrice()) / 100
-                
-                cell.barChart.valueWidth = CGFloat(stock)
+                if walletVC.stockIndex.count > 0 {
+                    let index = walletVC.stockIndex[indexPath.row-2]
+                    let position = walletVC.data2[index].price * walletVC.data2[index].amount
+                    let stock: Float = ((100 * position) / stocksCurrentPrice()) / 100
+                    cell.barChart.valueWidth = CGFloat(stock)
+                }
                 
                 return cell
             
@@ -197,12 +203,12 @@ class WalletTableViewDataSource: NSObject, UITableViewDataSource {
                 
                 cell.description1Label.text = currencyArray[indexPath.row-2]
                 
-                let index = walletVC.currencyIndex[indexPath.row-2]
-                let position = walletVC.data4[index].investedBRL
-                
-                let currency: Float = ((100 * position) / currenciesCurrentPrice()) / 100
-                
-                cell.barChart.valueWidth = CGFloat(currency)
+                if walletVC.currencyIndex.count > 0 {
+                    let index = walletVC.currencyIndex[indexPath.row-2]
+                    let position = walletVC.data4[index].investedBRL
+                    let currency: Float = ((100 * position) / currenciesCurrentPrice()) / 100
+                    cell.barChart.valueWidth = CGFloat(currency)
+                }
                 
                 return cell
             }

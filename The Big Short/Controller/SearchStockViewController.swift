@@ -110,7 +110,9 @@ class SearchStockViewController: UIViewController, UITableViewDelegate, UITableV
         }
         
         stockArray = data2.filter({ stock -> Bool in
-            stock.name!.lowercased().contains(searchText.lowercased())
+            stock.name!.lowercased().contains(searchText.lowercased()) || 
+                stock.symbol!.lowercased().contains(searchText.lowercased()) || 
+                stock.sector!.lowercased().contains(searchText.lowercased())
         })
         
         tableView.reloadData()
