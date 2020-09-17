@@ -93,7 +93,10 @@ class SearchCurrencyViewController: UIViewController, UITableViewDelegate, UITab
         }
         
         currencyArray = data4.filter({ currency -> Bool in
-            currency.country!.lowercased().contains(searchText.lowercased())
+            currency.country!.lowercased().contains(searchText.lowercased()) || 
+                currency.name!.lowercased().contains(searchText.lowercased()) || 
+                currency.symbol!.lowercased().contains(searchText.lowercased()) || 
+                currency.region!.lowercased().contains(searchText.lowercased())
         })
         
         tableView.reloadData()

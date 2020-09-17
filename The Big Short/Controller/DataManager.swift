@@ -76,7 +76,7 @@ class DataManager: NSObject {
         
         sortData()
         
-        getStocks(){ isValid in
+        getData(){ isValid in
                 
             if isValid == true{
                 
@@ -85,29 +85,11 @@ class DataManager: NSObject {
                         completion(true)
                     } else{
                         completion(false)
-                        print("Error setController")
+                        print("Error controller")
                     }
                 }
             } else {
-                print("Error getStocks")
-            }
-        }
-        
-        getCurrencies(){ isValid in
-                
-            if isValid == true{
-                
-                self.setController(){ isValid in
-                    if isValid == true{
-                        completion(true)
-                    } else{
-                        completion(false)
-                        print("Error setController")
-                    }
-                }
-                
-            } else {
-                print("Error getCurrencies")
+                print("Error getData")
             }
         }
     }
@@ -130,7 +112,6 @@ class DataManager: NSObject {
             mainVC.stockIndex = indexStock
             mainVC.currencyList = currencyList
             mainVC.currencyIndex = indexCurrency
-            mainVC.tableView.reloadData()
         
         // Stocks
         } else if stocksViewController != nil {
@@ -144,7 +125,6 @@ class DataManager: NSObject {
             stocksVC.data2 = data2
             stocksVC.stockList = stockList
             stocksVC.index = indexStock
-            stocksVC.tableView.reloadData()
             
         // Currencies
         } else if currenciesViewController != nil {
@@ -158,7 +138,6 @@ class DataManager: NSObject {
             currenciesVC.data4 = data4
             currenciesVC.currencyList = currencyList
             currenciesVC.currencyIndex = indexCurrency
-            currenciesVC.tableView.reloadData()
             
         // Symbol
         } else if symbolViewController != nil {
@@ -170,7 +149,6 @@ class DataManager: NSObject {
 
             symbolVC.data1 = data1
             symbolVC.data2 = data2
-            symbolVC.tableView.reloadData()
             
         // Code
         } else if codeViewController != nil {
@@ -182,8 +160,6 @@ class DataManager: NSObject {
 
             codeVC.data1 = data1
             codeVC.data4 = data4
-
-            codeVC.tableView.reloadData()
             
         // Wallet
         } else {
@@ -200,19 +176,23 @@ class DataManager: NSObject {
             walletVC.stockIndex = indexStock
             walletVC.currencyList = currencyList
             walletVC.currencyIndex = indexCurrency
-            walletVC.tableView.reloadData()
             
         }
         completion(true)
     }
     
-    // MARK: - Get stock data
-    func getStocks(completion: @escaping (Bool) -> ()) {
+    // MARK: - Get market data
+    func getData(completion: @escaping (Bool) -> ()) {
         
         let stocks = data1[0].stockList
+        let currencies = data1[0].currencyList
         
         if stocks != "" {
             stockList = stocks?.components(separatedBy: ":") ?? []
+        }
+        
+        if currencies != "" {
+            currencyList = currencies?.components(separatedBy: ":") ?? []
         }
         
         if stockList.count > 0 {
@@ -226,45 +206,6 @@ class DataManager: NSObject {
                     }
                 }
             }
-        }
-        
-        if stockList.count >= 1 || stocksViewController != nil {
-            
-            if verifyStocksUpdate() == true {
-                StockData().stocksDataFetch(){ isValid in
-                    
-                    if isValid == true{
-                        
-                        self.data1.removeAll()
-                        self.data4.removeAll()
-                        
-                        do{
-                            self.data1 = try self.context.fetch(Wallet.fetchRequest())
-                            self.data4 = try self.context.fetch(Currency.fetchRequest())
-                        } catch{
-                            print(error.localizedDescription)
-                        }
-                        
-                        self.sortData()
-                        print("stocksDataFetch")
-                        
-                    } else{
-                        print("Error stocksDataFetch")
-                        completion(false)
-                    }
-                }
-            }
-        }
-        completion(true)
-    }
-    
-    // MARK: - Get curriecy data
-    func getCurrencies(completion: @escaping (Bool) -> ()) {
-        
-        let currencies = data1[0].currencyList
-        
-        if currencies != "" {
-            currencyList = currencies?.components(separatedBy: ":") ?? []
         }
         
         if currencyList.count > 0 {
@@ -283,32 +224,167 @@ class DataManager: NSObject {
         if currencyList.count >= 1 || currenciesViewController != nil {
             
             if verifyCurrencyUpdate() == true {
-                CurrencyData().exchangeRatesFetch(){ isValid in
+                MarketData().marketDataFetch(){ isValid in
                         
                     if isValid == true{
                         
                         self.data1.removeAll()
+                        self.data2.removeAll()
                         self.data4.removeAll()
                         
                         do{
                             self.data1 = try self.context.fetch(Wallet.fetchRequest())
+                            self.data2 = try self.context.fetch(Stock.fetchRequest())
                             self.data4 = try self.context.fetch(Currency.fetchRequest())
                         } catch{
                             print(error.localizedDescription)
                         }
                         
                         self.sortData()
-                        print("exchangeRatesFetch")
+                        print("marketDataFetch")
                         
                     } else{
+                        print("Error marketDataFetch")
                         completion(false)
-                        print("Error exchangeRatesFetch")
+                    }
+                }
+            }
+            
+        } else if stockList.count >= 1 || stocksViewController != nil  {
+            
+            if verifyStocksUpdate() == true {
+                MarketData().marketDataFetch(){ isValid in
+                    
+                    if isValid == true{
+                        
+                        self.data1.removeAll()
+                        self.data2.removeAll()
+                        self.data4.removeAll()
+                        
+                        do{
+                            self.data1 = try self.context.fetch(Wallet.fetchRequest())
+                            self.data2 = try self.context.fetch(Stock.fetchRequest())
+                            self.data4 = try self.context.fetch(Currency.fetchRequest())
+                        } catch{
+                            print(error.localizedDescription)
+                        }
+                        
+                        self.sortData()
+                        print("marketDataFetch")
+                        
+                    } else{
+                        print("Error marketDataFetch")
+                        completion(false)
                     }
                 }
             }
         }
         completion(true)
     }
+    
+//    // MARK: - Get stock data
+//    func getStocks(completion: @escaping (Bool) -> ()) {
+//        
+//        let stocks = data1[0].stockList
+//        
+//        if stocks != "" {
+//            stockList = stocks?.components(separatedBy: ":") ?? []
+//        }
+//        
+//        if stockList.count > 0 {
+//            
+//            for i in 0...stockList.count-1{
+//                
+//                for n in 0...72 {
+//                    
+//                    if data2[n].symbol == stockList[i]{
+//                        indexStock.append(n)
+//                    }
+//                }
+//            }
+//        }
+//        
+//        if stockList.count >= 1 || stocksViewController != nil {
+//            
+//            if verifyStocksUpdate() == true {
+//                StockData().stocksDataFetch(){ isValid in
+//                    
+//                    if isValid == true{
+//                        
+//                        self.data1.removeAll()
+//                        self.data4.removeAll()
+//                        
+//                        do{
+//                            self.data1 = try self.context.fetch(Wallet.fetchRequest())
+//                            self.data4 = try self.context.fetch(Currency.fetchRequest())
+//                        } catch{
+//                            print(error.localizedDescription)
+//                        }
+//                        
+//                        self.sortData()
+//                        print("stocksDataFetch")
+//                        
+//                    } else{
+//                        print("Error stocksDataFetch")
+//                        completion(false)
+//                    }
+//                }
+//            }
+//        }
+//        completion(true)
+//    }
+//    
+//    // MARK: - Get curriecy data
+//    func getCurrencies(completion: @escaping (Bool) -> ()) {
+//        
+//        let currencies = data1[0].currencyList
+//        
+//        if currencies != "" {
+//            currencyList = currencies?.components(separatedBy: ":") ?? []
+//        }
+//        
+//        if currencyList.count > 0 {
+//            
+//            for i in 0...currencyList.count-1{
+//                
+//                for n in 0...47 {
+//                    
+//                    if data4[n].symbol == currencyList[i]{
+//                        indexCurrency.append(n)
+//                    }
+//                }
+//            }
+//        }
+//        
+//        if currencyList.count >= 1 || currenciesViewController != nil {
+//            
+//            if verifyCurrencyUpdate() == true {
+//                CurrencyData().exchangeRatesFetch(){ isValid in
+//                        
+//                    if isValid == true{
+//                        
+//                        self.data1.removeAll()
+//                        self.data4.removeAll()
+//                        
+//                        do{
+//                            self.data1 = try self.context.fetch(Wallet.fetchRequest())
+//                            self.data4 = try self.context.fetch(Currency.fetchRequest())
+//                        } catch{
+//                            print(error.localizedDescription)
+//                        }
+//                        
+//                        self.sortData()
+//                        print("exchangeRatesFetch")
+//                        
+//                    } else{
+//                        completion(false)
+//                        print("Error exchangeRatesFetch")
+//                    }
+//                }
+//            }
+//        }
+//        completion(true)
+//    }
     
     // MARK: - Check the need for stocks update
     func verifyStocksUpdate() -> Bool {

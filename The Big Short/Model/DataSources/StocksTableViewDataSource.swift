@@ -57,7 +57,8 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
                 incomeValue = Double(MathOperations.calculateIncome(value1: stocksCurrentPrice(), value2: investedValue()))
             }
             
-            if incomeValue > 0 {cell.descriptionLabel.text = "+ \(MathOperations.currencyFormatter(value: Float(incomeValue)))"
+            if incomeValue > 0 {
+                cell.descriptionLabel.text = "+ \(MathOperations.currencyFormatter(value: Float(incomeValue)))"
                 cell.descriptionLabel.textColor = #colorLiteral(red: 0.1176470588, green: 0.6901960784, blue: 0.2549019608, alpha: 1)
             
             } else if incomeValue < 0 {
