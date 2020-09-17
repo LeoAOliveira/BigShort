@@ -28,8 +28,9 @@ class CodeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupTableView()
         self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,6 +41,17 @@ class CodeViewController: UIViewController {
         fetchData()
     }
     
+    // MARK: - Set TableView
+    
+    func setupTableView() {
+        
+        tableviewDelegate = CodeTableViewDelegate(viewController: self)
+        tableViewDataSource = CodeTableViewDataSource(viewController: self)
+        
+        tableView.delegate = self.tableviewDelegate
+        tableView.dataSource = self.tableViewDataSource
+    }
+    
     // MARK: - Fetch from CoreData
     
     func fetchData() {
@@ -48,16 +60,10 @@ class CodeViewController: UIViewController {
         
         dataManager?.fetchData(completion: { isValid in
             
-            if isValid == true{
+            if isValid == true {
+                self.tableView.reloadData()
                 
-                self.tableviewDelegate = CodeTableViewDelegate(viewController: self)
-                self.tableViewDataSource = CodeTableViewDataSource(viewController: self)
-                
-                self.tableView.delegate = self.tableviewDelegate
-                self.tableView.dataSource = self.tableViewDataSource
-                
-            } else{
-                
+            } else {
                 self.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
             }
         })

@@ -112,7 +112,6 @@ class DataManager: NSObject {
             mainVC.stockIndex = indexStock
             mainVC.currencyList = currencyList
             mainVC.currencyIndex = indexCurrency
-            mainVC.tableView.reloadData()
         
         // Stocks
         } else if stocksViewController != nil {
@@ -126,7 +125,6 @@ class DataManager: NSObject {
             stocksVC.data2 = data2
             stocksVC.stockList = stockList
             stocksVC.index = indexStock
-            stocksVC.tableView.reloadData()
             
         // Currencies
         } else if currenciesViewController != nil {
@@ -140,7 +138,6 @@ class DataManager: NSObject {
             currenciesVC.data4 = data4
             currenciesVC.currencyList = currencyList
             currenciesVC.currencyIndex = indexCurrency
-            currenciesVC.tableView.reloadData()
             
         // Symbol
         } else if symbolViewController != nil {
@@ -152,7 +149,6 @@ class DataManager: NSObject {
 
             symbolVC.data1 = data1
             symbolVC.data2 = data2
-            symbolVC.tableView.reloadData()
             
         // Code
         } else if codeViewController != nil {
@@ -164,8 +160,6 @@ class DataManager: NSObject {
 
             codeVC.data1 = data1
             codeVC.data4 = data4
-
-            codeVC.tableView.reloadData()
             
         // Wallet
         } else {
@@ -182,7 +176,6 @@ class DataManager: NSObject {
             walletVC.stockIndex = indexStock
             walletVC.currencyList = currencyList
             walletVC.currencyIndex = indexCurrency
-            walletVC.tableView.reloadData()
             
         }
         completion(true)
@@ -248,10 +241,10 @@ class DataManager: NSObject {
                         }
                         
                         self.sortData()
-                        print("stocksDataFetch")
+                        print("marketDataFetch")
                         
                     } else{
-                        print("Error stocksDataFetch")
+                        print("Error marketDataFetch")
                         completion(false)
                     }
                 }
@@ -277,10 +270,10 @@ class DataManager: NSObject {
                         }
                         
                         self.sortData()
-                        print("stocksDataFetch")
+                        print("marketDataFetch")
                         
                     } else{
-                        print("Error stocksDataFetch")
+                        print("Error marketDataFetch")
                         completion(false)
                     }
                 }

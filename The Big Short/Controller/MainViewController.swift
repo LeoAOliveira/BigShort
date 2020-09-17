@@ -41,10 +41,11 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupTableView()
+        
         CoreDataManager().checkForInitialData(){ isValid in
                 
             if isValid == true {
-                
                 self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
                 
             } else {
@@ -54,8 +55,22 @@ class MainViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         fetchData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
+    
+    // MARK: - Set TableView
+    
+    func setupTableView() {
+        
+        tableviewDelegate = MainTableViewDelegate(viewController: self)
+        tableViewDataSource = MainTableViewDataSource(viewController: self)
+        
+        tableView.delegate = self.tableviewDelegate
+        tableView.dataSource = self.tableViewDataSource
     }
     
     // MARK: - Fetch from CoreData and Stock Data update
@@ -66,21 +81,17 @@ class MainViewController: UIViewController {
         
         dataManager?.fetchData(completion: { isValid in
             
-            if isValid == true{
+            if isValid == true {
                 
-                self.tableviewDelegate = MainTableViewDelegate(viewController: self)
-                self.tableViewDataSource = MainTableViewDataSource(viewController: self)
-                
-                self.tableView.delegate = self.tableviewDelegate
-                self.tableView.dataSource = self.tableViewDataSource
+               self.tableView.reloadData()
                 
                 if self.data1[0].notifications == true {
                     NotificationsManager.setNotifications(notiifcations: self.removeNotifications, data: self.data1)
-                } else{
+                } else {
                     self.removeNotifications.removeAllPendingNotificationRequests()
                 }
                 
-            } else{
+            } else {
                 
                 self.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
             }

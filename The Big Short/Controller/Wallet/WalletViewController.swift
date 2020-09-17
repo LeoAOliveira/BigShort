@@ -45,6 +45,7 @@ class WalletViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupTableView()
         self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
         
         segmented.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.08235294118, green: 0.1568627451, blue: 0.2941176471, alpha: 1)], for: .selected)
@@ -56,6 +57,17 @@ class WalletViewController: UIViewController {
         fetchData()
     }
     
+    // MARK: - Set TableView
+    
+    func setupTableView() {
+        
+        tableviewDelegate = WalletTableViewDelegate(viewController: self)
+        tableViewDataSource = WalletTableViewDataSource(viewController: self)
+        
+        tableView.delegate = self.tableviewDelegate
+        tableView.dataSource = self.tableViewDataSource
+    }
+    
     // MARK: - Fetch from CoreData
     
     func fetchData() {
@@ -64,16 +76,10 @@ class WalletViewController: UIViewController {
         
         dataManager?.fetchData(completion: { isValid in
             
-            if isValid == true{
+            if isValid == true {
+                self.tableView.reloadData()
                 
-                self.tableviewDelegate = WalletTableViewDelegate(viewController: self)
-                self.tableViewDataSource = WalletTableViewDataSource(viewController: self)
-                
-                self.tableView.delegate = self.tableviewDelegate
-                self.tableView.dataSource = self.tableViewDataSource
-                
-            } else{
-                
+            } else {
                 self.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
             }
         })
@@ -83,7 +89,6 @@ class WalletViewController: UIViewController {
     // MARK: - Segmented Control
     
     @IBAction func segmentValueChanged(_ sender: Any) {
-        
         tableView.reloadData()
     }
     

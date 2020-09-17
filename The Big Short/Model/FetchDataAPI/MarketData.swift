@@ -105,6 +105,7 @@ class MarketData {
                         
                         let data1 = self.data1[0]
                         data1.lastUpdateStock = Date()
+                        data1.lastUpdateCurrency = Date()
                         
                         let sortedData2 = self.data2.sorted(by: { $0.symbol ?? "" < $1.symbol ?? "" })
                         self.data2 = sortedData2

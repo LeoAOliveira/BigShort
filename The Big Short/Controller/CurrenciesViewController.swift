@@ -32,11 +32,23 @@ class CurrenciesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupTableView()
         self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         fetchData()
+    }
+    
+    // MARK: - Set TableView
+    
+    func setupTableView() {
+        
+        tableviewDelegate = CurrenciesTableViewDelegate(viewController: self)
+        tableViewDataSource = CurrenciesTableViewDataSource(viewController: self)
+        
+        tableView.delegate = self.tableviewDelegate
+        tableView.dataSource = self.tableViewDataSource
     }
     
     // MARK: - Fetch from CoreData and Stock Data update
@@ -47,16 +59,10 @@ class CurrenciesViewController: UIViewController {
         
         dataManager?.fetchData(completion: { isValid in
             
-            if isValid == true{
+            if isValid == true {
+                self.tableView.reloadData()
                 
-                self.tableviewDelegate = CurrenciesTableViewDelegate(viewController: self)
-                self.tableViewDataSource = CurrenciesTableViewDataSource(viewController: self)
-                
-                self.tableView.delegate = self.tableviewDelegate
-                self.tableView.dataSource = self.tableViewDataSource
-                
-            } else{
-                
+            } else {
                 self.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
             }
         })

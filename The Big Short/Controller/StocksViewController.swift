@@ -35,12 +35,26 @@ class StocksViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupTableView()
         self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.0438792631, green: 0.1104110107, blue: 0.1780112088, alpha: 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         verifyMarket(purpose: "keepTracking")
+        marketColor = #colorLiteral(red: 0.4889312983, green: 0.7110515833, blue: 1, alpha: 1)
+        marketLabel = "Mercado aberto"
         fetchData()
+    }
+    
+    // MARK: - Set TableView
+    
+    func setupTableView() {
+        
+        tableviewDelegate = StocksTableViewDelegate(viewController: self)
+        tableViewDataSource = StocksTableViewDataSource(viewController: self)
+        
+        tableView.delegate = self.tableviewDelegate
+        tableView.dataSource = self.tableViewDataSource
     }
     
     // MARK: - Fetch from CoreData and Stock Data update
@@ -51,16 +65,10 @@ class StocksViewController: UIViewController {
         
         dataManager?.fetchData(completion: { isValid in
             
-            if isValid == true{
+            if isValid == true {
+                self.tableView.reloadData()
                 
-                self.tableviewDelegate = StocksTableViewDelegate(viewController: self)
-                self.tableViewDataSource = StocksTableViewDataSource(viewController: self)
-                
-                self.tableView.delegate = self.tableviewDelegate
-                self.tableView.dataSource = self.tableViewDataSource
-                
-            } else{
-                
+            } else {
                 self.createAlert(title: "Erro", message: "Não foi possível atualizar os dados. Por favor, tente novamente mais tarde.", actionTitle: "OK")
             }
         })
@@ -108,7 +116,8 @@ class StocksViewController: UIViewController {
     // MARK: - Navigation
     
     @IBAction func addStockBtnPressed(_ sender: Any) {
-        verifyMarket(purpose: "buyAndSell")
+        // verifyMarket(purpose: "buyAndSell")
+        performSegue(withIdentifier: "addStockSegue", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
