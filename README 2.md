@@ -1,2 +1,0 @@
-# BigShort
-Challenge de Férias
