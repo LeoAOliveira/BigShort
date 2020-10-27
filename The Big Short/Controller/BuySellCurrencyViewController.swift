@@ -330,6 +330,7 @@ class BuySellCurrencyViewController: UIViewController, UITextFieldDelegate {
         
         if textField.text != ""{
             
+
             let input: Float = Float(textField.text!)!
             value = input * data4[index].price
         
