@@ -41,8 +41,6 @@ class StocksViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         verifyMarket(purpose: "keepTracking")
-        marketColor = #colorLiteral(red: 0.4889312983, green: 0.7110515833, blue: 1, alpha: 1)
-        marketLabel = "Mercado aberto"
         fetchData()
     }
     
@@ -116,8 +114,7 @@ class StocksViewController: UIViewController {
     // MARK: - Navigation
     
     @IBAction func addStockBtnPressed(_ sender: Any) {
-        // verifyMarket(purpose: "buyAndSell")
-        performSegue(withIdentifier: "addStockSegue", sender: self)
+         verifyMarket(purpose: "buyAndSell")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
