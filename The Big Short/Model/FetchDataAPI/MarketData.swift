@@ -31,10 +31,10 @@ class MarketData {
                     
                 if let data = json[i] as? [String: Any] {
                     
-                    let type = data["Type"] as? String ?? "-1"
-                    let code = data["Code"] as? String ?? "-1"
-                    let price = data["Price"] as? String ?? "-1"
-                    let change = data["Change"] as? String ?? "-1"
+                    let type = data["type"] as? String ?? "-1"
+                    let code = data["code"] as? String ?? "-1"
+                    let price = data["price"] as? String ?? "-1"
+                    let change = data["change"] as? String ?? "-1"
                     
                     if type == "Stock" {
                         
@@ -67,7 +67,7 @@ class MarketData {
     
     func marketDataFetch(completion: @escaping (Bool) -> ()){
         
-        let urlString = "https://sheet.best/api/sheets/ef8ae8d3-bf68-4c62-9488-0ff447c9cb4d"
+        let urlString = "https://sheetlabs.com/LOGS/MarketDataAPI"
         
         guard let url = URL(string: urlString) else{
             print("Erro 1")

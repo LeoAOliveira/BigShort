@@ -87,7 +87,6 @@ class SymbolTableViewDataSource: NSObject, UITableViewDataSource {
             cell.todayView.layer.cornerRadius = 10.0
             cell.todaySubView.layer.cornerRadius = 10.0
             cell.titleLabel.text = "Hoje (\(formatDate()))"
-            cell.changeLabel.text = MathOperations.currencyFormatter(value: positionPrice)
             
             guard let change = symbolVC.data2[symbolVC.index].changePercentage else {
                 return cell
@@ -103,7 +102,7 @@ class SymbolTableViewDataSource: NSObject, UITableViewDataSource {
                 }
             }
             
-            cell.changeLabel.text = change
+            cell.changeLabel.text = "\(change)%"
             cell.priceLable.text = MathOperations.currencyFormatter(value: price)
             
             return cell

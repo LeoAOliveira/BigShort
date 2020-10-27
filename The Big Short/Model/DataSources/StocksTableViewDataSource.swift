@@ -136,7 +136,7 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource, UICollectionVi
                 }
             }
             
-            cellCollection.changePercentageLabel.text = change
+            cellCollection.changePercentageLabel.text = "\(change)%"
             
             cellCollection.priceLabel.text = MathOperations.currencyFormatter(value: stocksVC.data2[stocksVC.index[indexPath.row]].price)
             

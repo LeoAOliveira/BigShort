@@ -137,7 +137,7 @@ class BuySellStockViewController: UIViewController, UITextFieldDelegate {
             }
         }
         
-        changePercentLabel.text = change
+        changePercentLabel.text = "\(change)%"
         
         priceLabel.text = MathOperations.currencyFormatter(value: data2[index].price)
         
