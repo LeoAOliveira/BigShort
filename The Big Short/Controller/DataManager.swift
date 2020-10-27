@@ -368,7 +368,7 @@ class DataManager: NSObject {
                 return true
             }
         }
-        return true
+        return false
     }
     
     // MARK: - Check the need for currency update
