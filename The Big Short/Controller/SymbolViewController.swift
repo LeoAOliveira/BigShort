@@ -82,7 +82,7 @@ class SymbolViewController: UIViewController {
             createAlert(title: "Mercado fechado", message: "Operações só podem ser realizadas em dias úteis.", actionTitle: "OK")
             
         } else if marketStatus == "Operations avilable" {
-            performSegue(withIdentifier: "addStockSegue", sender: self)
+            performSegue(withIdentifier: "addThisStockSegue", sender: self)
             
         } else {
             print("Error at market verification")
