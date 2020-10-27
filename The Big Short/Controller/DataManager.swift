@@ -261,7 +261,7 @@ class DataManager: NSObject {
                         self.data2.removeAll()
                         self.data4.removeAll()
                         
-                        do{
+                        do {
                             self.data1 = try self.context.fetch(Wallet.fetchRequest())
                             self.data2 = try self.context.fetch(Stock.fetchRequest())
                             self.data4 = try self.context.fetch(Currency.fetchRequest())
@@ -281,110 +281,6 @@ class DataManager: NSObject {
         }
         completion(true)
     }
-    
-//    // MARK: - Get stock data
-//    func getStocks(completion: @escaping (Bool) -> ()) {
-//        
-//        let stocks = data1[0].stockList
-//        
-//        if stocks != "" {
-//            stockList = stocks?.components(separatedBy: ":") ?? []
-//        }
-//        
-//        if stockList.count > 0 {
-//            
-//            for i in 0...stockList.count-1{
-//                
-//                for n in 0...72 {
-//                    
-//                    if data2[n].symbol == stockList[i]{
-//                        indexStock.append(n)
-//                    }
-//                }
-//            }
-//        }
-//        
-//        if stockList.count >= 1 || stocksViewController != nil {
-//            
-//            if verifyStocksUpdate() == true {
-//                StockData().stocksDataFetch(){ isValid in
-//                    
-//                    if isValid == true{
-//                        
-//                        self.data1.removeAll()
-//                        self.data4.removeAll()
-//                        
-//                        do{
-//                            self.data1 = try self.context.fetch(Wallet.fetchRequest())
-//                            self.data4 = try self.context.fetch(Currency.fetchRequest())
-//                        } catch{
-//                            print(error.localizedDescription)
-//                        }
-//                        
-//                        self.sortData()
-//                        print("stocksDataFetch")
-//                        
-//                    } else{
-//                        print("Error stocksDataFetch")
-//                        completion(false)
-//                    }
-//                }
-//            }
-//        }
-//        completion(true)
-//    }
-//    
-//    // MARK: - Get curriecy data
-//    func getCurrencies(completion: @escaping (Bool) -> ()) {
-//        
-//        let currencies = data1[0].currencyList
-//        
-//        if currencies != "" {
-//            currencyList = currencies?.components(separatedBy: ":") ?? []
-//        }
-//        
-//        if currencyList.count > 0 {
-//            
-//            for i in 0...currencyList.count-1{
-//                
-//                for n in 0...47 {
-//                    
-//                    if data4[n].symbol == currencyList[i]{
-//                        indexCurrency.append(n)
-//                    }
-//                }
-//            }
-//        }
-//        
-//        if currencyList.count >= 1 || currenciesViewController != nil {
-//            
-//            if verifyCurrencyUpdate() == true {
-//                CurrencyData().exchangeRatesFetch(){ isValid in
-//                        
-//                    if isValid == true{
-//                        
-//                        self.data1.removeAll()
-//                        self.data4.removeAll()
-//                        
-//                        do{
-//                            self.data1 = try self.context.fetch(Wallet.fetchRequest())
-//                            self.data4 = try self.context.fetch(Currency.fetchRequest())
-//                        } catch{
-//                            print(error.localizedDescription)
-//                        }
-//                        
-//                        self.sortData()
-//                        print("exchangeRatesFetch")
-//                        
-//                    } else{
-//                        completion(false)
-//                        print("Error exchangeRatesFetch")
-//                    }
-//                }
-//            }
-//        }
-//        completion(true)
-//    }
     
     // MARK: - Check the need for stocks update
     func verifyStocksUpdate() -> Bool {
@@ -449,7 +345,6 @@ class DataManager: NSObject {
                 if difference >= 1 {
                     return true
                 }
-                
             }
             
         } else if weekdayString == "Saturday"{
@@ -473,8 +368,7 @@ class DataManager: NSObject {
                 return true
             }
         }
-        
-        return false
+        return true
     }
     
     // MARK: - Check the need for currency update
