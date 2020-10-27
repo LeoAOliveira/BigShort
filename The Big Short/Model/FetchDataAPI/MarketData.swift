@@ -12,62 +12,10 @@ import CoreData
 import UIKit
 
 class MarketData {
-    
-    var data1 = [Wallet]()
-    var data2 = [Stock]()
-    var data4 = [Currency]()
-    
-    var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
-    struct Market {
-        
-        var stockDataPrices = [String: Float]()
-        var stockDataChanges = [String: String]()
-        var currencyData = [String: Float]()
-        
-        init(json: [Dictionary<String,Any>]) {
-            
-            for i in 0..<json.count {
-                    
-                if let data = json[i] as? [String: Any] {
-                    
-                    let type = data["type"] as? String ?? "-1"
-                    let code = data["code"] as? String ?? "-1"
-                    let price = data["price"] as? String ?? "-1"
-                    let change = data["change"] as? String ?? "-1"
-                    
-                    if type == "Stock" {
-                        
-                        if let floatPrice = Float(price) {
-                            stockDataPrices[code] = floatPrice
-                            stockDataChanges[code] = change
-                        } else {
-                            stockDataPrices[code] = -1.0
-                            stockDataChanges[code] = "-1.0"
-                        }
-                        
-                    } else {
-                        currencyData[code] = Float(price)
-                    }
-                    
-                } else {
-                    
-                    let code = "-1"
-                    let price: Float = -1.0
-                    let change = "-1"
-                    
-                    stockDataPrices[code] = price
-                    stockDataChanges[code] = change
-                    currencyData[code] = price
-                }
-            }
-        }
-    }
-    
-    
+
     func marketDataFetch(completion: @escaping (Bool) -> ()){
         
-        let urlString = "https://sheetlabs.com/LOGS/MarketDataAPI"
+        let urlString = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPIn1eQkrkpkBqfvmhmElvez8kMs8MKEno4z9Fnf69IGZ4h56rTN7UkqVLWfdeZ0kOy2bDp7xrnzWs/pub?gid=0&single=true&output=tsv"
         
         guard let url = URL(string: urlString) else{
             print("Erro 1")
@@ -78,7 +26,7 @@ class MarketData {
             DispatchQueue.main.async {
                 
                 if let error = error {
-                    print("Erro 2")
+                    print("Erro 2: \(error)")
                     completion(false)
                     return
                 }
@@ -89,90 +37,114 @@ class MarketData {
                     return
                 }
                 
-                do {
-                    
-                    guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [Dictionary<String,Any>] else{
-                        completion(false)
-                        return
-                    }
-                    
-                    let market = Market(json: json)
-                    
-                    do {
-                        self.data1 = try self.context.fetch(Wallet.fetchRequest())
-                        self.data2 = try self.context.fetch(Stock.fetchRequest())
-                        self.data4 = try self.context.fetch(Currency.fetchRequest())
-                        
-                        let data1 = self.data1[0]
-                        data1.lastUpdateStock = Date()
-                        data1.lastUpdateCurrency = Date()
-                        
-                        let sortedData2 = self.data2.sorted(by: { $0.symbol ?? "" < $1.symbol ?? "" })
-                        self.data2 = sortedData2
-                        
-                        let sortedData4 = self.data4.sorted(by: { $0.symbol ?? "" < $1.symbol ?? "" })
-                        self.data4 = sortedData4
-                        
-                        var stockPricesArray: [Float] = []
-                        var stockChangesArray: [String] = []
-                        var currencyPricesArray: [Float] = []
-                        
-                        
-                        for (key,value) in market.stockDataPrices.sorted(by: <) {
-                            stockPricesArray.append(value)
-                        }
-                        
-                        for (key,value) in market.stockDataChanges.sorted(by: <) {
-                            stockChangesArray.append(value)
-                        }
-                        
-                        for (key,value) in market.currencyData.sorted(by: <) {
-                            currencyPricesArray.append(value)
-                        }
-                        
-                        for i in 0..<market.stockDataPrices.count {
-                            
-                            let data2 = self.data2[i]
-                            data2.price = Float(stockPricesArray[i])
-                            data2.changePercentage = String(stockChangesArray[i])
-                            
-                            do {
-                                try self.context.save()
-                                
-                            } catch{
-                                completion(false)
-                                print("Error when saving context (Stocks)")
-                            }
-                        }
-                        
-                        for i in 0..<market.currencyData.count {
-                            
-                            let data4 = self.data4[i]
-                            data4.price = Float(currencyPricesArray[i])
-                            
-                            do {
-                                try self.context.save()
-                                
-                            } catch{
-                                completion(false)
-                                print("Error when saving context (Currency)")
-                            }
-                        }
-                        
-                    } catch {
-                        completion(false)
-                        print("Erro ao inserir os dados de ações")
-                        print(error.localizedDescription)
-                    }
-                    
-                } catch let err{
+                var data1 = [Wallet]()
+                var data2 = [Stock]()
+                var data4 = [Currency]()
+                
+                guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
                     completion(false)
-                    print(err.localizedDescription)
+                    return
                 }
                 
+                var stockDataPrices = [String: Float]()
+                var stockDataChanges = [String: String]()
+                var currencyData = [String: Float]()
+                
+                let tsv = String(decoding: data, as: UTF8.self)
+                
+                let lines = tsv.components(separatedBy: "\n")
+                var lineIndex = 1
+                
+                guard lines.isEmpty == false else {
+                    return
+                }
+                
+                for line in lines[lineIndex ..< lines.count] {
+                    
+                    let fieldValues = line.components(separatedBy: "\t")
+                    
+                    let type = fieldValues[0]
+                    let code = fieldValues[1]
+                    let price = fieldValues[2]
+                    let change = fieldValues[3].replacingOccurrences(of: "\r", with: "")
+                    
+                    if type == "Stock" {
+                        stockDataPrices[code] = Float(price)
+                        stockDataChanges[code] = change
+                    } else {
+                        currencyData[code] = Float(price)
+                    }
+                    lineIndex = lineIndex + 1
+                }
+                
+                do {
+                    data1 = try context.fetch(Wallet.fetchRequest())
+                    data2 = try context.fetch(Stock.fetchRequest())
+                    data4 = try context.fetch(Currency.fetchRequest())
+                    
+                    let data1 = data1[0]
+                    data1.lastUpdateStock = Date()
+                    data1.lastUpdateCurrency = Date()
+                    
+                    let sortedData2 = data2.sorted(by: { $0.symbol ?? "" < $1.symbol ?? "" })
+                    data2 = sortedData2
+                    
+                    let sortedData4 = data4.sorted(by: { $0.symbol ?? "" < $1.symbol ?? "" })
+                    data4 = sortedData4
+                    
+                    var stockPricesArray: [Float] = []
+                    var stockChangesArray: [String] = []
+                    var currencyPricesArray: [Float] = []
+                    
+                    
+                    for (key,value) in stockDataPrices.sorted(by: <) {
+                        stockPricesArray.append(value)
+                    }
+                    
+                    for (key,value) in stockDataChanges.sorted(by: <) {
+                        stockChangesArray.append(value)
+                    }
+                    
+                    for (key,value) in currencyData.sorted(by: <) {
+                        currencyPricesArray.append(value)
+                    }
+                    
+                    for i in 0..<stockDataPrices.count {
+                        
+                        let data2 = data2[i]
+                        data2.price = Float(stockPricesArray[i])
+                        data2.changePercentage = String(stockChangesArray[i])
+                        
+                        do {
+                            try context.save()
+                            
+                        } catch{
+                            completion(false)
+                            print("Error when saving context (Stocks)")
+                        }
+                    }
+                    
+                    for i in 0..<currencyData.count {
+                        
+                        let data4 = data4[i]
+                        data4.price = Float(currencyPricesArray[i])
+                        
+                        do {
+                            try context.save()
+                            
+                        } catch{
+                            completion(false)
+                            print("Error when saving context (Currency)")
+                        }
+                    }
+                    
+                } catch {
+                    completion(false)
+                    print("Erro ao inserir os dados de ações")
+                    print(error.localizedDescription)
+                }
                 completion(true)
             }
-            
         }.resume()
     }
 }
